@@ -2,7 +2,7 @@
   <div class="space-y-10 pb-12 text-brand-gray">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
        <div class="space-y-1">
-         <h1 class="text-4xl font-serif font-black text-brand-blue tracking-tight">Financial Performance</h1>
+         <h1 class="text-4xl  font-black text-brand-blue tracking-tight">Financial Performance</h1>
          <p class="text-brand-gray/60 font-medium">Settle transactions and monitor global revenue streams</p>
        </div>
        <div class="flex gap-3">
@@ -19,11 +19,11 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <UiBaseCard padding class="!bg-brand-blue text-white overflow-hidden relative group">
         <div class="absolute -right-12 -bottom-12 h-40 w-40 bg-white/5 rounded-full blur-2xl group-hover:bg-white/10 transition-premium" />
-        <p class="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-2 leading-none">Gross Settled Revenue</p>
-        <h4 class="text-4xl font-serif font-black leading-none">$2,405,820</h4>
+        <p class="text-sm font-black text-white/40 uppercase tracking-[0.2em] mb-2 leading-none">Gross Settled Revenue</p>
+        <h4 class="text-4xl  font-black leading-none">$2,405,820</h4>
         <div class="mt-8 flex items-center justify-between">
            <div class="flex flex-col">
-              <span class="text-[10px] font-black text-white/30 uppercase tracking-widest">Commission Earned</span>
+              <span class="text-sm font-black text-white/30 uppercase tracking-widest">Commission Earned</span>
               <span class="text-lg font-black text-brand-green tracking-tight font-sans">$360,873</span>
            </div>
            <div class="h-12 w-12 bg-white/10 rounded-2xl flex items-center justify-center font-black text-brand-green shadow-xl shadow-black/10">+15%</div>
@@ -32,25 +32,25 @@
 
       <UiBaseCard padding class="flex flex-col justify-between">
         <div>
-          <p class="text-[10px] font-black text-brand-gray/40 uppercase tracking-[0.2em] mb-2 leading-none">Pending Disbursements</p>
-          <h4 class="text-4xl font-serif font-black text-brand-blue leading-none">$142,400</h4>
+          <p class="text-sm font-black text-brand-gray/40 uppercase tracking-[0.2em] mb-2 leading-none">Pending Disbursements</p>
+          <h4 class="text-4xl  font-black text-brand-blue leading-none">$142,400</h4>
         </div>
         <div class="mt-8">
            <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
               <div class="bg-brand-blue h-full" style="width: 65%"></div>
            </div>
-           <p class="text-[10px] font-bold text-brand-gray/40 uppercase tracking-widest mt-2">65% of monthly cycle completed</p>
+           <p class="text-sm font-bold text-brand-gray/40 uppercase tracking-widest mt-2">65% of monthly cycle completed</p>
         </div>
       </UiBaseCard>
 
       <UiBaseCard padding class="flex flex-col justify-between">
         <div>
-          <p class="text-[10px] font-black text-brand-gray/40 uppercase tracking-[0.2em] mb-2 leading-none">Average Take-rate</p>
-          <h4 class="text-4xl font-serif font-black text-brand-blue leading-none">14.2%</h4>
+          <p class="text-sm font-black text-brand-gray/40 uppercase tracking-[0.2em] mb-2 leading-none">Average Take-rate</p>
+          <h4 class="text-4xl  font-black text-brand-blue leading-none">14.2%</h4>
         </div>
         <div class="mt-8 flex items-center space-x-2">
            <div v-for="i in 5" :key="i" class="flex-1 h-1.5 rounded-full" :class="i < 4 ? 'bg-brand-green' : 'bg-gray-100'"></div>
-           <span class="text-[10px] font-black text-brand-green uppercase tracking-widest ml-2">Above Target</span>
+           <span class="text-sm font-black text-brand-green uppercase tracking-widest ml-2">Above Target</span>
         </div>
       </UiBaseCard>
     </div>
@@ -58,10 +58,10 @@
     <!-- Settlements Table -->
     <UiBaseCard title="Recent Transactions & Settlements">
       <div class="p-8 border-b border-gray-50 flex items-center justify-between">
-        <h3 class="text-xl font-serif font-black text-brand-blue">Global Settlement Ledger</h3>
+        <h3 class="text-xl  font-black text-brand-blue">Global Settlement Ledger</h3>
         <div class="flex items-center space-x-4">
            <UiDatePicker v-model="filterDate" />
-           <UiBaseButton variant="ghost" size="sm" class="!px-3 !py-1.5 border border-gray-100 font-black text-[10px] uppercase tracking-widest">Filter</UiBaseButton>
+           <UiBaseButton variant="ghost" size="sm" class="!px-3 !py-1.5 border border-gray-100 font-black text-sm uppercase tracking-widest">Filter</UiBaseButton>
         </div>
       </div>
       <div class="overflow-x-auto">
@@ -82,13 +82,13 @@
               <td class="px-8 py-8 font-black text-brand-blue/50 text-xs">{{ tx.id }}</td>
               <td class="px-8 py-8">
                 <div class="text-sm font-black text-brand-blue">{{ tx.agency }}</div>
-                <div class="text-[10px] font-bold text-brand-gray/40 uppercase tracking-widest mt-1">{{ tx.date }}</div>
+                <div class="text-sm font-bold text-brand-gray/40 uppercase tracking-widest mt-1">{{ tx.date }}</div>
               </td>
               <td class="px-8 py-8 font-black text-brand-blue text-sm">${{ tx.amount }}</td>
               <td class="px-8 py-8 text-xs font-bold text-brand-gray/60">{{ tx.rate }}%</td>
               <td class="px-8 py-8 font-black text-brand-green text-sm tracking-tighter">${{ tx.payout }}</td>
               <td class="px-8 py-8">
-                <span class="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest inline-block border bg-white" :class="tx.settled ? 'border-brand-green/20 text-brand-green' : 'border-yellow-200 text-yellow-600'">
+                <span class="px-4 py-1.5 rounded-full text-sm font-black uppercase tracking-widest inline-block border bg-white" :class="tx.settled ? 'border-brand-green/20 text-brand-green' : 'border-yellow-200 text-yellow-600'">
                   {{ tx.settled ? 'Settled' : 'In Transit' }}
                 </span>
               </td>

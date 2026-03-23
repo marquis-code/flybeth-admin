@@ -6,116 +6,94 @@
     <div class="absolute -bottom-24 left-1/2 w-80 h-80 bg-brand-blue/5 rounded-full blur-3xl" />
 
     <!-- Left: Branding & Visuals (Desktop) -->
-    <div class="hidden lg:flex lg:w-1/2 bg-brand-blue p-20 flex-col justify-between relative overflow-hidden">
-       <!-- Background Pattern -->
-       <div class="absolute inset-0 opacity-10 pointer-events-none">
-         <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.2)_0%,transparent_50%)]" />
-       </div>
-
+    <div class="hidden lg:flex lg:w-1/2 p-20 flex-col justify-between relative overflow-hidden bg-cover bg-center" style="background-image: url('/img/auth-bg.png')">
+       <!-- Background Overlay (Darker for better logo contrast) -->
+       <div class="absolute inset-0 bg-slate-900/60 pointer-events-none"></div>
+       
        <div class="relative z-10">
-         <div class="flex items-center space-x-3 group cursor-pointer">
-            <div class="h-12 w-12 bg-white rounded-2xl flex items-center justify-center shadow-2xl transform group-hover:rotate-6 transition-premium">
-              <PaperAirplaneIcon class="h-7 w-7 text-brand-blue" />
-            </div>
-            <div class="flex flex-col">
-              <span class="text-3xl font-serif font-black tracking-tighter text-white">FLYBETH</span>
-              <span class="text-[10px] font-black uppercase tracking-[0.4em] text-brand-green/80 -mt-1">Portal HQ</span>
-            </div>
+         <div class="flex items-center space-x-3 group cursor-pointer bg-white/5 backdrop-blur-md p-4 rounded-2xl w-fit border border-white/10 shadow-2xl">
+            <img src="@/assets/img/logo.png" class="h-10 w-auto" alt="Flybeth Logo" />
          </div>
        </div>
 
        <div class="relative z-10 max-w-lg">
-         <h2 class="text-6xl font-serif font-black text-white leading-tight mb-8">
-           Redefining <br/> 
+         <h2 class="text-6xl  font-black text-white leading-tight mb-8">
+           Elevate <br/> 
            <span class="text-brand-green">Global Travel</span> <br/>
-           Management.
+           Operations.
          </h2>
-         <p class="text-lg text-white/50 font-medium leading-relaxed">
-           The Flybeth Super Console provides unified governance over travel agents, financial settlements, and inventory worldwide.
+         <p class="text-xl text-white/70 font-medium leading-relaxed">
+           Manage your entire travel ecosystem with precision and ease.
          </p>
        </div>
 
-       <div class="relative z-10 flex items-center space-x-8 text-white/30 text-[10px] font-black uppercase tracking-[0.3em]">
-          <span>Security Protocol 8.2</span>
+       <div class="relative z-10 flex items-center space-x-8 text-white/40 text-sm font-black uppercase tracking-[0.3em]">
+          <span>© 2026 Flybeth Global</span>
           <span class="h-1 w-1 rounded-full bg-white/20"></span>
-          <span>Encrypted Session</span>
-          <span class="h-1 w-1 rounded-full bg-white/20"></span>
-          <span>Flybeth HQ</span>
+          <span>Enterprise Portal</span>
        </div>
     </div>
 
     <!-- Right: Authentication Form -->
     <div class="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-12 relative z-10">
-      <div class="w-full max-w-md space-y-12">
-        <div class="lg:hidden flex items-center space-x-3 mb-12">
-            <div class="h-10 w-10 bg-brand-blue rounded-xl flex items-center justify-center shadow-lg">
-              <PaperAirplaneIcon class="h-6 w-6 text-white" />
-            </div>
-            <span class="text-2xl font-serif font-black tracking-tighter text-brand-blue">FLYBETH</span>
+      <div class="w-full max-w-md space-y-10">
+        <div class="lg:hidden flex items-center space-x-3 mb-8">
+     <img src="@/assets/img/logo.png" class="h-10 w-auto" alt="Flybeth Logo" />
         </div>
 
         <div>
-          <h1 class="text-4xl font-serif font-black text-brand-blue leading-tight mb-3">Authentication</h1>
-          <p class="text-brand-gray/60 font-medium">Enter your secure credentials to initialize your session.</p>
+          <h1 class="text-4xl  font-black text-brand-blue leading-tight mb-3">Admin Login</h1>
+          <p class="text-brand-gray/60 font-medium text-sm">Sign in to manage your global travel operations.</p>
         </div>
 
-        <form @submit.prevent="handleLogin" class="space-y-8">
-           <div class="space-y-6">
-              <UiBaseInput 
-                v-model="form.email"
-                label="Staff Email Identifier" 
-                placeholder="staff@flybeth.com" 
-                :icon="EnvelopeIcon"
-                required
-              />
-              
-              <div class="space-y-2">
-                 <div class="flex justify-between items-center px-1">
-                    <label class="text-[10px] font-black text-brand-gray uppercase tracking-widest opacity-60">Security Secret</label>
-                    <a href="#" class="text-[10px] font-black text-brand-blue hover:text-brand-green uppercase tracking-widest transition-premium">Trouble Signing In?</a>
-                 </div>
-                 <div class="relative group">
-                    <LockClosedIcon class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-brand-gray group-focus-within:text-brand-blue transition-premium" />
-                    <input 
-                      v-model="form.password"
-                      type="password" 
-                      required
-                      placeholder="••••••••"
-                      class="w-full bg-white border border-gray-100 rounded-[1.5rem] py-4 pl-12 pr-4 text-sm font-bold text-brand-blue focus:ring-4 focus:ring-brand-blue/5 focus:border-brand-blue transition-premium outline-none shadow-sm hover:border-brand-blue/30"
-                    >
-                 </div>
-              </div>
-           </div>
+        <form @submit.prevent="handleLogin" class="space-y-6">
+            <div class="space-y-4">
+               <UiAnimatedInput 
+                 v-model="form.email"
+                 label="Email Address" 
+                 type="email"
+                 required
+               />
+               
+               <UiAnimatedInput 
+                 v-model="form.password"
+                 label="Password" 
+                 type="password"
+                 required
+               />
+            </div>
 
-           <div class="flex items-center">
-              <input 
-                id="trust-device" 
-                v-model="form.remember"
-                type="checkbox" 
-                class="h-5 w-5 text-brand-blue border-gray-100 rounded-lg focus:ring-brand-blue/20 transition-premium cursor-pointer"
-              >
-              <label for="trust-device" class="ml-3 text-xs font-bold text-brand-gray/50 cursor-pointer hover:text-brand-blue transition-premium">
-                Trust this device for 30 days
-              </label>
-           </div>
+            <div class="flex items-center justify-between">
+               <div class="flex items-center">
+                  <input 
+                    id="trust-device" 
+                    v-model="form.remember"
+                    type="checkbox" 
+                    class="custom-checkbox"
+                  >
+                  <label for="trust-device" class="ml-3 text-sm font-bold text-brand-gray/50 cursor-pointer hover:text-brand-blue transition-premium">
+                    Remember me
+                  </label>
+               </div>
+               <a href="#" class="text-sm font-bold text-brand-blue hover:underline">Forgot password?</a>
+            </div>
 
-           <UiBaseButton 
-             type="submit" 
-             variant="primary" 
-             size="lg" 
-             block 
-             :loading="loading"
-             class="!py-5 !rounded-[1.5rem] !text-base shadow-xl shadow-brand-blue/10"
-           >
-             Initialize Secure Session
-           </UiBaseButton>
+            <UiBaseButton 
+              type="submit" 
+              variant="primary" 
+              size="lg" 
+              block 
+              :loading="loading"
+              class="!py-3 !rounded-2xl !text-base shadow-lg shadow-brand-blue/10"
+            >
+              Sign In
+            </UiBaseButton>
         </form>
 
-        <div class="pt-10 border-t border-gray-50 flex flex-col sm:flex-row items-center justify-between gap-4">
-           <p class="text-[10px] font-black text-brand-gray/30 uppercase tracking-[0.2em]">Flybeth Unified Portal v2.0</p>
-           <div class="flex items-center space-x-4">
-              <div class="h-2 w-2 bg-brand-green rounded-full shadow-[0_0_8px_rgba(50,180,4,0.5)]"></div>
-              <span class="text-[10px] font-black text-brand-green uppercase tracking-widest">Global Ops Stable</span>
+        <div class="pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+           <p class="text-sm font-black text-brand-gray/30 uppercase tracking-[0.2em]">Flybeth Admin Terminal</p>
+           <div class="flex items-center space-x-2">
+              <span class="text-sm font-black text-brand-gray/40 uppercase tracking-widest">Global Platform</span>
            </div>
         </div>
       </div>
@@ -125,6 +103,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useAuth } from '@/composables/modules/auth/useAuth'
 import { 
   EnvelopeIcon, 
   LockClosedIcon,
@@ -141,15 +120,18 @@ const form = ref({
   remember: false
 })
 
-const loading = ref(false)
+const { login, loading } = useAuth()
 
 const handleLogin = async () => {
   if (!form.value.email || !form.value.password) return
   
-  loading.value = true
-  // Simulate network delay for premium feel
-  await new Promise(resolve => setTimeout(resolve, 1800))
-  loading.value = false
-  navigateTo('/dashboard')
+  const res = await login({
+    email: form.value.email,
+    password: form.value.password
+  })
+  
+  if (res) {
+    navigateTo('/dashboard')
+  }
 }
 </script>

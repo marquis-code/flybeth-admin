@@ -8,14 +8,14 @@
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
-      <div v-if="show" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-brand-blue/20 backdrop-blur-sm" @click.self="close">
+      <div v-if="show" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-brand-blue/20 backdrop-blur-sm" @click.self="close">
         <div 
-          class="bg-white rounded-[2rem] shadow-2xl w-full max-w-lg overflow-hidden border border-white/50"
+          class="bg-white rounded-[2rem] border border-gray-100 shadow-xl w-full max-w-lg overflow-hidden"
           @click.stop
         >
           <!-- Header -->
           <div class="px-8 py-6 flex items-center justify-between border-b border-gray-50">
-            <h3 class="text-xl font-serif font-black text-brand-blue">{{ title }}</h3>
+            <h3 class="text-xl  font-black text-brand-blue">{{ title }}</h3>
             <button @click="close" class="p-2 hover:bg-gray-100 rounded-full transition-premium">
               <XMarkIcon class="h-6 w-6 text-brand-gray" />
             </button>

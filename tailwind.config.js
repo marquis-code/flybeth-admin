@@ -23,9 +23,28 @@ export default {
       fontFamily: {
         sans: ['Roboto', 'sans-serif'],
         serif: ['Spectral', 'serif'],
-      }
+      },
+      transitionProperty: {
+        'premium': 'all',
+      },
+      transitionDuration: {
+        'premium': '300ms',
+      },
+      transitionTimingFunction: {
+        'premium': 'cubic-bezier(0.4, 0, 0.2, 1)',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities, theme }) {
+      addUtilities({
+        '.transition-premium': {
+          transitionProperty: theme('transitionProperty.premium'),
+          transitionTimingFunction: theme('transitionTimingFunction.premium'),
+          transitionDuration: theme('transitionDuration.premium'),
+        },
+      })
+    }
+  ],
 }
 
