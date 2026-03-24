@@ -41,12 +41,17 @@
      <img src="@/assets/img/logo.png" class="h-10 w-auto" alt="Flybeth Logo" />
         </div>
 
-        <div>
+        <div v-if="!showOtp">
           <h1 class="text-4xl  font-black text-brand-blue leading-tight mb-3">Admin Login</h1>
           <p class="text-brand-gray/60 font-medium text-sm">Sign in to manage your global travel operations.</p>
         </div>
 
-        <form @submit.prevent="handleLogin" class="space-y-6">
+        <div v-else>
+          <h1 class="text-4xl  font-black text-brand-blue leading-tight mb-3">Verify Login</h1>
+          <p class="text-brand-gray/60 font-medium text-sm">Enter the code sent to your email.</p>
+        </div>
+
+        <form v-if="!showOtp" @submit.prevent="handleLogin" class="space-y-6">
             <div class="space-y-4">
                <UiAnimatedInput 
                  v-model="form.email"
@@ -90,6 +95,44 @@
             </UiBaseButton>
         </form>
 
+        <!-- OTP Form -->
+        <form v-else @submit.prevent="handleVerifyOtp" class="space-y-6">
+            <div class="space-y-4">
+               <UiAnimatedInput 
+                 v-model="otp"
+                 label="Verification Code" 
+                 type="text"
+                 maxlength="6"
+                 required
+                 placeholder="123456"
+               />
+            </div>
+
+            <UiBaseButton 
+              type="submit" 
+              variant="primary" 
+              size="lg" 
+              block 
+              :loading="loading"
+              class="!py-3 !rounded-2xl !text-base shadow-lg shadow-brand-blue/10"
+            >
+              Verify & Login
+            </UiBaseButton>
+
+            <button 
+              type="button" 
+              @click="showOtp = false" 
+              class="w-full text-sm font-bold text-brand-gray/40 hover:text-brand-blue transition-premium"
+            >
+              Back to login
+            </button>
+        </form>
+
+        <p v-if="!showOtp" class="text-center text-sm font-medium text-brand-gray/50">
+          Don't have an account? 
+          <NuxtLink to="/signup" class="text-brand-blue font-bold hover:underline">Sign up</NuxtLink>
+        </p>
+
         <div class="pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
            <p class="text-sm font-black text-brand-gray/30 uppercase tracking-[0.2em]">Flybeth Admin Terminal</p>
            <div class="flex items-center space-x-2">
@@ -120,7 +163,10 @@ const form = ref({
   remember: false
 })
 
-const { login, loading } = useAuth()
+const { login, verifyOtp, loading } = useAuth()
+
+const showOtp = ref(false)
+const otp = ref('')
 
 const handleLogin = async () => {
   if (!form.value.email || !form.value.password) return
@@ -128,6 +174,21 @@ const handleLogin = async () => {
   const res = await login({
     email: form.value.email,
     password: form.value.password
+  })
+  
+  if (res && res.requiresOtp) {
+    showOtp.value = true
+  } else if (res) {
+    navigateTo('/dashboard')
+  }
+}
+
+const handleVerifyOtp = async () => {
+  if (!otp.value) return
+  
+  const res = await verifyOtp({
+    email: form.value.email,
+    otp: otp.value
   })
   
   if (res) {

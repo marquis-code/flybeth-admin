@@ -1,0 +1,216 @@
+<template>
+  <div class="min-h-screen bg-white flex overflow-hidden font-sans text-brand-gray relative">
+    <!-- Decorative Background Elements -->
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-brand-blue/5 rounded-full blur-3xl animate-pulse" />
+    <div class="absolute top-1/2 -right-24 w-64 h-64 bg-brand-green/10 rounded-full blur-3xl" />
+    <div class="absolute -bottom-24 left-1/2 w-80 h-80 bg-brand-blue/5 rounded-full blur-3xl" />
+
+    <!-- Left: Branding & Visuals (Desktop) -->
+    <div class="hidden lg:flex lg:w-1/2 p-20 flex-col justify-between relative overflow-hidden bg-cover bg-center" style="background-image: url('/img/auth-bg.png')">
+       <div class="absolute inset-0 bg-slate-900/60 pointer-events-none"></div>
+       
+       <div class="relative z-10">
+         <div class="flex items-center space-x-3 group cursor-pointer bg-white/5 backdrop-blur-md p-4 rounded-2xl w-fit border border-white/10 shadow-2xl">
+            <img src="@/assets/img/logo.png" class="h-10 w-auto" alt="Flybeth Logo" />
+         </div>
+       </div>
+
+       <div class="relative z-10 max-w-lg">
+         <h2 class="text-6xl font-black text-white leading-tight mb-8">
+           Join the <br/> 
+           <span class="text-brand-green">Control Tower</span> <br/>
+           Engine.
+         </h2>
+         <p class="text-xl text-white/70 font-medium leading-relaxed">
+           Create your administrative account to start managing global operations.
+         </p>
+       </div>
+
+       <div class="relative z-10 flex items-center space-x-8 text-white/40 text-sm font-black uppercase tracking-[0.3em]">
+          <span>© 2026 Flybeth Global</span>
+          <span class="h-1 w-1 rounded-full bg-white/20"></span>
+          <span>Enterprise Portal</span>
+       </div>
+    </div>
+
+    <!-- Right: Signup Form -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-12 relative z-10">
+      <div class="w-full max-w-md space-y-10">
+        <div class="lg:hidden flex items-center space-x-3 mb-8">
+          <img src="@/assets/img/logo.png" class="h-10 w-auto" alt="Flybeth Logo" />
+        </div>
+
+        <div v-if="!showOtp">
+          <h1 class="text-4xl font-black text-brand-blue leading-tight mb-3">Create Account</h1>
+          <p class="text-brand-gray/60 font-medium text-sm">Join the Flybeth administrative team.</p>
+        </div>
+
+        <div v-else>
+          <h1 class="text-4xl font-black text-brand-blue leading-tight mb-3">Verify Email</h1>
+          <p class="text-brand-gray/60 font-medium text-sm">Enter the 6-digit code sent to {{ form.email }}</p>
+        </div>
+
+        <!-- Signup Form -->
+        <form v-if="!showOtp" @submit.prevent="handleSignup" class="space-y-6">
+            <div class="grid grid-cols-2 gap-4">
+               <UiAnimatedInput 
+                 v-model="form.firstName"
+                 label="First Name" 
+                 type="text"
+                 required
+               />
+               <UiAnimatedInput 
+                 v-model="form.lastName"
+                 label="Last Name" 
+                 type="text"
+                 required
+               />
+            </div>
+
+            <UiAnimatedInput 
+              v-model="form.email"
+              label="Email Address" 
+              type="email"
+              required
+              :disabled="!!invitationToken"
+            />
+
+            <UiAnimatedInput 
+              v-model="form.phone"
+              label="Phone Number" 
+              type="tel"
+              required
+            />
+
+            <UiAnimatedInput 
+              v-model="form.password"
+              label="Password" 
+              type="password"
+              required
+            />
+
+            <!-- Role Selection (Hidden if using invitation token) -->
+            <div v-if="!invitationToken" class="space-y-2">
+              <label class="text-xs font-black uppercase tracking-widest text-brand-gray/40 ml-1">Select Administrative Role</label>
+              <UiBaseSelect 
+                v-model="form.role"
+                :options="roleOptions"
+                placeholder="Choose Role"
+              />
+            </div>
+
+            <UiBaseButton 
+              type="submit" 
+              variant="primary" 
+              size="lg" 
+              block 
+              :loading="loading"
+              class="!py-3 !rounded-2xl !text-base shadow-lg shadow-brand-blue/10"
+            >
+              Create Account
+            </UiBaseButton>
+            
+            <p class="text-center text-sm font-medium text-brand-gray/50 mt-6">
+              Already have an account? 
+              <NuxtLink to="/" class="text-brand-blue font-bold hover:underline">Login here</NuxtLink>
+            </p>
+        </form>
+
+        <!-- OTP Form -->
+        <form v-else @submit.prevent="handleVerifyOtp" class="space-y-6">
+            <UiAnimatedInput 
+              v-model="otp"
+              label="Verification Code" 
+              type="text"
+              maxlength="6"
+              required
+              placeholder="123456"
+            />
+
+            <UiBaseButton 
+              type="submit" 
+              variant="primary" 
+              size="lg" 
+              block 
+              :loading="loading"
+              class="!py-3 !rounded-2xl !text-base shadow-lg shadow-brand-blue/10"
+            >
+              Verify & Complete
+            </UiBaseButton>
+
+            <button 
+              type="button" 
+              @click="showOtp = false" 
+              class="w-full text-sm font-bold text-brand-gray/40 hover:text-brand-blue transition-premium"
+            >
+              Back to registration
+            </button>
+        </form>
+
+        <div class="pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+           <p class="text-sm font-black text-brand-gray/30 uppercase tracking-[0.2em]">Flybeth Admin Terminal</p>
+           <div class="flex items-center space-x-2">
+              <span class="text-sm font-black text-brand-gray/40 uppercase tracking-widest">Secure Enrollment</span>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useAuth } from '@/composables/modules/auth/useAuth'
+
+definePageMeta({
+  layout: false
+})
+
+const route = useRoute()
+const invitationToken = ref(route.query.token as string || '')
+
+const form = ref({
+  email: '',
+  password: '',
+  firstName: '',
+  lastName: '',
+  phone: '',
+  role: 'tenant_admin',
+  token: invitationToken.value
+})
+
+const showOtp = ref(false)
+const otp = ref('')
+
+const roleOptions = [
+  { label: 'Tenant Administrator', value: 'tenant_admin' },
+  { label: 'Super Administrator', value: 'super_admin' }
+]
+
+const { register, verifyOtp, loading } = useAuth()
+
+onMounted(async () => {
+  if (invitationToken.value) {
+    // Ideally fetch invitation details to pre-fill email and role
+    // For now, we'll just require user to fill email
+  }
+})
+
+const handleSignup = async () => {
+  const res = await register(form.value)
+  if (res) {
+    showOtp.value = true
+  }
+}
+
+const handleVerifyOtp = async () => {
+  const res = await verifyOtp({
+    email: form.value.email,
+    otp: otp.value
+  })
+  
+  if (res) {
+    navigateTo('/dashboard')
+  }
+}
+</script>

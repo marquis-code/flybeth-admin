@@ -26,9 +26,6 @@ export default defineNuxtConfig({
     }
   },
   devtools: { enabled: true },
-  devServer: {
-    port: 3001
-  },
     postcss: {
     plugins: {
       "postcss-import": {},
@@ -36,6 +33,11 @@ export default defineNuxtConfig({
       tailwindcss: {},
       autoprefixer: {},
     },
+  },
+
+    devServer: {
+    port: 3001,
+    host: '0.0.0.0'
   },
 
   googleFonts: {
