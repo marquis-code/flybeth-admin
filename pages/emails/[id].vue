@@ -3,11 +3,11 @@
     <!-- Header Section -->
     <div class="flex justify-between items-end">
       <div>
-        <NuxtLink to="/emails" class="text-sm font-black uppercase tracking-[0.4em] text-brand-green mb-4 flex items-center group cursor-pointer">
+        <NuxtLink to="/emails" class="text-sm  uppercase tracking-[0.4em] text-brand-green mb-4 flex items-center group cursor-pointer">
           <ChevronLeftIcon class="h-3 w-3 mr-2 group-hover:-translate-x-1 transition-premium" />
           Back to templates
         </NuxtLink>
-        <h1 class="text-5xl  font-black text-brand-blue tracking-tighter">
+        <h1 class="text-5xl   text-brand-blue tracking-tighter">
           {{ isNew ? 'Create New' : 'Edit' }} Template
         </h1>
       </div>
@@ -23,7 +23,7 @@
     <!-- Template Info -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div class="space-y-1">
-        <label class="text-sm font-black uppercase tracking-[0.2em] text-brand-gray/50 ml-1">Template Name</label>
+        <label class="text-sm  uppercase tracking-[0.2em] text-brand-gray/50 ml-1">Template Name</label>
         <input 
           v-model="template.name" 
           type="text" 
@@ -32,7 +32,7 @@
         />
       </div>
       <div class="space-y-1">
-        <label class="text-sm font-black uppercase tracking-[0.2em] text-brand-gray/50 ml-1">System Slug (Unique Identifier)</label>
+        <label class="text-sm  uppercase tracking-[0.2em] text-brand-gray/50 ml-1">System Slug (Unique Identifier)</label>
         <input 
           v-model="template.slug" 
           type="text" 
@@ -55,7 +55,7 @@
               <div class="h-6 w-11 bg-gray-200 rounded-full relative transition-premium" :class="{ 'bg-brand-green': template.isActive }">
                 <div class="absolute top-1 left-1 h-4 w-4 bg-white rounded-full transition-premium" :class="{ 'translate-x-5': template.isActive }" />
               </div>
-              <span class="ml-3 text-sm font-black uppercase tracking-widest text-brand-blue">{{ template.isActive ? 'Active' : 'Disabled' }}</span>
+              <span class="ml-3 text-sm  uppercase tracking-widest text-brand-blue">{{ template.isActive ? 'Active' : 'Disabled' }}</span>
            </label>
         </div>
       </template>

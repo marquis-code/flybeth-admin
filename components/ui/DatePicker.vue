@@ -1,6 +1,6 @@
 <template>
   <div class="relative w-full">
-    <label v-if="label" class="block text-sm font-black text-brand-gray uppercase tracking-widest mb-2">
+    <label v-if="label" class="block text-sm  text-brand-gray uppercase tracking-widest mb-2">
       {{ label }}
     </label>
     <div class="relative group">

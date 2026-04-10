@@ -2,18 +2,18 @@
   <div class="space-y-8">
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <h1 class="text-4xl font-black text-brand-blue tracking-tighter">Agent Network</h1>
-        <p class="text-brand-gray/60 font-medium">Manage partnerships, verification, and performance.</p>
+        <h1 class="text-2xl font-semibold text-gray-900">Agent network</h1>
+        <p class="text-sm text-gray-400">Manage partnerships, verification, and performance.</p>
       </div>
     </div>
 
     <!-- Stats Overview -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-      <UiBaseCard v-for="stat in stats" :key="stat.label" class="!p-6">
+      <UiBaseCard v-for="stat in stats" :key="stat.label" padding>
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-[10px] font-black uppercase tracking-widest text-brand-gray/40 mb-1">{{ stat.label }}</p>
-            <p class="text-2xl font-black text-brand-blue">{{ stat.value }}</p>
+            <p class="text-xs font-medium text-gray-400 mb-1">{{ stat.label }}</p>
+            <p class="text-2xl font-bold text-gray-900">{{ stat.value }}</p>
           </div>
           <div :class="['w-10 h-10 rounded-xl flex items-center justify-center', stat.bg]">
             <component :is="stat.icon" class="w-5 h-5" :class="stat.color" />
@@ -23,7 +23,7 @@
     </div>
 
     <!-- Filters & Search -->
-    <UiBaseCard class="!p-4">
+    <UiBaseCard padding class="!p-4">
       <div class="flex flex-col md:flex-row gap-4">
         <div class="flex-1 relative">
           <MagnifyingGlassIcon class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-gray/30" />
@@ -35,12 +35,12 @@
           >
         </div>
         <div class="flex gap-4">
-          <select v-model="statusFilter" class="px-6 py-3 bg-gray-50/50 border border-gray-100 rounded-2xl outline-none font-black text-[10px] uppercase tracking-widest text-brand-gray focus:border-secondary">
-            <option value="">All Statuses</option>
+          <select v-model="statusFilter" class="px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl outline-none font-medium text-sm text-gray-600 focus:border-blue-300">
+            <option value="">All statuses</option>
             <option v-for="status in agentStatuses" :key="status" :value="status">{{ status }}</option>
           </select>
-          <select v-model="tierFilter" class="px-6 py-3 bg-gray-50/50 border border-gray-100 rounded-2xl outline-none font-black text-[10px] uppercase tracking-widest text-brand-gray focus:border-secondary">
-            <option value="">All Tiers</option>
+          <select v-model="tierFilter" class="px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl outline-none font-medium text-sm text-gray-600 focus:border-blue-300">
+            <option value="">All tiers</option>
             <option v-for="tier in agentTiers" :key="tier" :value="tier">{{ tier }}</option>
           </select>
         </div>
@@ -52,35 +52,35 @@
       <UiBaseTable :columns="columns" :items="agents" :loading="loading">
         <template #cell(agency)="{ item }">
           <div class="flex flex-col">
-            <span class="font-bold text-brand-blue">{{ item.agentProfile?.agencyName || 'Personal' }}</span>
-            <span class="text-[10px] font-black uppercase tracking-widest text-brand-gray/40">{{ item.agentProfile?.registrationNumber || 'N/A' }}</span>
+            <span class="font-semibold text-gray-900">{{ item.agentProfile?.agencyName || 'Personal' }}</span>
+            <span class="text-xs text-gray-400">{{ item.agentProfile?.registrationNumber || 'N/A' }}</span>
           </div>
         </template>
 
         <template #cell(contact)="{ item }">
           <div class="flex flex-col">
-            <span class="font-medium text-brand-blue text-sm">{{ item.firstName }} {{ item.lastName }}</span>
-            <span class="text-xs text-brand-gray/60">{{ item.email }}</span>
+            <span class="font-semibold text-gray-900 text-sm">{{ item.firstName }} {{ item.lastName }}</span>
+            <span class="text-xs text-gray-400">{{ item.email }}</span>
           </div>
         </template>
 
         <template #cell(status)="{ item }">
           <div class="flex items-center">
-            <div :class="['w-2 h-2 rounded-full mr-2', getStatusColor(item.agentStatus)]"></div>
-            <span class="text-[10px] font-black uppercase tracking-widest" :class="getStatusTextColor(item.agentStatus)">
+            <div :class="['w-1.5 h-1.5 rounded-full mr-2', getStatusColor(item.agentStatus)]"></div>
+            <span class="text-xs font-medium" :class="getStatusTextColor(item.agentStatus)">
               {{ item.agentStatus }}
             </span>
           </div>
         </template>
 
         <template #cell(tier)="{ item }">
-          <span class="px-3 py-1 bg-secondary/10 text-secondary text-[10px] font-black uppercase tracking-widest rounded-full">
+          <span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
             {{ item.agentTier || 'basic' }}
           </span>
         </template>
 
         <template #cell(actions)="{ item }">
-          <NuxtLink :to="`/agents/${item._id}`" class="px-4 py-2 bg-brand-blue/5 hover:bg-brand-blue/10 text-brand-blue text-xs font-black uppercase tracking-widest rounded-xl transition-colors">
+          <NuxtLink :to="`/agents/${item._id}`" class="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-medium rounded-lg transition-colors">
             Review
           </NuxtLink>
         </template>
@@ -91,6 +91,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
+import { useUsers } from '@/composables/modules/users/useUsers'
 import { 
   UsersIcon, 
   ClockIcon, 
@@ -99,8 +100,11 @@ import {
   MagnifyingGlassIcon 
 } from '@heroicons/vue/24/outline'
 
-const agents = ref<any[]>([])
-const loading = ref(false)
+definePageMeta({
+  layout: 'admin'
+})
+
+const { users: agents, fetchUsers, loading } = useUsers()
 const search = ref('')
 const statusFilter = ref('')
 const tierFilter = ref('')
@@ -125,42 +129,10 @@ const stats = [
 ]
 
 const fetchAgents = async () => {
-  loading.value = true
-  try {
-    // API Placeholder
-    // const res = await useApi().get('/admin/agents', { 
-    //   params: { 
-    //     search: search.value, 
-    //     status: statusFilter.value,
-    //     tier: tierFilter.value
-    //   } 
-    // })
-    // agents.value = res.data
-    
-    // Mock Data for UI demonstration
-    agents.value = [
-      { 
-        _id: '1', 
-        firstName: 'John', 
-        lastName: 'Obi', 
-        email: 'john@marquis.com', 
-        agentStatus: 'pending', 
-        agentTier: 'basic',
-        agentProfile: { agencyName: 'Marquis Travels', registrationNumber: 'RC123456', country: 'Nigeria' }
-      },
-      { 
-        _id: '2', 
-        firstName: 'Sarah', 
-        lastName: 'Smith', 
-        email: 'sarah@global.us', 
-        agentStatus: 'approved', 
-        agentTier: 'verified',
-        agentProfile: { agencyName: 'Global Jet', registrationNumber: 'LLC987654', country: 'United States' }
-      }
-    ]
-  } finally {
-    loading.value = false
-  }
+  const params: any = { search: search.value, role: 'agent' }
+  if (statusFilter.value) params.status = statusFilter.value
+  if (tierFilter.value) params.tier = tierFilter.value
+  await fetchUsers(params)
 }
 
 const getStatusColor = (status: string) => {

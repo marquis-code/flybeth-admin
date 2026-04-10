@@ -16,7 +16,7 @@
        </div>
 
        <div class="relative z-10 max-w-lg">
-         <h2 class="text-6xl font-black text-white leading-tight mb-8">
+         <h2 class="text-6xl  text-white leading-tight mb-8">
            Join the <br/> 
            <span class="text-brand-green">Control Tower</span> <br/>
            Engine.
@@ -26,7 +26,7 @@
          </p>
        </div>
 
-       <div class="relative z-10 flex items-center space-x-8 text-white/40 text-sm font-black uppercase tracking-[0.3em]">
+       <div class="relative z-10 flex items-center space-x-8 text-white/40 text-sm  uppercase tracking-[0.3em]">
           <span>© 2026 Flybeth Global</span>
           <span class="h-1 w-1 rounded-full bg-white/20"></span>
           <span>Enterprise Portal</span>
@@ -41,12 +41,13 @@
         </div>
 
         <div v-if="!showOtp">
-          <h1 class="text-4xl font-black text-brand-blue leading-tight mb-3">Create Account</h1>
+          <h1 class="text-4xl font-bold text-brand-blue leading-tight mb-3">Create account</h1>
           <p class="text-brand-gray/60 font-medium text-sm">Join the Flybeth administrative team.</p>
         </div>
 
         <div v-else>
-          <h1 class="text-4xl font-black text-brand-blue leading-tight mb-3">Verify Email</h1>
+          <img src="@/assets/img/logo.png" class="h-10 w-auto mb-6" alt="Flybeth Logo" />
+          <h1 class="text-4xl font-bold text-brand-blue leading-tight mb-3">Verify email</h1>
           <p class="text-brand-gray/60 font-medium text-sm">Enter the 6-digit code sent to {{ form.email }}</p>
         </div>
 
@@ -55,13 +56,13 @@
             <div class="grid grid-cols-2 gap-4">
                <UiAnimatedInput 
                  v-model="form.firstName"
-                 label="First Name" 
+                 label="First name" 
                  type="text"
                  required
                />
                <UiAnimatedInput 
                  v-model="form.lastName"
-                 label="Last Name" 
+                 label="Last name" 
                  type="text"
                  required
                />
@@ -69,7 +70,7 @@
 
             <UiAnimatedInput 
               v-model="form.email"
-              label="Email Address" 
+              label="Email address" 
               type="email"
               required
               :disabled="!!invitationToken"
@@ -77,7 +78,7 @@
 
             <UiAnimatedInput 
               v-model="form.phone"
-              label="Phone Number" 
+              label="Phone number" 
               type="tel"
               required
             />
@@ -89,14 +90,36 @@
               required
             />
 
-            <!-- Role Selection (Hidden if using invitation token) -->
-            <div v-if="!invitationToken" class="space-y-2">
-              <label class="text-xs font-black uppercase tracking-widest text-brand-gray/40 ml-1">Select Administrative Role</label>
+            <!-- Role Selection -->
+            <div class="space-y-2">
+              <label class="text-[10px] font-bold uppercase tracking-widest text-brand-gray/40 ml-1">Administrative role</label>
               <UiBaseSelect 
                 v-model="form.role"
                 :options="roleOptions"
-                placeholder="Choose Role"
+                placeholder="Choose role"
+                :disabled="!!invitationToken"
               />
+            </div>
+
+            <!-- Master Registration Key (Only for un-invited admin setup) -->
+            <div v-if="!invitationToken && ['super_admin', 'tenant_admin'].includes(form.role)" class="space-y-4 pt-2">
+               <div class="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-start space-x-3">
+                  <div class="mt-0.5 text-amber-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                  </div>
+                  <div class="space-y-1">
+                    <p class="text-[10px]  uppercase tracking-wider text-amber-900/60">Administrative Setup</p>
+                    <p class="text-xs font-medium text-amber-900/40 leading-relaxed">
+                      You are creating an administrative account without an invitation. Please provide the <b>System Master Key</b> to proceed.
+                    </p>
+                  </div>
+               </div>
+               <UiAnimatedInput 
+                 v-model="masterKey"
+                 label="Master registration key" 
+                 type="password"
+                 required
+               />
             </div>
 
             <UiBaseButton 
@@ -105,9 +128,9 @@
               size="lg" 
               block 
               :loading="loading"
-              class="!py-3 !rounded-2xl !text-base shadow-lg shadow-brand-blue/10"
+              class="!py-3 !rounded-2xl !text-base"
             >
-              Create Account
+              Create account
             </UiBaseButton>
             
             <p class="text-center text-sm font-medium text-brand-gray/50 mt-6">
@@ -117,14 +140,10 @@
         </form>
 
         <!-- OTP Form -->
-        <form v-else @submit.prevent="handleVerifyOtp" class="space-y-6">
-            <UiAnimatedInput 
+        <form v-else @submit.prevent="handleVerifyOtp" class="space-y-8">
+            <UiBaseOtpInput 
               v-model="otp"
-              label="Verification Code" 
-              type="text"
-              maxlength="6"
-              required
-              placeholder="123456"
+              label="Verification code"
             />
 
             <UiBaseButton 
@@ -133,24 +152,24 @@
               size="lg" 
               block 
               :loading="loading"
-              class="!py-3 !rounded-2xl !text-base shadow-lg shadow-brand-blue/10"
+              class="!py-3 !rounded-2xl !text-base"
             >
-              Verify & Complete
+              Verify and complete
             </UiBaseButton>
 
             <button 
               type="button" 
               @click="showOtp = false" 
-              class="w-full text-sm font-bold text-brand-gray/40 hover:text-brand-blue transition-premium"
+              class="w-full text-sm font-bold text-brand-gray/40 hover:text-brand-blue transition-all duration-300"
             >
               Back to registration
             </button>
         </form>
 
         <div class="pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-           <p class="text-sm font-black text-brand-gray/30 uppercase tracking-[0.2em]">Flybeth Admin Terminal</p>
+           <p class="text-[10px] font-bold text-brand-gray/30 uppercase tracking-widest">Flybeth admin terminal</p>
            <div class="flex items-center space-x-2">
-              <span class="text-sm font-black text-brand-gray/40 uppercase tracking-widest">Secure Enrollment</span>
+              <span class="text-[10px] font-bold text-brand-gray/40 uppercase tracking-widest">Secure enrollment</span>
            </div>
         </div>
       </div>
@@ -159,8 +178,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useAuth } from '@/composables/modules/auth/useAuth'
+import { useUsers } from '@/composables/modules/users/useUsers'
+import { useCustomToast } from '@/composables/core/useCustomToast'
 
 definePageMeta({
   layout: false
@@ -176,28 +197,62 @@ const form = ref({
   lastName: '',
   phone: '',
   role: 'tenant_admin',
-  token: invitationToken.value
+  token: invitationToken.value || undefined
 })
 
 const showOtp = ref(false)
 const otp = ref('')
+const masterKey = ref('')
 
 const roleOptions = [
   { label: 'Tenant Administrator', value: 'tenant_admin' },
   { label: 'Super Administrator', value: 'super_admin' }
 ]
 
-const { register, verifyOtp, loading } = useAuth()
+const { register, verifyOtp, loading: authLoading } = useAuth()
+const { verifyInvitation, loading: inviteLoading } = useUsers()
+const { showToast } = useCustomToast()
+
+const loading = computed(() => authLoading.value || inviteLoading.value)
 
 onMounted(async () => {
   if (invitationToken.value) {
-    // Ideally fetch invitation details to pre-fill email and role
-    // For now, we'll just require user to fill email
+    try {
+      const res = await verifyInvitation(invitationToken.value)
+      if (res && res.data) {
+        const { email, role } = res.data
+        form.value.email = email
+        form.value.role = role
+        showToast({
+          title: "Invitation Verified",
+          message: `Welcome! You are joining as a ${role.replace('_', ' ')}.`,
+          toastType: "success"
+        })
+      }
+    } catch (error: any) {
+      console.error('Invitation verification failed:', error)
+      showToast({
+          title: "Invalid Invitation",
+          message: "Your invitation link is invalid or has expired. Please contact your administrator.",
+          toastType: "error"
+        })
+      // Redirect to login if token is invalid
+      setTimeout(() => {
+        navigateTo('/')
+      }, 3000)
+    }
   }
 })
 
 const handleSignup = async () => {
-  const res = await register(form.value)
+  const signupData = { ...form.value }
+  
+  // If no invitation token, use the entered master key
+  if (!invitationToken.value && masterKey.value) {
+    signupData.token = masterKey.value
+  }
+
+  const res = await register(signupData)
   if (res) {
     showOtp.value = true
   }

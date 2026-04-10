@@ -2,7 +2,7 @@
   <div class="relative w-full font-body" ref="selectRef">
     <label 
       v-if="label" 
-      class="text-[11px] uppercase tracking-[0.15em] text-brand-gray font-black mb-2 px-1 opacity-70 font-header block"
+      class="text-[11px] uppercase tracking-[0.15em] text-brand-gray  mb-2 px-1 opacity-70 font-header block"
     >
       {{ label }}
     </label>
@@ -37,7 +37,7 @@
     <Transition name="select-pop">
       <div 
         v-if="isOpen"
-        class="absolute z-[110] mt-3 w-full bg-white rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(13,29,173,0.15)] border border-gray-50 p-4 transform origin-top overflow-hidden"
+        class="absolute z-[200] mt-3 w-full bg-white rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(13,29,173,0.15)] border border-gray-50 p-4 transform origin-top overflow-hidden"
       >
         <div class="max-h-[300px] overflow-y-auto custom-scrollbar">
           <div 

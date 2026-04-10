@@ -5,7 +5,7 @@
         <InboxIcon class="h-10 w-10 text-brand-gray/20" />
       </slot>
     </div>
-    <h3 class="text-xl  font-black text-brand-blue mb-2">{{ title || 'No data found' }}</h3>
+    <h3 class="text-xl   text-brand-blue mb-2">{{ title || 'No data found' }}</h3>
     <p class="text-sm text-brand-gray/50 max-w-xs mx-auto mb-8 font-medium">
       {{ description || 'We couldn\'t find any records matching your criteria. Try adjusting your filters or search terms.' }}
     </p>

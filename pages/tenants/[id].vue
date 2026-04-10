@@ -8,8 +8,8 @@
         </button>
         <div>
            <div class="flex items-center space-x-3 mb-1">
-             <h1 class="text-3xl font-black text-brand-blue tracking-tight">{{ tenant?.name }}</h1>
-             <span class="px-4 py-1 rounded-full text-[9px] font-black uppercase tracking-widest" :class="statusClass(tenant?.status)">
+             <h1 class="text-3xl  text-brand-blue tracking-tight">{{ tenant?.name }}</h1>
+             <span class="px-4 py-1 rounded-full text-[9px]  uppercase tracking-widest" :class="statusClass(tenant?.status)">
                {{ tenant?.status }}
              </span>
            </div>
@@ -40,22 +40,22 @@
           <div class="grid md:grid-cols-2 gap-10 pt-4">
             <div class="space-y-6">
                <div class="space-y-1">
-                  <p class="text-[9px] font-black text-brand-gray/30 uppercase tracking-[0.2em]">Registration No.</p>
-                  <p class="text-sm font-black text-brand-blue">{{ tenant?.businessRegistrationNumber || 'N/A' }}</p>
+                  <p class="text-[9px]  text-brand-gray/30 uppercase tracking-[0.2em]">Registration No.</p>
+                  <p class="text-sm  text-brand-blue">{{ tenant?.businessRegistrationNumber || 'N/A' }}</p>
                </div>
                <div class="space-y-1">
-                  <p class="text-[9px] font-black text-brand-gray/30 uppercase tracking-[0.2em]">Country of Operation</p>
-                  <p class="text-sm font-black text-brand-blue">{{ tenant?.country || 'N/A' }}</p>
+                  <p class="text-[9px]  text-brand-gray/30 uppercase tracking-[0.2em]">Country of Operation</p>
+                  <p class="text-sm  text-brand-blue">{{ tenant?.country || 'N/A' }}</p>
                </div>
             </div>
             <div class="space-y-6">
                <div class="space-y-1">
-                  <p class="text-[9px] font-black text-brand-gray/30 uppercase tracking-[0.2em]">Billing / Physical Address</p>
-                  <p class="text-sm font-black text-brand-blue leading-relaxed">{{ tenant?.billingAddress || 'N/A' }}</p>
+                  <p class="text-[9px]  text-brand-gray/30 uppercase tracking-[0.2em]">Billing / Physical Address</p>
+                  <p class="text-sm  text-brand-blue leading-relaxed">{{ tenant?.billingAddress || 'N/A' }}</p>
                </div>
                <div class="space-y-1">
-                  <p class="text-[9px] font-black text-brand-gray/30 uppercase tracking-[0.2em]">Website</p>
-                  <a :href="tenant?.website" target="_blank" class="text-sm font-black text-brand-blue hover:text-brand-blue/70 flex items-center">
+                  <p class="text-[9px]  text-brand-gray/30 uppercase tracking-[0.2em]">Website</p>
+                  <a :href="tenant?.website" target="_blank" class="text-sm  text-brand-blue hover:text-brand-blue/70 flex items-center">
                     {{ tenant?.website || 'No website provided' }}
                     <ArrowTopRightOnSquareIcon v-if="tenant?.website" class="h-3 w-3 ml-2" />
                   </a>
@@ -68,7 +68,7 @@
         <UiBaseCard padding title="Agent Verification (KYC)">
           <div class="grid md:grid-cols-2 gap-10 pt-4">
              <div class="space-y-4">
-                <p class="text-[9px] font-black text-brand-gray/30 uppercase tracking-[0.2em]">ID Document</p>
+                <p class="text-[9px]  text-brand-gray/30 uppercase tracking-[0.2em]">ID Document</p>
                 <div v-if="tenant?.kycDocuments?.idCard" class="group relative aspect-[4/3] rounded-2xl overflow-hidden border border-gray-100 bg-gray-50">
                    <img :src="tenant?.kycDocuments?.idCard" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                    <div class="absolute inset-0 bg-brand-blue/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -76,12 +76,12 @@
                    </div>
                 </div>
                 <div v-else class="aspect-[4/3] rounded-2xl border-2 border-dashed border-gray-100 flex items-center justify-center text-brand-gray/20">
-                   <p class="text-[10px] uppercase font-black tracking-widest">Not uploaded</p>
+                   <p class="text-[10px] uppercase  tracking-widest">Not uploaded</p>
                 </div>
              </div>
              
              <div class="space-y-4">
-                <p class="text-[9px] font-black text-brand-gray/30 uppercase tracking-[0.2em]">Live Selfie</p>
+                <p class="text-[9px]  text-brand-gray/30 uppercase tracking-[0.2em]">Live Selfie</p>
                 <div v-if="tenant?.kycDocuments?.selfie" class="group relative aspect-[4/3] rounded-2xl overflow-hidden border border-gray-100 bg-gray-50">
                    <img :src="tenant?.kycDocuments?.selfie" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                    <div class="absolute inset-0 bg-brand-blue/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -89,7 +89,7 @@
                    </div>
                 </div>
                 <div v-else class="aspect-[4/3] rounded-2xl border-2 border-dashed border-gray-100 flex items-center justify-center text-brand-gray/20">
-                   <p class="text-[10px] uppercase font-black tracking-widest">Not uploaded</p>
+                   <p class="text-[10px] uppercase  tracking-widest">Not uploaded</p>
                 </div>
              </div>
           </div>
@@ -103,7 +103,7 @@
                     <DocumentIcon class="h-8 w-8" />
                  </div>
                  <div>
-                    <h5 class="text-sm font-black text-brand-blue uppercase tracking-widest">{{ tenant?.country === 'Nigeria' ? 'CAC Certificate' : 'Registration Doc' }}</h5>
+                    <h5 class="text-sm  text-brand-blue uppercase tracking-widest">{{ tenant?.country === 'Nigeria' ? 'CAC Certificate' : 'Registration Doc' }}</h5>
                     <p class="text-[10px] text-brand-gray/40 font-bold uppercase tracking-widest mt-1">Tax ID: {{ tenant?.businessDocuments?.ein || 'Not provided' }}</p>
                  </div>
               </div>
@@ -111,7 +111,7 @@
               <UiBaseButton v-if="tenant?.businessDocuments?.documentUrl" variant="ghost" size="sm" class="bg-white border-gray-200" @click="openDoc(tenant?.businessDocuments?.documentUrl)">
                  Download PDF
               </UiBaseButton>
-              <p v-else class="text-[10px] uppercase font-black text-brand-gray/20 tracking-widest">Pending Upload</p>
+              <p v-else class="text-[10px] uppercase  text-brand-gray/20 tracking-widest">Pending Upload</p>
            </div>
         </UiBaseCard>
       </div>
@@ -122,10 +122,10 @@
         <!-- Profile & Contact -->
         <UiBaseCard padding>
           <div class="text-center pb-8 border-b border-gray-50">
-             <div class="h-20 w-20 bg-brand-blue/5 rounded-[2rem] border-2 border-white shadow-sm flex items-center justify-center text-2xl font-black text-brand-blue mx-auto mb-6">
+             <div class="h-20 w-20 bg-brand-blue/5 rounded-[2rem] border-2 border-white shadow-sm flex items-center justify-center text-2xl  text-brand-blue mx-auto mb-6">
                 {{ tenant?.name?.[0] }}
              </div>
-             <h4 class="text-xl font-black text-brand-blue mb-1">Owner Profile</h4>
+             <h4 class="text-xl  text-brand-blue mb-1">Owner Profile</h4>
              <p class="text-xs font-bold text-brand-gray/40 uppercase tracking-widest">{{ tenant?.contactEmail }}</p>
           </div>
           
@@ -135,8 +135,8 @@
                    <PhoneIcon class="h-5 w-5" />
                 </div>
                 <div>
-                   <p class="text-[9px] font-black text-brand-gray/30 uppercase tracking-widest">Phone</p>
-                   <p class="text-[13px] font-black text-brand-blue">{{ tenant?.contactPhone || 'N/A' }}</p>
+                   <p class="text-[9px]  text-brand-gray/30 uppercase tracking-widest">Phone</p>
+                   <p class="text-[13px]  text-brand-blue">{{ tenant?.contactPhone || 'N/A' }}</p>
                 </div>
              </div>
              <div class="flex items-center space-x-4">
@@ -144,8 +144,8 @@
                    <ChatBubbleLeftRightIcon class="h-5 w-5" />
                 </div>
                 <div>
-                   <p class="text-[9px] font-black text-brand-gray/30 uppercase tracking-widest">WhatsApp</p>
-                   <p class="text-[13px] font-black text-brand-blue">{{ tenant?.whatsappNumber || 'N/A' }}</p>
+                   <p class="text-[9px]  text-brand-gray/30 uppercase tracking-widest">WhatsApp</p>
+                   <p class="text-[13px]  text-brand-blue">{{ tenant?.whatsappNumber || 'N/A' }}</p>
                 </div>
              </div>
           </div>
@@ -154,21 +154,21 @@
         <!-- Bank Details -->
         <UiBaseCard padding class="bg-brand-blue text-white overflow-hidden relative">
            <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
-           <p class="text-[10px] font-black text-white/30 tracking-[0.3em] uppercase mb-10">Payout Settlement</p>
+           <p class="text-[10px]  text-white/30 tracking-[0.3em] uppercase mb-10">Payout Settlement</p>
            
            <div class="space-y-8 relative z-10">
               <div class="space-y-2">
                  <p class="text-[9px] font-bold text-white/40 uppercase tracking-widest">Bank Name</p>
-                 <p class="text-base font-black tracking-tight">{{ tenant?.bankDetails?.bankName || 'NOT SET' }}</p>
+                 <p class="text-base  tracking-tight">{{ tenant?.bankDetails?.bankName || 'NOT SET' }}</p>
               </div>
               <div class="space-y-2">
                  <p class="text-[9px] font-bold text-white/40 uppercase tracking-widest">Account Holder</p>
-                 <p class="text-base font-black tracking-tight">{{ tenant?.bankDetails?.accountName || 'NOT SET' }}</p>
+                 <p class="text-base  tracking-tight">{{ tenant?.bankDetails?.accountName || 'NOT SET' }}</p>
               </div>
               <div class="pt-6 border-t border-white/10">
                  <p class="text-[9px] font-bold text-white/40 uppercase tracking-widest mb-2">Account Number</p>
                  <div class="flex items-center justify-between">
-                    <p class="text-2xl font-black tracking-[0.1em]">{{ tenant?.bankDetails?.accountNumber || '**** ****' }}</p>
+                    <p class="text-2xl  tracking-[0.1em]">{{ tenant?.bankDetails?.accountNumber || '**** ****' }}</p>
                     <BanknotesIcon class="h-6 w-6 text-white/20" />
                  </div>
               </div>
@@ -246,5 +246,5 @@ const openImg = (url: string) => {
 </script>
 
 <style scoped>
-.font-black { font-weight: 900; }
+. { font-weight: 900; }
 </style>

@@ -35,11 +35,78 @@ export const useUsers = () => {
         }
     };
 
+    const fetchUser = async (id: string) => {
+        loading.value = true;
+        try {
+            const res = await adminApiFactory.getUser(id);
+            return res;
+        } catch (error: any) {
+            console.error(error);
+        } finally {
+            loading.value = false;
+        }
+    };
+
+    const updateAgentStatus = async (id: string, status: string) => {
+        loading.value = true;
+        try {
+            const res = await adminApiFactory.updateAgentStatus(id, status);
+            return res;
+        } catch (error: any) {
+            console.error(error);
+            throw error;
+        } finally {
+            loading.value = false;
+        }
+    };
+    const createAdminUser = async (data: any) => {
+        loading.value = true;
+        try {
+            const res = await adminApiFactory.createAdminUser(data);
+            return res;
+        } catch (error: any) {
+            console.error(error);
+            throw error;
+        } finally {
+            loading.value = false;
+        }
+    };
+    const verifyInvitation = async (token: string) => {
+        loading.value = true;
+        try {
+            const res = await adminApiFactory.verifyInvitation(token);
+            return res;
+        } catch (error: any) {
+            console.error(error);
+            throw error;
+        } finally {
+            loading.value = false;
+        }
+    };
+
+    const deleteUser = async (id: string) => {
+        loading.value = true;
+        try {
+            const res = await adminApiFactory.deleteUser(id);
+            return res;
+        } catch (error: any) {
+            console.error(error);
+            throw error;
+        } finally {
+            loading.value = false;
+        }
+    };
+ 
     return {
         loading,
         users,
         metadata,
         fetchUsers,
-        inviteUser
+        fetchUser,
+        updateAgentStatus,
+        createAdminUser,
+        verifyInvitation,
+        inviteUser,
+        deleteUser
     };
 };

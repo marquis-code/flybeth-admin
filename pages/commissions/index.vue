@@ -28,7 +28,7 @@
               'w-2 h-2 rounded-full mr-2',
               item.isActive ? 'bg-green-500' : 'bg-red-500'
             ]"></div>
-            <span class="text-xs font-black uppercase tracking-widest" :class="[
+            <span class="text-xs  uppercase tracking-widest" :class="[
               item.isActive ? 'text-green-600' : 'text-red-500'
             ]">
               {{ item.isActive ? 'Active' : 'Inactive' }}
@@ -48,12 +48,12 @@
       </UiBaseTable>
     </UiBaseCard>
 
-    <!-- Add/Edit Modal -->
-    <UiBaseModal v-if="showAddModal || editingItem" @close="resetForm">
-      <div class="p-6 space-y-6">
-        <h2 class="text-xl font-bold">{{ editingItem ? 'Edit' : 'Add' }} Commission</h2>
+    <!-- Add/Edit Drawer -->
+    <UiSideDrawer :show="showAddModal || !!editingItem" :title="editingItem ? 'Edit Commission' : 'Add Commission'" @close="resetForm">
+      <div class="space-y-6">
+        <p class="text-sm text-brand-gray/60 leading-relaxed font-medium">Configure IATA-compliant commission overrides for prioritized global carriers.</p>
         
-        <form @submit.prevent="saveCommission" class="space-y-4">
+        <form @submit.prevent="saveCommission" class="space-y-6">
           <UiAnimatedInput 
             v-model="form.airlineCode"
             label="Airline Code (IATA)"
@@ -62,7 +62,7 @@
             required
           />
 
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 gap-6">
             <UiBaseSelect 
               v-model="form.type"
               label="Commission Type"
@@ -80,21 +80,25 @@
             />
           </div>
 
-          <div class="flex justify-end space-x-3 pt-4">
-            <UiBaseButton @click="resetForm" variant="secondary">Cancel</UiBaseButton>
-            <UiBaseButton type="submit" variant="primary" :loading="saving">
-              {{ editingItem ? 'Update' : 'Save' }}
+          <div class="flex gap-4 pt-6">
+            <UiBaseButton @click="resetForm" variant="ghost" class="flex-1">Cancel</UiBaseButton>
+            <UiBaseButton type="submit" variant="primary" :loading="saving" class="flex-1">
+              {{ editingItem ? 'Update override' : 'Save override' }}
             </UiBaseButton>
           </div>
         </form>
       </div>
-    </UiBaseModal>
+    </UiSideDrawer>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useCustomToast } from '@/composables/core/useCustomToast'
+
+definePageMeta({
+  layout: 'admin'
+})
 
 const { showToast } = useCustomToast()
 const loading = ref(false)

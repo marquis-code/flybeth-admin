@@ -2,11 +2,10 @@
   <button
     :disabled="loading"
     :class="[
-      'inline-flex items-center justify-center font-black rounded-full transition-all duration-300 transform active:scale-95 focus:outline-none focus:ring-4',
+      'inline-flex items-center justify-center font-bold rounded-xl transition-all duration-300 transform active:scale-95 focus:outline-none focus:ring-4',
       variantClasses,
       sizeClasses,
       block ? 'w-full' : '',
-      'uppercase tracking-widest',
       loading ? 'opacity-70 cursor-not-allowed pointer-events-none' : ''
     ]"
     v-bind="$attrs"
@@ -46,13 +45,13 @@ const props = defineProps({
 const variantClasses = computed(() => {
   switch (props.variant) {
     case 'primary':
-      return 'bg-brand-blue text-white shadow-[0_10px_30px_-5px_rgba(13,29,173,0.3)] hover:shadow-brand-blue/40 hover:scale-105 focus:ring-brand-blue/20'
+      return 'bg-brand-blue text-white hover:bg-brand-blue/90 focus:ring-brand-blue/20'
     case 'green':
-      return 'bg-brand-green text-white shadow-[0_10px_30px_-5px_rgba(50,180,4,0.3)] hover:shadow-brand-green/40 hover:scale-105 focus:ring-brand-green/20'
+      return 'bg-brand-green text-white hover:bg-brand-green/90 focus:ring-brand-green/20'
     case 'secondary':
-      return 'bg-brand-blue/5 text-brand-blue hover:bg-brand-blue/10 focus:ring-brand-blue/20 shadow-sm'
+      return 'bg-brand-blue/5 text-brand-blue hover:bg-brand-blue/10 focus:ring-brand-blue/20'
     case 'outline':
-      return 'border-2 border-brand-blue/20 text-brand-blue bg-white hover:border-brand-blue hover:shadow-lg focus:ring-brand-blue/20'
+      return 'border-2 border-brand-blue/20 text-brand-blue bg-white hover:border-brand-blue/40 focus:ring-brand-blue/20'
     case 'ghost':
       return 'text-brand-gray hover:bg-gray-100 focus:ring-gray-200'
     default:

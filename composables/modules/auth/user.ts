@@ -1,47 +1,36 @@
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
-const isBrowser = typeof window !== "undefined";
-
-// Move refs outside the function to create a singleton state
-const token = ref(isBrowser ? localStorage.getItem("token") || "" : "");
-const refreshToken = ref(isBrowser ? localStorage.getItem("refreshToken") || "" : "");
-const user = ref(isBrowser ? JSON.parse(localStorage.getItem("user") || "null") : null);
-
+// Use Nuxt's useCookie for persistent user state that works with SSR
+// Note: Tokens are now HttpOnly cookies set by the backend, so we don't handle them here.
 export const useUser = () => {
-    const setToken = (newToken: string) => {
-        token.value = newToken;
-        if (isBrowser) localStorage.setItem("token", newToken);
-    };
+    const userCookie = useCookie<any>("user_profile", {
+        maxAge: 7 * 24 * 60 * 60, // 7 days
+        sameSite: 'lax'
+    });
 
-    const setRefreshToken = (newRefreshToken: string) => {
-        refreshToken.value = newRefreshToken;
-        if (isBrowser) localStorage.setItem("refreshToken", newRefreshToken);
-    };
+    const user = ref(userCookie.value || null);
 
     const setUser = (newUser: any) => {
         user.value = newUser;
-        if (isBrowser) localStorage.setItem("user", JSON.stringify(newUser));
+        userCookie.value = newUser;
     };
 
     const logOut = () => {
-        token.value = "";
-        refreshToken.value = "";
         user.value = null;
-        if (isBrowser) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("refreshToken");
-            localStorage.removeItem("user");
+        userCookie.value = null;
+        
+        // Redirect to login
+        if (import.meta.client) {
             window.location.href = "/";
         }
     };
 
+    const isLoggedIn = computed(() => !!user.value);
+
     return {
-        token,
-        refreshToken,
         user,
-        setToken,
-        setRefreshToken,
         setUser,
         logOut,
+        isLoggedIn,
     };
 };

@@ -3,8 +3,8 @@
     <!-- Header Section -->
     <div class="flex justify-between items-end">
       <div>
-        <p class="text-sm font-black uppercase tracking-[0.4em] text-brand-green mb-2">Communication Hub</p>
-        <h1 class="text-5xl  font-black text-brand-blue tracking-tighter">Email Templates</h1>
+        <p class="text-sm  uppercase tracking-[0.4em] text-brand-green mb-2">Communication Hub</p>
+        <h1 class="text-5xl   text-brand-blue tracking-tighter">Email Templates</h1>
       </div>
       <div class="flex gap-4">
         <UiBaseButton variant="secondary" @click="handleSeed" :loading="seeding">
@@ -27,7 +27,7 @@
       <div class="h-24 w-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-8">
         <EnvelopeIcon class="h-10 w-10 text-brand-gray/20" />
       </div>
-      <h3 class="text-2xl  font-black text-brand-blue mb-3">No Templates Found</h3>
+      <h3 class="text-2xl   text-brand-blue mb-3">No Templates Found</h3>
       <p class="text-brand-gray/50 font-medium max-w-xs mx-auto mb-10">Get started by seeding the default branded templates or create your own from scratch.</p>
       <UiBaseButton variant="primary" size="lg" @click="handleSeed">Initialize Default System</UiBaseButton>
     </div>
@@ -47,13 +47,13 @@
               <div class="h-12 w-12 bg-gray-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-blue group-hover:text-white transition-premium">
                  <EnvelopeIcon class="h-6 w-6" />
               </div>
-              <h3 class="text-xl  font-black text-brand-blue group-hover:translate-x-1 transition-premium">{{ template.name }}</h3>
-              <p class="text-sm font-black uppercase tracking-widest text-brand-gray/40 mt-1">{{ template.slug }}</p>
+              <h3 class="text-xl   text-brand-blue group-hover:translate-x-1 transition-premium">{{ template.name }}</h3>
+              <p class="text-sm  uppercase tracking-widest text-brand-gray/40 mt-1">{{ template.slug }}</p>
             </div>
 
             <div class="space-y-4">
                <div>
-                  <p class="text-sm font-black text-brand-gray uppercase tracking-widest mb-1 opacity-40">Subject Line</p>
+                  <p class="text-sm  text-brand-gray uppercase tracking-widest mb-1 opacity-40">Subject Line</p>
                   <p class="text-sm font-bold text-brand-blue/80 line-clamp-1 italic">"{{ template.subject }}"</p>
                </div>
                
@@ -61,11 +61,11 @@
                   <span 
                     v-for="v in template.availableVariables.slice(0, 3)" 
                     :key="v"
-                    class="text-[9px] font-black uppercase tracking-wider px-2 py-1 bg-gray-50 text-brand-gray/60 rounded-md"
+                    class="text-[9px]  uppercase tracking-wider px-2 py-1 bg-gray-50 text-brand-gray/60 rounded-md"
                   >
                     {{ v }}
                   </span>
-                  <span v-if="template.availableVariables.length > 3" class="text-[9px] font-black text-brand-gray/30 px-2 py-1 italic">
+                  <span v-if="template.availableVariables.length > 3" class="text-[9px]  text-brand-gray/30 px-2 py-1 italic">
                     +{{ template.availableVariables.length - 3 }} more
                   </span>
                </div>
@@ -74,7 +74,7 @@
             <div class="mt-auto pt-8 flex items-center justify-between">
                <div class="flex items-center space-x-2">
                   <div class="h-2 w-2 rounded-full" :class="template.isActive ? 'bg-brand-green animate-pulse' : 'bg-red-400'" />
-                  <span class="text-sm font-black uppercase tracking-widest" :class="template.isActive ? 'text-brand-green' : 'text-red-400'">
+                  <span class="text-sm  uppercase tracking-widest" :class="template.isActive ? 'text-brand-green' : 'text-red-400'">
                     {{ template.isActive ? 'Active Protocol' : 'Disabled' }}
                   </span>
                </div>

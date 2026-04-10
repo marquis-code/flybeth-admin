@@ -9,7 +9,7 @@
                 v-for="column in columns" 
                 :key="column.key"
                 scope="col" 
-                class="px-6 py-5 text-left text-sm font-black text-brand-gray/40 uppercase tracking-[0.2em]"
+                class="px-6 py-5 text-left text-sm  text-brand-gray/40 uppercase tracking-[0.2em]"
                 :class="column.class"
               >
                 {{ column.label }}

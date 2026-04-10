@@ -5,7 +5,7 @@ import { useCustomToast } from "@/composables/core/useCustomToast";
 
 export const useAuth = () => {
     const loading = ref(false);
-    const { setToken, setRefreshToken, setUser, logOut } = useUser();
+    const { setUser, logOut } = useUser();
     const { showToast } = useCustomToast();
 
     const login = async (payload: any) => {
@@ -21,9 +21,7 @@ export const useAuth = () => {
                     });
                     return { requiresOtp: true, email: payload.email };
                 }
-                const { accessToken, refreshToken, user } = res.data.data;
-                setToken(accessToken);
-                setRefreshToken(refreshToken);
+                const { user } = res.data.data || res.data;
                 setUser(user);
                 showToast({
                     title: "Success",
@@ -49,11 +47,21 @@ export const useAuth = () => {
         try {
             const res = await authApiFactory.register(payload);
             if (res.status === 200 || res.status === 201) {
-                showToast({
-                    title: "Success",
-                    message: "Registration successful. Please verify your email.",
-                    toastType: "success",
-                });
+                const responseData = res.data.data || res.data;
+                if (!responseData.requiresOtp) {
+                    setUser(responseData.user);
+                    showToast({
+                        title: "Registration Successful",
+                        message: "Welcome to Flybeth Admin",
+                        toastType: "success",
+                    });
+                } else {
+                    showToast({
+                        title: "Success",
+                        message: "Registration successful. Please verify your email.",
+                        toastType: "success",
+                    });
+                }
                 return res;
             }
         } catch (error: any) {
@@ -73,9 +81,7 @@ export const useAuth = () => {
         try {
             const res = await authApiFactory.verifyOtp(payload);
             if (res.status === 200 || res.status === 201) {
-                const { accessToken, refreshToken, user } = res.data.data;
-                setToken(accessToken);
-                setRefreshToken(refreshToken);
+                const { user } = res.data.data;
                 setUser(user);
                 showToast({
                     title: "Success",

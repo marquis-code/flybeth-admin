@@ -16,22 +16,22 @@
          </div>
        </div>
 
-       <div class="relative z-10 max-w-lg">
-         <h2 class="text-6xl  font-black text-white leading-tight mb-8">
-           Elevate <br/> 
-           <span class="text-brand-green">Global Travel</span> <br/>
-           Operations.
-         </h2>
+        <div class="relative z-10 max-w-lg">
+          <h2 class="text-6xl font-bold text-white leading-tight mb-8">
+            Elevate <br/> 
+            <span class="text-brand-green">global travel</span> <br/>
+            operations.
+          </h2>
          <p class="text-xl text-white/70 font-medium leading-relaxed">
            Manage your entire travel ecosystem with precision and ease.
          </p>
        </div>
 
-       <div class="relative z-10 flex items-center space-x-8 text-white/40 text-sm font-black uppercase tracking-[0.3em]">
-          <span>© 2026 Flybeth Global</span>
-          <span class="h-1 w-1 rounded-full bg-white/20"></span>
-          <span>Enterprise Portal</span>
-       </div>
+        <div class="relative z-10 flex items-center space-x-8 text-white/40 text-[10px] font-bold uppercase tracking-widest">
+           <span>© 2026 Flybeth global</span>
+           <span class="h-1 w-1 rounded-full bg-white/20"></span>
+           <span>Enterprise portal</span>
+        </div>
     </div>
 
     <!-- Right: Authentication Form -->
@@ -42,12 +42,13 @@
         </div>
 
         <div v-if="!showOtp">
-          <h1 class="text-4xl  font-black text-brand-blue leading-tight mb-3">Admin Login</h1>
+          <h1 class="text-4xl font-bold text-brand-blue leading-tight mb-3">Admin login</h1>
           <p class="text-brand-gray/60 font-medium text-sm">Sign in to manage your global travel operations.</p>
         </div>
 
         <div v-else>
-          <h1 class="text-4xl  font-black text-brand-blue leading-tight mb-3">Verify Login</h1>
+          <img src="@/assets/img/logo.png" class="h-10 w-auto mb-6" alt="Flybeth Logo" />
+          <h1 class="text-4xl font-bold text-brand-blue leading-tight mb-3">Verify login</h1>
           <p class="text-brand-gray/60 font-medium text-sm">Enter the code sent to your email.</p>
         </div>
 
@@ -55,7 +56,7 @@
             <div class="space-y-4">
                <UiAnimatedInput 
                  v-model="form.email"
-                 label="Email Address" 
+                 label="Email address" 
                  type="email"
                  required
                />
@@ -89,24 +90,18 @@
               size="lg" 
               block 
               :loading="loading"
-              class="!py-3 !rounded-2xl !text-base shadow-lg shadow-brand-blue/10"
+              class="!py-3 !rounded-2xl !text-base !shadow-none !border-none"
             >
-              Sign In
+              Sign in
             </UiBaseButton>
         </form>
 
         <!-- OTP Form -->
-        <form v-else @submit.prevent="handleVerifyOtp" class="space-y-6">
-            <div class="space-y-4">
-               <UiAnimatedInput 
-                 v-model="otp"
-                 label="Verification Code" 
-                 type="text"
-                 maxlength="6"
-                 required
-                 placeholder="123456"
-               />
-            </div>
+        <form v-else @submit.prevent="handleVerifyOtp" class="space-y-10">
+            <UiBaseOtpInput 
+              v-model="otp"
+              label="Verification code"
+            />
 
             <UiBaseButton 
               type="submit" 
@@ -114,9 +109,9 @@
               size="lg" 
               block 
               :loading="loading"
-              class="!py-3 !rounded-2xl !text-base shadow-lg shadow-brand-blue/10"
+              class="!py-3 !rounded-2xl !text-base !shadow-none !border-none"
             >
-              Verify & Login
+              Verify and login
             </UiBaseButton>
 
             <button 
@@ -134,9 +129,9 @@
         </p>
 
         <div class="pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-           <p class="text-sm font-black text-brand-gray/30 uppercase tracking-[0.2em]">Flybeth Admin Terminal</p>
+           <p class="text-[10px] font-bold text-brand-gray/30 uppercase tracking-widest">Flybeth admin terminal</p>
            <div class="flex items-center space-x-2">
-              <span class="text-sm font-black text-brand-gray/40 uppercase tracking-widest">Global Platform</span>
+              <span class="text-[10px] font-bold text-brand-gray/40 uppercase tracking-widest">Global platform</span>
            </div>
         </div>
       </div>
@@ -174,7 +169,7 @@ const handleLogin = async () => {
   const res = await login({
     email: form.value.email,
     password: form.value.password
-  })
+  }) as any
   
   if (res && res.requiresOtp) {
     showOtp.value = true

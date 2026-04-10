@@ -2,7 +2,7 @@
   <div class="relative w-full font-body" ref="timePickerRef">
     <label 
       v-if="label" 
-      class="text-[11px] uppercase tracking-[0.15em] text-brand-gray font-black mb-2 px-1 opacity-70 font-header block"
+      class="text-[11px] uppercase tracking-[0.15em] text-brand-gray  mb-2 px-1 opacity-70 font-header block"
     >
       {{ label }}
     </label>
@@ -42,20 +42,20 @@
         class="absolute z-[110] mt-3 w-full bg-white rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(13,29,173,0.15)] border border-gray-50 p-8 transform origin-top"
       >
         <!-- Quick Options -->
-        <h4 class="text-sm font-black text-brand-gray/50 uppercase tracking-widest mb-4 px-2">Quick Select</h4>
+        <h4 class="text-sm  text-brand-gray/50 uppercase tracking-widest mb-4 px-2">Quick Select</h4>
         <div class="grid grid-cols-2 gap-3 mb-6">
           <button 
             v-for="quick in quickTimes" 
             :key="quick"
             @click="selectTime(quick)"
-            class="py-3 px-4 rounded-2xl border border-gray-50 bg-gray-50/50 text-xs font-black text-brand-blue hover:bg-brand-blue hover:text-white hover:shadow-lg transition-all duration-300"
+            class="py-3 px-4 rounded-2xl border border-gray-50 bg-gray-50/50 text-xs  text-brand-blue hover:bg-brand-blue hover:text-white hover:shadow-lg transition-all duration-300"
           >
             {{ quick }}
           </button>
         </div>
 
         <!-- Custom Selector (Simplified Slider/Grid) -->
-        <h4 class="text-sm font-black text-brand-gray/50 uppercase tracking-widest mb-4 px-2">Every Hour</h4>
+        <h4 class="text-sm  text-brand-gray/50 uppercase tracking-widest mb-4 px-2">Every Hour</h4>
         <div class="grid grid-cols-4 gap-2 max-h-[160px] overflow-y-auto custom-scrollbar px-1">
           <button 
             v-for="hour in 24" 
@@ -71,7 +71,7 @@
         <!-- Done Button -->
         <button 
           @click="isOpen = false"
-          class="w-full mt-6 py-3 bg-brand-green text-white text-sm font-black rounded-full hover:bg-brand-green/90 transition-all shadow-lg uppercase tracking-widest"
+          class="w-full mt-6 py-3 bg-brand-green text-white text-sm  rounded-full hover:bg-brand-green/90 transition-all shadow-lg uppercase tracking-widest"
         >
           Close
         </button>

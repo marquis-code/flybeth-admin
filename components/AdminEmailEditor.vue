@@ -1,10 +1,17 @@
 <template>
-  <div class="email-editor-container bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden flex flex-col h-[700px]">
+  <div class="email-editor-container bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden flex flex-col h-[700px] relative">
+    <!-- Image Upload Overlay -->
+    <div v-if="uploadingImage" class="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center">
+      <div class="h-10 w-10 border-4 border-gray-100 border-t-brand-blue rounded-full animate-spin"></div>
+      <p class="mt-4 text-sm font-bold text-brand-blue">Uploading image payload...</p>
+    </div>
+    
+    <input type="file" ref="fileInput" class="hidden" accept="image/*" @change="handleImageUpload" />
     <!-- Editor Header -->
     <div class="px-8 py-6 border-b border-gray-50 bg-gray-50/30 flex justify-between items-center">
       <div>
-        <h3 class="text-xl  font-black text-brand-blue">Template Designer</h3>
-        <p class="text-sm font-black uppercase tracking-widest text-brand-gray/40">Visual Branded Email Architecture</p>
+        <h3 class="text-xl   text-brand-blue">Template Designer</h3>
+        <p class="text-sm  uppercase tracking-widest text-brand-gray/40">Visual Branded Email Architecture</p>
       </div>
       <div class="flex items-center gap-3">
         <slot name="actions"></slot>
@@ -16,7 +23,7 @@
       <div class="flex-1 p-8 flex flex-col overflow-hidden">
         <div class="mb-6 space-y-4">
           <div class="space-y-1">
-            <label class="text-sm font-black uppercase tracking-[0.2em] text-brand-gray/50 ml-1">Email Subject Line</label>
+            <label class="text-sm  uppercase tracking-[0.2em] text-brand-gray/50 ml-1">Email Subject Line</label>
             <input 
               v-model="localTemplate.subject" 
               type="text" 
@@ -38,7 +45,7 @@
             <button class="ql-italic"></button>
             <button class="ql-underline"></button>
             <button class="ql-link"></button>
-            <button class="ql-image"></button>
+            <button v-if="!hideImageUpload" class="ql-image"></button>
             <button class="ql-clean"></button>
           </div>
           <!-- Editor Content -->
@@ -49,7 +56,7 @@
       <!-- Variables Sidebar -->
       <div class="w-72 bg-gray-50/50 border-l border-gray-50 p-6 flex flex-col gap-6 overflow-y-auto">
         <div>
-          <h4 class="text-xs font-black uppercase tracking-widest text-brand-blue mb-4">Merge Variables</h4>
+          <h4 class="text-xs  uppercase tracking-widest text-brand-blue mb-4">Merge Variables</h4>
           <p class="text-sm font-medium text-brand-gray/50 leading-relaxed mb-6">Click a variable to inject it at the current cursor position.</p>
           
           <div class="space-y-2">
@@ -84,6 +91,12 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import { PlusIcon, InformationCircleIcon } from '@heroicons/vue/24/outline'
+import { adminApiFactory } from '@/api_factory/modules/admin'
+import { useCustomToast } from '@/composables/core/useCustomToast'
+
+const { showToast } = useCustomToast()
+const fileInput = ref<HTMLInputElement | null>(null)
+const uploadingImage = ref(false)
 
 const props = defineProps({
   modelValue: {
@@ -93,6 +106,10 @@ const props = defineProps({
   variables: {
     type: Array,
     default: () => ['firstName', 'lastName', 'pnr', 'destination', 'amount', 'currency', 'checkoutUrl', 'paymentUrl']
+  },
+  hideImageUpload: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -127,6 +144,13 @@ onMounted(async () => {
     placeholder: 'Design your branded email here...'
   })
 
+  // Override Image Handler if enabled
+  if (!props.hideImageUpload) {
+    quill.getModule('toolbar').addHandler('image', () => {
+      fileInput.value?.click()
+    })
+  }
+
   // Set initial content
   if (localTemplate.value.htmlContent) {
     quill.root.innerHTML = localTemplate.value.htmlContent
@@ -143,6 +167,34 @@ const insertVariable = (variable: string) => {
   if (!quill) return
   const range = quill.getSelection(true)
   quill.insertText(range.index, `{{${variable}}}`)
+}
+
+const handleImageUpload = async (event: Event) => {
+  const input = event.target as HTMLInputElement
+  if (!input.files?.length) return
+  
+  const file = input.files[0]
+  if (!file) return
+  
+  const formData = new FormData()
+  formData.append('file', file)
+  formData.append('folder', 'campaign_images')
+  
+  uploadingImage.value = true
+  try {
+    const res = await adminApiFactory.uploadFile(formData)
+    const url = res.data?.url
+    if (url && quill) {
+      const range = quill.getSelection(true) || { index: quill.getLength() }
+      quill.insertEmbed(range.index, 'image', url)
+      quill.setSelection(range.index + 1)
+    }
+  } catch (error) {
+    showToast({ title: 'Image Upload Failed', message: 'Could not upload media asset.', toastType: 'error' })
+  } finally {
+    uploadingImage.value = false
+    input.value = ''
+  }
 }
 
 watch(() => props.modelValue, (newVal) => {

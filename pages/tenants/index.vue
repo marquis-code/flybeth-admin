@@ -2,12 +2,12 @@
   <div class="space-y-10 pb-12">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
        <div class="space-y-1">
-         <h1 class="text-4xl  font-black text-brand-blue tracking-tight">Agent Network</h1>
-         <p class="text-brand-gray/60 font-medium">Review, approve, and oversee all travel agency partners on the Flybeth platform</p>
+         <h1 class="text-3xl font-bold text-brand-blue tracking-tight">Agent network</h1>
+         <p class="text-brand-gray/60 font-medium text-sm">Review, approve, and oversee all travel agency partners on the Flybeth platform</p>
        </div>
        <UiBaseButton variant="primary" size="lg" @click="showAddAgent = true">
          <PlusIcon class="h-5 w-5 mr-2" />
-         Vetting New Agent
+         Vetting new agent
        </UiBaseButton>
     </div>
 
@@ -17,14 +17,14 @@
         <div class="w-full lg:flex-grow max-w-2xl">
           <UiAnimatedInput 
             v-model="searchQuery" 
-            label="Search Partners"
+            label="Search partners"
           />
         </div>
         <div class="flex items-center space-x-6 w-full lg:w-auto">
           <div class="flex-grow min-w-[200px]">
             <UiSelectInput
               v-model="statusFilter"
-              label="Verification Status"
+              label="Verification status"
               :options="statusOptions"
               class="w-full"
             />
@@ -32,7 +32,7 @@
           <div class="flex-grow min-w-[180px]">
             <UiSelectInput
               v-model="sortBy"
-              label="Recently Active"
+              label="Recently active"
               :options="sortOptions"
               class="w-full"
             />
@@ -42,56 +42,56 @@
     </UiBaseCard>
 
     <!-- Tenants Table -->
-    <div v-if="loading && tenants.length === 0" class="flex flex-col items-center justify-center py-20 bg-white rounded-[2rem] border border-gray-100">
+    <div v-if="loading && tenants.length === 0" class="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-gray-100">
       <div class="h-10 w-10 border-4 border-brand-blue/10 border-t-brand-blue rounded-full animate-spin"></div>
-      <p class="mt-4 text-sm font-black text-brand-blue/40 uppercase tracking-widest">Hydrating Agent Records...</p>
+      <p class="mt-4 text-sm font-bold text-brand-blue/40 uppercase tracking-widest">Hydrating agent records...</p>
     </div>
 
     <UiBaseTable 
       v-else
       :columns="tenantColumns" 
       :items="tenants"
-      empty-title="No Partners Found"
+      empty-title="No partners found"
       empty-description="We couldn't find any agencies matching your current filters. Start by adding a new partner for vetting."
     >
       <template #cell(name)="{ item }">
         <div class="flex items-center space-x-4">
-          <div class="h-10 w-10 rounded-xl bg-brand-blue/5 border border-brand-blue/5 flex items-center justify-center font-black text-brand-blue transition-colors group-hover:bg-brand-blue group-hover:text-white">
+          <div class="h-10 w-10 rounded-xl bg-brand-blue/5 border border-brand-blue/5 flex items-center justify-center font-bold text-brand-blue transition-colors group-hover:bg-brand-blue group-hover:text-white">
             {{ item.name.split(' ').map((n: any) => n[0]).join('').substring(0, 2) }}
           </div>
           <div>
-            <div class="text-sm font-black text-brand-blue">{{ item.name }}</div>
-            <div class="text-sm font-bold text-brand-gray/40 uppercase tracking-widest">{{ item.email }}</div>
+            <div class="text-sm font-bold text-brand-blue tracking-tight">{{ item.name }}</div>
+            <div class="text-xs font-bold text-brand-gray/40 uppercase tracking-widest">{{ item.email }}</div>
           </div>
         </div>
       </template>
 
       <template #cell(status)="{ item }">
-        <span class="px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest inline-block text-center min-w-[110px]" :class="statusClass(item.status)">
+        <span class="px-4 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-widest inline-block text-center min-w-[110px]" :class="statusClass(item.status)">
           {{ item.status }}
         </span>
       </template>
 
       <template #cell(revenue)="{ item }">
          <div class="flex flex-col">
-           <span class="text-sm font-black text-brand-blue tracking-tighter">${{ item.revenue || '0' }}</span>
-           <span class="text-[9px] font-bold text-brand-gray/30 uppercase tracking-[0.1em]">{{ item.bookings || '0' }} Bookings</span>
+           <span class="text-sm font-bold text-brand-blue tracking-tighter">${{ item.revenue || '0' }}</span>
+           <span class="text-[9px] font-bold text-brand-gray/30 uppercase tracking-[0.1em]">{{ item.bookings || '0' }} bookings</span>
          </div>
       </template>
 
       <template #cell(actions)="{ item }">
         <div class="flex items-center justify-end space-x-2">
-          <button @click="navigateTo(`/tenants/${item._id}`)" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-brand-gray/40 transition-colors">
+          <button @click="navigateTo(`/tenants/${item._id}`)" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-brand-gray/40 transition-colors hover:text-brand-blue hover:bg-brand-blue/5">
             <ArrowTopRightOnSquareIcon class="h-4 w-4" />
           </button>
           
-          <button v-if="item.status === 'pending' || item.status === 'under_review'" @click="handleStatusUpdate(item._id, 'approved')" title="Approve" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-brand-green transition-colors">
+          <button v-if="item.status === 'pending' || item.status === 'under_review'" @click="handleStatusUpdate(item._id, 'approved')" title="Approve" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-brand-green/60 transition-colors hover:text-brand-green hover:bg-brand-green/5">
             <CheckBadgeIcon class="h-4 w-4" />
           </button>
-          <button v-if="item.status === 'pending' || item.status === 'under_review'" @click="handleStatusUpdate(item._id, 'rejected')" title="Reject" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-red-300 transition-colors">
+          <button v-if="item.status === 'pending' || item.status === 'under_review'" @click="handleStatusUpdate(item._id, 'rejected')" title="Reject" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-red-300 transition-colors hover:text-red-500 hover:bg-red-50">
             <NoSymbolIcon class="h-4 w-4" />
           </button>
-          <button v-if="item.status === 'approved' || item.status === 'active'" @click="handleStatusUpdate(item._id, 'suspended')" title="Suspend" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-red-300 transition-colors">
+          <button v-if="item.status === 'approved' || item.status === 'active'" @click="handleStatusUpdate(item._id, 'suspended')" title="Suspend" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-red-300 transition-colors hover:text-red-500 hover:bg-red-50">
             <NoSymbolIcon class="h-4 w-4" />
           </button>
         </div>
@@ -101,20 +101,20 @@
     <!-- Add Agent Side Drawer -->
     <UiSideDrawer 
       :show="showAddAgent" 
-      title="Add New Partner" 
+      title="Add new partner" 
       @close="showAddAgent = false"
     >
       <div class="space-y-8">
         <p class="text-sm text-brand-gray/60 leading-relaxed font-medium">Initiate the vetting process for a new travel agency partner.</p>
         
         <div class="space-y-4">
-          <UiAnimatedInput v-model="newAgent.name" label="Agency Name" />
-          <UiAnimatedInput v-model="newAgent.email" label="Owner Email" type="email" />
-          <UiAnimatedInput v-model="newAgent.slug" label="Portal Code/Slug" />
+          <UiAnimatedInput v-model="newAgent.name" label="Agency name" />
+          <UiAnimatedInput v-model="newAgent.email" label="Owner email" type="email" />
+          <UiAnimatedInput v-model="newAgent.slug" label="Portal code" />
           
-          <div class="bg-gray-50/50 p-6 rounded-2xl border border-dashed border-gray-200 text-center">
-             <CloudIcon class="h-8 w-8 mx-auto text-brand-gray/20" />
-             <p class="text-sm font-black text-brand-gray/40 uppercase tracking-widest mt-2">Upload KYC Documents</p>
+          <div class="bg-gray-50/50 p-6 rounded-2xl border border-dashed border-gray-200 text-center transition-colors hover:border-brand-blue/30 group cursor-pointer">
+             <CloudIcon class="h-8 w-8 mx-auto text-brand-gray/20 group-hover:text-brand-blue/40" />
+             <p class="text-[10px] font-bold text-brand-gray/40 uppercase tracking-widest mt-2">Upload KYC documents</p>
           </div>
         </div>
       </div>
@@ -122,7 +122,7 @@
       <template #footer>
         <div class="flex gap-4 w-full">
           <UiBaseButton variant="ghost" class="flex-1" @click="showAddAgent = false">Dismiss</UiBaseButton>
-          <UiBaseButton variant="primary" class="flex-1" :loading="loading" @click="handleAddAgent">Create Account</UiBaseButton>
+          <UiBaseButton variant="primary" class="flex-1" :loading="loading" @click="handleAddAgent">Create account</UiBaseButton>
         </div>
       </template>
     </UiSideDrawer>
