@@ -3,8 +3,8 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
        <div class="space-y-1">
-         <h1 class="text-3xl font-bold text-brand-blue tracking-tight">Global inventory</h1>
-         <p class="text-brand-gray/60 font-medium text-sm">Monitor and oversee all travel transactions across the global network</p>
+         <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Global inventory</h1>
+         <p class="text-gray-600 font-medium text-sm">Monitor and oversee all travel transactions across the global network</p>
        </div>
        <div class="flex items-center gap-3">
          <UiBaseButton variant="outline" size="md">
@@ -22,11 +22,11 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
       <UiBaseCard v-for="s in computedBookingStats" :key="s.label" padding class="group relative overflow-hidden transition-all duration-300">
         <div class="absolute right-0 top-0 p-6 opacity-[0.05] group-hover:scale-110 transition-transform">
-          <component :is="s.icon" class="h-16 w-16 text-brand-blue" />
+          <component :is="s.icon" class="h-16 w-16 text-gray-900" />
         </div>
-        <p class="text-[10px] font-bold text-brand-gray/40 uppercase tracking-widest mb-1 leading-none">{{ s.label }}</p>
-        <h4 class="text-3xl font-bold text-brand-blue leading-none">{{ s.value }}</h4>
-        <div v-if="s.trend" class="mt-4 flex items-center text-[10px] font-bold uppercase tracking-wider" :class="s.trend > 0 ? 'text-brand-green' : 'text-red-400'">
+        <p class="text-sm font-bold text-gray-500  tracking-widest mb-1 leading-none">{{ s.label }}</p>
+        <h4 class="text-3xl font-bold text-gray-900 leading-none">{{ s.value }}</h4>
+        <div v-if="s.trend" class="mt-4 flex items-center text-sm font-bold  tracking-wider" :class="s.trend > 0 ? 'text-brand-green' : 'text-red-400'">
           <component :is="s.trend > 0 ? ArrowUpIcon : ArrowDownIcon" class="h-3 w-3 mr-1" /> {{ Math.abs(s.trend) }}% vs period
         </div>
       </UiBaseCard>
@@ -61,59 +61,62 @@
     <!-- Table Section -->
     <div v-if="loading && bookings.length === 0" class="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-gray-100">
       <div class="h-10 w-10 border-4 border-brand-blue/10 border-t-brand-blue rounded-full animate-spin"></div>
-      <p class="mt-4 text-sm font-bold text-brand-blue/40 uppercase tracking-widest">Querying global ledger...</p>
+      <p class="mt-4 text-sm font-bold text-gray-900/40  tracking-widest">Querying global ledger...</p>
     </div>
 
     <UiBaseTable 
-      v-else
       :columns="bookingColumns" 
       :items="bookings"
+      :meta="meta"
+      :loading="loading"
       show-checkbox
       empty-title="Archive empty"
       empty-description="No transactions found matching your audit criteria. Adjust filters or search terms."
+      @page-change="onPageChange"
+      @update:limit="onLimitChange"
     >
       <template #cell(reference)="{ item }">
         <div class="flex flex-col text-left">
-          <span class="text-sm font-bold text-brand-blue tracking-tight">{{ item.reference || 'REF-N/A' }}</span>
-          <span class="text-[10px] font-bold text-brand-green uppercase tracking-widest">{{ item.pnr || 'NO-PNR' }}</span>
+          <span class="text-sm font-bold text-gray-900 tracking-tight">{{ item.reference || 'REF-N/A' }}</span>
+          <span class="text-sm font-bold text-brand-green  tracking-widest">{{ item.pnr || 'NO-PNR' }}</span>
         </div>
       </template>
 
       <template #cell(service)="{ item }">
         <div class="flex items-center space-x-4 text-left">
-          <div class="h-9 w-9 rounded-xl bg-brand-blue/5 border border-brand-blue/5 flex items-center justify-center text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-colors">
+          <div class="h-9 w-9 rounded-xl bg-brand-blue/5 border border-brand-blue/5 flex items-center justify-center text-gray-900 group-hover:bg-brand-blue group-hover:text-white transition-colors">
             <component :is="serviceIcon(item.type)" class="h-4 w-4" />
           </div>
           <div>
-            <div class="text-sm font-bold text-brand-blue line-clamp-1 tracking-tight">{{ item.serviceName || item.service }}</div>
-            <div class="text-[10px] font-bold text-brand-gray/40 uppercase tracking-widest">{{ formatDate(item.createdAt || item.date) }}</div>
+            <div class="text-sm font-bold text-gray-900 line-clamp-1 tracking-tight">{{ item.serviceName || item.service }}</div>
+            <div class="text-sm font-bold text-gray-500  tracking-widest">{{ formatDate(item.createdAt || item.date) }}</div>
           </div>
         </div>
       </template>
 
       <template #cell(agent)="{ item }">
         <div class="flex flex-col text-left">
-          <div class="text-sm font-bold text-brand-blue uppercase tracking-widest">{{ item.tenantName || item.agent }}</div>
-          <div class="text-[9px] text-brand-gray/40 font-bold uppercase tracking-widest mt-0.5">{{ item.customerName || item.customer }}</div>
+          <div class="text-sm font-bold text-gray-900  tracking-widest">{{ item.tenantName || item.agent }}</div>
+          <div class="text-sm text-gray-500 font-bold  tracking-widest mt-0.5">{{ item.customerName || item.customer }}</div>
         </div>
       </template>
 
       <template #cell(status)="{ item }">
-        <span class="px-4 py-1.5 rounded-xl text-[9px] font-bold uppercase tracking-widest inline-block text-center min-w-[100px] border" :class="statusClass(item.status)">
+        <span class="px-4 py-1.5 rounded-xl text-sm font-bold  tracking-widest inline-block text-center min-w-[100px] border" :class="statusClass(item.status)">
           {{ item.status }}
         </span>
       </template>
 
       <template #cell(price)="{ item }">
-        <span class="font-bold text-brand-blue text-sm tracking-tight">${{ (item.totalPrice || item.amount)?.toLocaleString() }}</span>
+        <span class="font-bold text-gray-900 text-sm tracking-tight">${{ (item.totalPrice || item.amount)?.toLocaleString() }}</span>
       </template>
 
       <template #cell(actions)="{ item }">
         <div class="flex items-center justify-end space-x-2">
-          <button @click="viewDetails(item)" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-brand-gray/40 transition-colors hover:text-brand-blue hover:bg-brand-blue/5">
+          <button @click="viewDetails(item)" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-gray-500 transition-colors hover:text-gray-900 hover:bg-brand-blue/5">
             <EyeIcon class="h-4 w-4" />
           </button>
-          <button @click="navigateTo(`/bookings/${item._id || item.id}`)" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-brand-gray/40 transition-colors hover:text-brand-blue hover:bg-brand-blue/5">
+          <button @click="navigateTo(`/bookings/${item._id || item.id}`)" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-gray-500 transition-colors hover:text-gray-900 hover:bg-brand-blue/5">
             <ArrowTopRightOnSquareIcon class="h-4 w-4" />
           </button>
         </div>
@@ -127,7 +130,7 @@
       @close="showNewBooking = false"
     >
       <div class="space-y-8">
-        <p class="text-sm text-brand-gray/60 leading-relaxed font-medium">Manually record a booking for auditing and ledger reconciliation.</p>
+        <p class="text-sm text-gray-600 leading-relaxed font-medium">Manually record a booking for auditing and ledger reconciliation.</p>
         
         <div class="space-y-4">
           <UiAnimatedInput v-model="newBooking.customer" label="Client name" />
@@ -135,7 +138,7 @@
           
           <div class="grid grid-cols-2 gap-4">
             <div class="space-y-2">
-              <label class="text-[10px] font-bold uppercase tracking-widest text-brand-gray/40 ml-1">Service category</label>
+              <label class="text-sm font-bold  tracking-widest text-gray-500 ml-1">Service category</label>
               <UiSelectInput
                 v-model="newBooking.type"
                 label=""
@@ -178,12 +181,14 @@ import {
   BanknotesIcon,
   TicketIcon
 } from '@heroicons/vue/24/outline'
+import { useConfirmation } from '@/composables/core/useConfirmation'
 
 definePageMeta({
   layout: 'admin'
 })
 
-const { bookings, loading, fetchBookings, metadata, createBooking } = useBookings()
+const { bookings, loading, fetchBookings, meta, createBooking } = useBookings()
+const { confirm } = useConfirmation()
 
 const showNewBooking = ref(false)
 const searchQuery = ref('')
@@ -192,6 +197,32 @@ const selectedFilters = ref<Record<string, string>>({
   type: 'All services',
   status: 'All status'
 })
+const currentPage = ref(1)
+const currentLimit = ref(20)
+
+const fetchParams = computed(() => ({
+  page: currentPage.value,
+  limit: currentLimit.value,
+  type: selectedFilters.value.type === 'All services' ? undefined : selectedFilters.value.type,
+  status: selectedFilters.value.status === 'All status' ? undefined : selectedFilters.value.status,
+  search: searchQuery.value,
+  date: selectedDate.value
+}))
+
+const loadBookings = async () => {
+  await fetchBookings(fetchParams.value)
+}
+
+const onPageChange = (page: number) => {
+  currentPage.value = page
+  loadBookings()
+}
+
+const onLimitChange = (limit: number) => {
+  currentLimit.value = limit
+  currentPage.value = 1
+  loadBookings()
+}
 
 const newBooking = ref({
   customer: '',
@@ -223,16 +254,12 @@ const computedBookingStats = computed(() => [
 ])
 
 onMounted(() => {
-  fetchBookings()
+  loadBookings()
 })
 
 watch([selectedFilters, searchQuery, selectedDate], () => {
-  fetchBookings({
-    type: selectedFilters.value.type === 'All Services' ? undefined : selectedFilters.value.type,
-    status: selectedFilters.value.status === 'All Status' ? undefined : selectedFilters.value.status,
-    search: searchQuery.value,
-    date: selectedDate.value
-  })
+  currentPage.value = 1
+  loadBookings()
 }, { deep: true })
 
 const serviceIcon = (type: string) => {
@@ -270,11 +297,21 @@ const viewDetails = (booking: any) => {
 
 const handleCreateBooking = async () => {
   if (!newBooking.value.customer || !newBooking.value.amount) return
+  
+  const confirmed = await confirm({
+    title: 'Manual record entry',
+    message: 'Are you sure you want to manually inject this record into the global ledger? This action is tracked for audit compliance.',
+    confirmText: 'Submit entry',
+    variant: 'warning'
+  })
+  
+  if (!confirmed) return
+
   const res = await createBooking(newBooking.value)
   if (res) {
     showNewBooking.value = false
     newBooking.value = { customer: '', email: '', type: 'Flight', date: '', amount: '' }
-    await fetchBookings()
+    await loadBookings()
   }
 }
 </script>

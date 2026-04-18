@@ -27,7 +27,7 @@
          </p>
        </div>
 
-        <div class="relative z-10 flex items-center space-x-8 text-white/40 text-[10px] font-bold uppercase tracking-widest">
+        <div class="relative z-10 flex items-center space-x-8 text-white/40 text-sm font-bold  tracking-widest">
            <span>© 2026 Flybeth global</span>
            <span class="h-1 w-1 rounded-full bg-white/20"></span>
            <span>Enterprise portal</span>
@@ -42,14 +42,14 @@
         </div>
 
         <div v-if="!showOtp">
-          <h1 class="text-4xl font-bold text-brand-blue leading-tight mb-3">Admin login</h1>
-          <p class="text-brand-gray/60 font-medium text-sm">Sign in to manage your global travel operations.</p>
+          <h1 class="text-4xl font-bold text-gray-900 leading-tight mb-3">Admin login</h1>
+          <p class="text-gray-600 font-medium text-sm">Sign in to manage your global travel operations.</p>
         </div>
 
         <div v-else>
           <img src="@/assets/img/logo.png" class="h-10 w-auto mb-6" alt="Flybeth Logo" />
-          <h1 class="text-4xl font-bold text-brand-blue leading-tight mb-3">Verify login</h1>
-          <p class="text-brand-gray/60 font-medium text-sm">Enter the code sent to your email.</p>
+          <h1 class="text-4xl font-bold text-gray-900 leading-tight mb-3">Verify login</h1>
+          <p class="text-gray-600 font-medium text-sm">Enter the code sent to your email.</p>
         </div>
 
         <form v-if="!showOtp" @submit.prevent="handleLogin" class="space-y-6">
@@ -77,11 +77,11 @@
                     type="checkbox" 
                     class="custom-checkbox"
                   >
-                  <label for="trust-device" class="ml-3 text-sm font-bold text-brand-gray/50 cursor-pointer hover:text-brand-blue transition-premium">
+                  <label for="trust-device" class="ml-3 text-sm font-bold text-brand-gray/50 cursor-pointer hover:text-gray-900 transition-premium">
                     Remember me
                   </label>
                </div>
-               <a href="#" class="text-sm font-bold text-brand-blue hover:underline">Forgot password?</a>
+               <NuxtLink to="/forgot-password" class="text-sm font-bold text-gray-900 hover:underline">Forgot password?</NuxtLink>
             </div>
 
             <UiBaseButton 
@@ -98,10 +98,23 @@
 
         <!-- OTP Form -->
         <form v-else @submit.prevent="handleVerifyOtp" class="space-y-10">
-            <UiBaseOtpInput 
-              v-model="otp"
-              label="Verification code"
-            />
+            <div class="space-y-4">
+              <UiBaseOtpInput 
+                v-model="otp"
+                label="Verification code"
+              />
+              <p class="text-base font-medium text-brand-gray/50">
+                Didn't receive the code? 
+                <button 
+                  type="button" 
+                  @click="handleResend" 
+                  :disabled="resending"
+                  class="text-gray-900 font-bold hover:underline disabled:opacity-50"
+                >
+                  {{ resending ? 'Sending...' : 'Resend code' }}
+                </button>
+              </p>
+            </div>
 
             <UiBaseButton 
               type="submit" 
@@ -117,21 +130,21 @@
             <button 
               type="button" 
               @click="showOtp = false" 
-              class="w-full text-sm font-bold text-brand-gray/40 hover:text-brand-blue transition-premium"
+              class="w-full text-sm font-bold text-gray-500 hover:text-gray-900 transition-premium"
             >
               Back to login
             </button>
         </form>
 
-        <p v-if="!showOtp" class="text-center text-sm font-medium text-brand-gray/50">
+        <p v-if="!showOtp" class="text-center text-base font-medium text-brand-gray/50">
           Don't have an account? 
-          <NuxtLink to="/signup" class="text-brand-blue font-bold hover:underline">Sign up</NuxtLink>
+          <NuxtLink to="/signup" class="text-gray-900 font-bold hover:underline">Sign up</NuxtLink>
         </p>
 
         <div class="pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-           <p class="text-[10px] font-bold text-brand-gray/30 uppercase tracking-widest">Flybeth admin terminal</p>
+           <p class="text-sm font-bold text-brand-gray/30  tracking-widest">Flybeth system</p>
            <div class="flex items-center space-x-2">
-              <span class="text-[10px] font-bold text-brand-gray/40 uppercase tracking-widest">Global platform</span>
+              <span class="text-sm font-bold text-gray-500  tracking-widest">Global platform</span>
            </div>
         </div>
       </div>
@@ -158,10 +171,22 @@ const form = ref({
   remember: false
 })
 
-const { login, verifyOtp, loading } = useAuth()
+const { login, verifyOtp, resendOtp, loading } = useAuth()
 
 const showOtp = ref(false)
 const otp = ref('')
+const resending = ref(false)
+
+const handleResend = async () => {
+  if (resending.value) return
+  resending.value = true
+  try {
+    await resendOtp({ email: form.value.email })
+    otp.value = ''
+  } finally {
+    resending.value = false
+  }
+}
 
 const handleLogin = async () => {
   if (!form.value.email || !form.value.password) return

@@ -49,9 +49,9 @@ const variantClasses = computed(() => {
     case 'green':
       return 'bg-brand-green text-white hover:bg-brand-green/90 focus:ring-brand-green/20'
     case 'secondary':
-      return 'bg-brand-blue/5 text-brand-blue hover:bg-brand-blue/10 focus:ring-brand-blue/20'
+      return 'bg-brand-blue/5 text-gray-900 hover:bg-brand-blue/10 focus:ring-brand-blue/20'
     case 'outline':
-      return 'border-2 border-brand-blue/20 text-brand-blue bg-white hover:border-brand-blue/40 focus:ring-brand-blue/20'
+      return 'border-2 border-brand-blue/20 text-gray-900 bg-white hover:border-brand-blue/40 focus:ring-brand-blue/20'
     case 'ghost':
       return 'text-brand-gray hover:bg-gray-100 focus:ring-gray-200'
     default:
@@ -66,7 +66,7 @@ const sizeClasses = computed(() => {
     case 'lg':
       return 'px-10 py-4 text-sm'
     default:
-      return 'px-8 py-3 text-xs'
+      return 'px-8 py-3 text-sm'
   }
 })
 </script>

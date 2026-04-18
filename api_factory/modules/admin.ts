@@ -1,4 +1,4 @@
-import { GATEWAY_ENDPOINT_WITH_AUTH, GATEWAY_ENDPOINT } from "../axios.config";
+import { GATEWAY_ENDPOINT_WITH_AUTH, GATEWAY_ENDPOINT } from "@/api_factory/axios.config";
 
 export const adminApiFactory = {
     getDashboard() {
@@ -19,6 +19,33 @@ export const adminApiFactory = {
     getSystemHealth() {
         return GATEWAY_ENDPOINT_WITH_AUTH.get("/admin/system-health");
     },
+    getSystemConfig() {
+        return GATEWAY_ENDPOINT_WITH_AUTH.get("/system-config");
+    },
+    getRoles() {
+        return GATEWAY_ENDPOINT_WITH_AUTH.get("/access-control/roles");
+    },
+    createRole(data: any) {
+        return GATEWAY_ENDPOINT_WITH_AUTH.post("/access-control/roles", data);
+    },
+    updateRole(id: string, data: any) {
+        return GATEWAY_ENDPOINT_WITH_AUTH.put(`/access-control/roles/${id}`, data);
+    },
+    deleteRole(id: string) {
+        return GATEWAY_ENDPOINT_WITH_AUTH.delete(`/access-control/roles/${id}`);
+    },
+    getPermissions() {
+        return GATEWAY_ENDPOINT_WITH_AUTH.get("/access-control/permissions");
+    },
+    updateSystemConfig(data: any) {
+        return GATEWAY_ENDPOINT_WITH_AUTH.patch("/system-config", data);
+    },
+    downloadLedger() {
+        return GATEWAY_ENDPOINT_WITH_AUTH.get("/admin/revenue/ledger", { responseType: 'blob' });
+    },
+    initiateSettlement() {
+        return GATEWAY_ENDPOINT_WITH_AUTH.post("/admin/revenue/settle");
+    },
     inviteUser(data: any) {
         return GATEWAY_ENDPOINT_WITH_AUTH.post("/admin/users/invite", data);
     },
@@ -34,6 +61,9 @@ export const adminApiFactory = {
     createAdminUser(data: any) {
         return GATEWAY_ENDPOINT_WITH_AUTH.post("/admin/users/create", data);
     },
+    updateUserRole(id: string, role: string) {
+        return GATEWAY_ENDPOINT_WITH_AUTH.patch(`/users/${id}/role`, { role });
+    },
     verifyInvitation(token: string) {
         return GATEWAY_ENDPOINT.get(`/admin/invitations/verify/${token}`);
     },
@@ -48,6 +78,9 @@ export const adminApiFactory = {
     },
     createCampaign(data: any) {
         return GATEWAY_ENDPOINT_WITH_AUTH.post("/admin/campaigns", data);
+    },
+    seedCampaigns() {
+        return GATEWAY_ENDPOINT_WITH_AUTH.post("/admin/campaigns/seed");
     },
     getCampaigns() {
         return GATEWAY_ENDPOINT_WITH_AUTH.get("/admin/campaigns");
@@ -68,5 +101,14 @@ export const adminApiFactory = {
         return GATEWAY_ENDPOINT_WITH_AUTH.post("/upload/image", data, {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
+    },
+    updateKycStatus(id: string, data: { docType: string; status: string; feedback?: string }) {
+        return GATEWAY_ENDPOINT_WITH_AUTH.post(`/admin/users/${id}/kyc-status`, data);
+    },
+    getIntegrations() {
+        return GATEWAY_ENDPOINT_WITH_AUTH.get("/integrations/providers");
+    },
+    toggleIntegration(data: { providerName: string; enabled: boolean }) {
+        return GATEWAY_ENDPOINT_WITH_AUTH.patch("/integrations/providers/toggle", data);
     }
 };

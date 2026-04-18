@@ -12,7 +12,7 @@
           @click.prevent="moveBlock(index, -1)" 
           :disabled="index === 0"
           title="Move Up"
-          class="p-1.5 bg-gray-50 text-gray-500 rounded-lg hover:bg-white hover:text-brand-blue disabled:opacity-30 disabled:hover:text-gray-500 shadow-sm border border-gray-100"
+          class="p-1.5 bg-gray-50 text-gray-500 rounded-lg hover:bg-white hover:text-gray-900 disabled:opacity-30 disabled:hover:text-gray-500 shadow-sm border border-gray-100"
         >
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg>
         </button>
@@ -20,7 +20,7 @@
           @click.prevent="moveBlock(index, 1)" 
           :disabled="index === localBlocks.length - 1"
           title="Move Down"
-          class="p-1.5 bg-gray-50 text-gray-500 rounded-lg hover:bg-white hover:text-brand-blue disabled:opacity-30 disabled:hover:text-gray-500 shadow-sm border border-gray-100"
+          class="p-1.5 bg-gray-50 text-gray-500 rounded-lg hover:bg-white hover:text-gray-900 disabled:opacity-30 disabled:hover:text-gray-500 shadow-sm border border-gray-100"
         >
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
         </button>
@@ -34,7 +34,7 @@
       </div>
 
       <!-- Type Badge -->
-      <div class="absolute -left-3 -top-3 bg-brand-blue text-white text-[10px]  uppercase tracking-widest px-3 py-1 rounded-full shadow-sm shadow-brand-blue/20">
+      <div class="absolute -left-3 -top-3 bg-brand-blue text-white text-sm   tracking-widest px-3 py-1 rounded-full shadow-sm shadow-brand-blue/20">
         {{ block.type }} Block
       </div>
 
@@ -58,21 +58,21 @@
           </div>
         </div>
         <div v-else class="border-2 border-dashed border-brand-blue/30 bg-brand-blue/5 rounded-xl p-8 text-center cursor-pointer hover:bg-brand-blue/10 transition-colors" @click="triggerUpload(block.id)">
-           <svg class="w-10 h-10 text-brand-blue/40 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-           <p class="text-brand-blue font-bold">Upload an Image</p>
-           <p class="text-brand-blue/60 text-xs mt-1">Recommended width: 600px+</p>
+           <svg class="w-10 h-10 text-gray-900/40 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+           <p class="text-gray-900 font-bold">Upload an Image</p>
+           <p class="text-gray-900/60 text-sm mt-1">Recommended width: 600px+</p>
         </div>
       </div>
     </div>
 
     <!-- Add Block Handlers -->
     <div class="flex items-center gap-4 py-6 border-t border-dashed border-gray-200 mt-6">
-      <span class="text-xs  uppercase tracking-widest text-brand-gray/40">Add New</span>
-      <button @click.prevent="addBlock('text')" class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-xs font-bold text-gray-700 hover:border-brand-blue hover:text-brand-blue transition-colors shadow-sm">
+      <span class="text-sm   tracking-widest text-gray-500">Add New</span>
+      <button @click.prevent="addBlock('text')" class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-bold text-gray-700 hover:border-brand-blue hover:text-gray-900 transition-colors shadow-sm">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
         Text Block
       </button>
-      <button @click.prevent="addBlock('image')" class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-xs font-bold text-gray-700 hover:border-brand-blue hover:text-brand-blue transition-colors shadow-sm">
+      <button @click.prevent="addBlock('image')" class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-bold text-gray-700 hover:border-brand-blue hover:text-gray-900 transition-colors shadow-sm">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
         Image Block
       </button>

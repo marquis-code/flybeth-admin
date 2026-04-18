@@ -3,14 +3,14 @@
     <label 
       v-if="label" 
       :for="id" 
-      class="text-[10px] font-bold text-brand-gray/40 uppercase tracking-widest mb-2 px-1 font-header"
+      class="text-sm font-bold text-gray-500  tracking-widest mb-2 px-1 "
     >
       {{ label }}
     </label>
     <div class="relative group">
       <div 
         v-if="icon" 
-        class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-brand-blue/40 group-focus-within:text-brand-blue transition-colors duration-300"
+        class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-gray-900/40 group-focus-within:text-gray-900 transition-colors duration-300"
       >
         <component :is="icon" class="h-5 w-5" aria-hidden="true" />
       </div>
@@ -20,7 +20,7 @@
         :value="modelValue"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         :class="[
-          'block w-full bg-white border border-gray-100 rounded-2xl transition-all duration-300 font-bold text-brand-blue placeholder:text-gray-300 focus:outline-none focus:ring-4 focus:ring-brand-blue/5 focus:border-brand-blue',
+          'block w-full bg-white border border-gray-100 rounded-2xl transition-all duration-300 font-bold text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-4 focus:ring-brand-blue/5 focus:border-brand-blue',
           icon ? 'pl-14' : 'px-6',
           'py-4 text-sm tracking-tight'
         ]"

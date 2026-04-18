@@ -1,20 +1,32 @@
 import { useUser } from "@/composables/modules/auth/user";
+
 export default defineNuxtRouteMiddleware((to, from) => {
-    const { isLoggedIn } = useUser();
+    const { isLoggedIn, user } = useUser();
+    const userCookie = useCookie("user_profile");
     
-    // List of public routes that don't require authentication
+    // Ensure state is synced if cookie exists but ref is empty (happens on first load)
+    if (!user.value && userCookie.value) {
+        user.value = userCookie.value;
+    }
+
     const publicRoutes = ['/', '/signup', '/forgot-password', '/reset-password'];
-    
-    // Check if the current route is public
     const isPublicRoute = publicRoutes.includes(to.path);
+    const reallyLoggedIn = !!user.value || !!userCookie.value || isLoggedIn.value;
     
-    // If not a public route and the user is not logged in, redirect to login
-    if (!isPublicRoute && !isLoggedIn.value) {
+    // Diagnostic logging for debugging redirect loops
+    if (import.meta.client) {
+        console.log(`[AuthMiddleware] ${to.path} | LoggedIn: ${reallyLoggedIn} | UserRef: ${!!user.value} | Cookie: ${!!userCookie.value}`);
+    }
+
+    // Unauthenticated user trying to access private route
+    if (!isPublicRoute && !reallyLoggedIn) {
+        if (import.meta.client) console.warn("[AuthMiddleware] Redirecting to login: User not authenticated");
         return navigateTo('/');
     }
     
-    // If logged in and trying to access login/signup, redirect to dashboard
-    if (isPublicRoute && isLoggedIn.value && (to.path === '/' || to.path === '/signup')) {
+    // Authenticated user trying to access public route
+    if (isPublicRoute && reallyLoggedIn) {
+        if (import.meta.client) console.info("[AuthMiddleware] Redirecting to dashboard: Already authenticated");
         return navigateTo('/dashboard');
     }
 });

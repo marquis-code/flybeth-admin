@@ -6,6 +6,7 @@ export const useTenants = () => {
     const loading = ref(false);
     const tenants = ref<any[]>([]);
     const tenant = ref<any>(null);
+    const meta = ref<any>(null);
     const stats = ref(null);
     const { showToast } = useCustomToast();
 
@@ -14,7 +15,17 @@ export const useTenants = () => {
         try {
             const res = await tenantsApiFactory.findAll(params);
             if (res.status === 200 || res.status === 201) {
-                tenants.value = res.data.data;
+                const responseData = res.data?.data || res.data;
+                if (Array.isArray(responseData)) {
+                    tenants.value = responseData;
+                    meta.value = res.data?.meta || null;
+                } else if (responseData?.data && responseData?.meta) {
+                    tenants.value = responseData.data;
+                    meta.value = responseData.meta;
+                } else {
+                    tenants.value = Array.isArray(responseData) ? responseData : [];
+                    meta.value = null;
+                }
                 return res;
             }
         } catch (error: any) {
@@ -67,8 +78,8 @@ export const useTenants = () => {
         try {
             const res = await tenantsApiFactory.findById(id);
             if (res.status === 200 || res.status === 201) {
-                tenant.value = res.data;
-                return res.data;
+                tenant.value = res?.data?.data;
+                return res?.data?.data;
             }
         } catch (error: any) {
             console.error(error);
@@ -81,6 +92,7 @@ export const useTenants = () => {
         loading,
         tenants,
         tenant,
+        meta,
         stats,
         fetchTenants,
         createTenant,

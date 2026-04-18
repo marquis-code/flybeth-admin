@@ -12,7 +12,7 @@ export const useStorage = () => {
         loading.value = true
         try {
             const res = await adminApiFactory.getStorageFiles({ folder })
-            files.value = res.data
+            files.value = res?.data?.data
         } catch (error: any) {
             showToast({
                 title: "Error",

@@ -8,7 +8,7 @@
             <CloudIcon class="h-5 w-5 text-blue-600" />
           </div>
           <div>
-            <p class="text-xs font-medium text-gray-400">Total files</p>
+            <p class="text-base font-medium text-gray-400">Total files</p>
             <h3 class="text-2xl font-bold text-gray-900 mt-0.5">{{ files.length }}</h3>
           </div>
         </div>
@@ -20,7 +20,7 @@
             <DocumentIcon class="h-5 w-5 text-emerald-600" />
           </div>
           <div>
-            <p class="text-xs font-medium text-gray-400">Total size</p>
+            <p class="text-base font-medium text-gray-400">Total size</p>
             <h3 class="text-2xl font-bold text-gray-900 mt-0.5">{{ formatFileSize(totalSize) }}</h3>
           </div>
         </div>
@@ -47,7 +47,7 @@
         v-for="cat in categories"
         :key="cat"
         @click="activeCategory = cat"
-        class="px-4 py-2 rounded-lg text-sm font-medium transition-all"
+        class="px-4 py-2 rounded-lg text-base font-medium transition-all"
         :class="activeCategory === cat ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'"
       >
         {{ cat }}
@@ -61,13 +61,13 @@
           <table class="min-w-full divide-y divide-gray-100">
             <thead>
               <tr class="bg-gray-50/50">
-                <th scope="col" class="px-6 py-3.5 text-left text-xs font-medium text-gray-400">Preview</th>
-                <th scope="col" class="px-6 py-3.5 text-left text-xs font-medium text-gray-400">Name</th>
-                <th scope="col" class="px-6 py-3.5 text-left text-xs font-medium text-gray-400">Category</th>
-                <th scope="col" class="px-6 py-3.5 text-left text-xs font-medium text-gray-400">Format</th>
-                <th scope="col" class="px-6 py-3.5 text-left text-xs font-medium text-gray-400">Size</th>
-                <th scope="col" class="px-6 py-3.5 text-left text-xs font-medium text-gray-400">Date</th>
-                <th scope="col" class="px-6 py-3.5 text-right text-xs font-medium text-gray-400">Actions</th>
+                <th scope="col" class="px-6 py-3.5 text-left text-base font-medium text-gray-400">Preview</th>
+                <th scope="col" class="px-6 py-3.5 text-left text-base font-medium text-gray-400">Name</th>
+                <th scope="col" class="px-6 py-3.5 text-left text-base font-medium text-gray-400">Category</th>
+                <th scope="col" class="px-6 py-3.5 text-left text-base font-medium text-gray-400">Format</th>
+                <th scope="col" class="px-6 py-3.5 text-left text-base font-medium text-gray-400">Size</th>
+                <th scope="col" class="px-6 py-3.5 text-left text-base font-medium text-gray-400">Date</th>
+                <th scope="col" class="px-6 py-3.5 text-right text-base font-medium text-gray-400">Actions</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-50">
@@ -80,16 +80,16 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex flex-col">
-                    <span class="text-sm font-semibold text-gray-900 truncate max-w-[200px]">{{ item.label || item.publicId }}</span>
-                    <span v-if="item.label" class="text-xs text-gray-400 truncate max-w-[200px]">{{ item.publicId }}</span>
+                    <span class="text-base font-semibold text-gray-900 truncate max-w-[200px]">{{ item.label || item.publicId }}</span>
+                    <span v-if="item.label" class="text-sm text-gray-400 truncate max-w-[200px]">{{ item.publicId }}</span>
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <span v-if="item.category" class="px-2.5 py-1 text-xs font-medium bg-blue-50 text-blue-700 rounded-md">{{ item.category }}</span>
-                  <span v-else class="text-xs text-gray-400">—</span>
+                  <span v-if="item.category" class="px-2.5 py-1 text-base font-medium bg-blue-50 text-blue-700 rounded-md">{{ item.category }}</span>
+                  <span v-else class="text-sm text-gray-400">—</span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs font-medium bg-gray-100 rounded text-gray-500">{{ item.format }}</span>
+                  <span class="px-2 py-1 text-base font-medium bg-gray-100 rounded text-gray-500">{{ item.format }}</span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {{ formatFileSize(item.size) }}
@@ -140,21 +140,24 @@
             @change="onFileSelected"
           />
           <div v-if="uploadForm.file" class="flex flex-col items-center space-y-2">
-            <DocumentTextIcon class="h-10 w-10 text-blue-500" />
-            <p class="text-sm font-semibold text-gray-900">{{ uploadForm.file.name }}</p>
-            <p class="text-xs text-gray-400">{{ formatFileSize(uploadForm.file.size) }}</p>
-            <button @click.stop="uploadForm.file = null" class="text-xs font-medium text-red-500 hover:text-red-600">Remove</button>
+            <div v-if="uploadForm.file.type.startsWith('image/')" class="h-32 w-32 rounded-xl border border-gray-100 overflow-hidden mb-2">
+              <img :src="filePreview" class="h-full w-full object-cover" />
+            </div>
+            <DocumentTextIcon v-else class="h-10 w-10 text-blue-500" />
+            <p class="text-base font-semibold text-gray-900">{{ uploadForm.file.name }}</p>
+            <p class="text-sm text-gray-400">{{ formatFileSize(uploadForm.file.size) }}</p>
+            <button @click.stop="removeSelectedFile" class="text-base font-medium text-red-500 hover:text-red-600">Remove</button>
           </div>
           <div v-else class="flex flex-col items-center space-y-2">
             <ArrowUpTrayIcon class="h-10 w-10 text-gray-300" />
-            <p class="text-sm font-medium text-gray-500">Click to select a file</p>
-            <p class="text-xs text-gray-400">Max 25 MB · Images, PDFs, Documents</p>
+            <p class="text-base font-medium text-gray-500">Click to select a file</p>
+            <p class="text-sm text-gray-400">Max 25 MB · Images, PDFs, Documents</p>
           </div>
         </div>
 
         <!-- Optional Name -->
         <div class="space-y-1.5">
-          <label class="text-sm font-medium text-gray-700">File name <span class="text-gray-400">(optional)</span></label>
+          <label class="text-base font-medium text-gray-700">File name <span class="text-gray-400">(optional)</span></label>
           <input 
             v-model="uploadForm.label" 
             type="text" 
@@ -165,7 +168,7 @@
 
         <!-- Category -->
         <div class="space-y-1.5">
-          <label class="text-sm font-medium text-gray-700">Category <span class="text-gray-400">(optional)</span></label>
+          <label class="text-base font-medium text-gray-700">Category <span class="text-gray-400">(optional)</span></label>
           <select 
             v-model="uploadForm.category" 
             class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-300 outline-none appearance-none cursor-pointer"
@@ -182,7 +185,7 @@
 
         <!-- Folder -->
         <div class="space-y-1.5">
-          <label class="text-sm font-medium text-gray-700">Storage folder <span class="text-gray-400">(optional)</span></label>
+          <label class="text-base font-medium text-gray-700">Storage folder <span class="text-gray-400">(optional)</span></label>
           <input 
             v-model="uploadForm.folder" 
             type="text" 
@@ -228,6 +231,7 @@ const showUploadDrawer = ref(false)
 const fileInput = ref<HTMLInputElement | null>(null)
 const activeCategory = ref('All')
 const categories = ['All', 'Branding', 'Documents', 'Compliance', 'Marketing', 'Templates', 'Other']
+const filePreview = ref('')
 
 const uploadForm = ref<{
   file: File | null
@@ -269,12 +273,27 @@ const triggerFileInput = () => {
 const onFileSelected = (event: Event) => {
   const input = event.target as HTMLInputElement
   if (input.files?.[0]) {
-    uploadForm.value.file = input.files[0]
+    const file = input.files[0]
+    uploadForm.value.file = file
+    
+    // Create preview for images
+    if (file.type.startsWith('image/')) {
+      filePreview.value = URL.createObjectURL(file)
+    }
+
     // Auto-fill the label from filename if empty
     if (!uploadForm.value.label) {
-      uploadForm.value.label = input.files[0].name.replace(/\.[^/.]+$/, '')
+      uploadForm.value.label = file.name.replace(/\.[^/.]+$/, '')
     }
   }
+}
+
+const removeSelectedFile = () => {
+    uploadForm.value.file = null
+    if(filePreview.value) {
+        URL.revokeObjectURL(filePreview.value)
+        filePreview.value = ''
+    }
 }
 
 const handleUpload = async () => {
@@ -288,6 +307,7 @@ const handleUpload = async () => {
 
 const closeUploadDrawer = () => {
   showUploadDrawer.value = false
+  removeSelectedFile()
   uploadForm.value = { file: null, label: '', category: '', folder: 'general' }
   if (fileInput.value) fileInput.value.value = ''
 }

@@ -7,13 +7,13 @@
       :class="{ 'ring-4 ring-brand-blue/5 border-brand-blue shadow-xl': isOpen }"
     >
       <div class="p-3 border border-brand-blue/10 rounded-2xl bg-brand-blue/5 group-hover:bg-brand-blue group-hover:text-white transition-all duration-500">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" :class="isOpen ? 'text-white' : 'text-brand-blue transition-colors group-hover:text-white'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" :class="isOpen ? 'text-white' : 'text-gray-900 transition-colors group-hover:text-white'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
       </div>
       <div class="flex flex-col">
-        <span class="text-[11px] uppercase tracking-[0.15em] text-brand-gray  mb-0.5 opacity-70">{{ label }}</span>
-        <span class="text-base font-bold text-brand-blue tracking-tight">
+        <span class="text-[11px]  tracking-[0.15em] text-brand-gray  mb-0.5 opacity-70">{{ label }}</span>
+        <span class="text-base font-bold text-gray-900 tracking-tight">
           {{ formattedValue }}
         </span>
       </div>
@@ -30,14 +30,14 @@
           <!-- Left/Main Month -->
           <div class="flex-1">
              <div class="flex items-center justify-between mb-10">
-                <button @click="prevMonth" class="p-3 hover:bg-brand-blue/5 rounded-full transition-all text-brand-gray/40 hover:text-brand-blue">
+                <button @click="prevMonth" class="p-3 hover:bg-brand-blue/5 rounded-full transition-all text-gray-500 hover:text-gray-900">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
-                <h3 class="text-2xl  text-brand-blue font-header tracking-tighter">{{ formatMonthYear(currentMonth) }}</h3>
+                <h3 class="text-2xl  text-gray-900  tracking-tighter">{{ formatMonthYear(currentMonth) }}</h3>
                 <div class="w-12 lg:hidden"></div> <!-- Spacer -->
-                <button v-if="!isDesktop" @click="nextMonth" class="p-3 hover:bg-brand-blue/5 rounded-full transition-all text-brand-gray/40 hover:text-brand-blue lg:hidden">
+                <button v-if="!isDesktop" @click="nextMonth" class="p-3 hover:bg-brand-blue/5 rounded-full transition-all text-gray-500 hover:text-gray-900 lg:hidden">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
                   </svg>
@@ -45,7 +45,7 @@
              </div>
 
              <div class="grid grid-cols-7 mb-6">
-                <span v-for="day in weekDays" :key="day" class="text-[11px]  text-brand-green uppercase tracking-[0.2em] text-center opacity-60">{{ day }}</span>
+                <span v-for="day in weekDays" :key="day" class="text-[11px]  text-brand-green  tracking-[0.2em] text-center opacity-60">{{ day }}</span>
              </div>
 
              <div class="grid grid-cols-7 gap-y-2 relative">
@@ -80,8 +80,8 @@
           <div v-if="isDesktop" class="flex-1">
              <div class="flex items-center justify-between mb-10">
                 <div class="w-12"></div> <!-- Spacer -->
-                <h3 class="text-2xl  text-brand-blue font-header tracking-tighter">{{ formatMonthYear(nextMonthDate) }}</h3>
-                <button @click="nextMonth" class="p-3 hover:bg-brand-blue/5 rounded-full transition-all text-brand-gray/40 hover:text-brand-blue">
+                <h3 class="text-2xl  text-gray-900  tracking-tighter">{{ formatMonthYear(nextMonthDate) }}</h3>
+                <button @click="nextMonth" class="p-3 hover:bg-brand-blue/5 rounded-full transition-all text-gray-500 hover:text-gray-900">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
                   </svg>
@@ -89,7 +89,7 @@
              </div>
 
              <div class="grid grid-cols-7 mb-6">
-                <span v-for="day in weekDays" :key="day" class="text-[11px]  text-brand-green uppercase tracking-[0.2em] text-center opacity-60">{{ day }}</span>
+                <span v-for="day in weekDays" :key="day" class="text-[11px]  text-brand-green  tracking-[0.2em] text-center opacity-60">{{ day }}</span>
              </div>
 
              <div class="grid grid-cols-7 gap-y-2 relative">
@@ -123,14 +123,14 @@
 
         <!-- Footer -->
         <div class="mt-12 pt-8 border-t border-gray-50 flex items-center justify-between">
-          <div class="p-3 bg-gray-50 rounded-full text-brand-gray/40 hover:text-brand-green transition-all cursor-help hover:scale-110 transform">
+          <div class="p-3 bg-gray-50 rounded-full text-gray-500 hover:text-brand-green transition-all cursor-help hover:scale-110 transform">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           <button 
             @click="isOpen = false"
-            class="px-12 py-4 bg-brand-green text-white text-sm  rounded-full hover:bg-brand-green/90 transition-all duration-500 transform hover:scale-105 shadow-[0_10px_30px_-5px_rgba(50,180,4,0.4)] active:scale-95 uppercase tracking-widest"
+            class="px-12 py-4 bg-brand-green text-white text-sm  rounded-full hover:bg-brand-green/90 transition-all duration-500 transform hover:scale-105 shadow-[0_10px_30px_-5px_rgba(50,180,4,0.4)] active:scale-95  tracking-widest"
           >
             Apply Dates
           </button>
@@ -280,7 +280,7 @@ const getDayClasses = (date: Date) => {
   } else if (isInRange(date)) {
     classes.push('text-white')
   } else {
-    classes.push('text-brand-blue lg:text-brand-gray/60 hover:bg-brand-blue/5 hover:text-brand-blue')
+    classes.push('text-gray-900 lg:text-gray-600 hover:bg-brand-blue/5 hover:text-gray-900')
   }
 
   const today = new Date()

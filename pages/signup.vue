@@ -26,7 +26,7 @@
          </p>
        </div>
 
-       <div class="relative z-10 flex items-center space-x-8 text-white/40 text-sm  uppercase tracking-[0.3em]">
+       <div class="relative z-10 flex items-center space-x-8 text-white/40 text-sm   tracking-[0.3em]">
           <span>© 2026 Flybeth Global</span>
           <span class="h-1 w-1 rounded-full bg-white/20"></span>
           <span>Enterprise Portal</span>
@@ -41,14 +41,14 @@
         </div>
 
         <div v-if="!showOtp">
-          <h1 class="text-4xl font-bold text-brand-blue leading-tight mb-3">Create account</h1>
-          <p class="text-brand-gray/60 font-medium text-sm">Join the Flybeth administrative team.</p>
+          <h1 class="text-4xl font-bold text-gray-900 leading-tight mb-3">Create account</h1>
+          <p class="text-gray-600 font-medium text-sm">Join the Flybeth administrative team.</p>
         </div>
 
         <div v-else>
           <img src="@/assets/img/logo.png" class="h-10 w-auto mb-6" alt="Flybeth Logo" />
-          <h1 class="text-4xl font-bold text-brand-blue leading-tight mb-3">Verify email</h1>
-          <p class="text-brand-gray/60 font-medium text-sm">Enter the 6-digit code sent to {{ form.email }}</p>
+          <h1 class="text-4xl font-bold text-gray-900 leading-tight mb-3">Verify email</h1>
+          <p class="text-gray-600 font-medium text-sm">Enter the 6-digit code sent to {{ form.email }}</p>
         </div>
 
         <!-- Signup Form -->
@@ -90,37 +90,7 @@
               required
             />
 
-            <!-- Role Selection -->
-            <div class="space-y-2">
-              <label class="text-[10px] font-bold uppercase tracking-widest text-brand-gray/40 ml-1">Administrative role</label>
-              <UiBaseSelect 
-                v-model="form.role"
-                :options="roleOptions"
-                placeholder="Choose role"
-                :disabled="!!invitationToken"
-              />
-            </div>
 
-            <!-- Master Registration Key (Only for un-invited admin setup) -->
-            <div v-if="!invitationToken && ['super_admin', 'tenant_admin'].includes(form.role)" class="space-y-4 pt-2">
-               <div class="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-start space-x-3">
-                  <div class="mt-0.5 text-amber-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-                  </div>
-                  <div class="space-y-1">
-                    <p class="text-[10px]  uppercase tracking-wider text-amber-900/60">Administrative Setup</p>
-                    <p class="text-xs font-medium text-amber-900/40 leading-relaxed">
-                      You are creating an administrative account without an invitation. Please provide the <b>System Master Key</b> to proceed.
-                    </p>
-                  </div>
-               </div>
-               <UiAnimatedInput 
-                 v-model="masterKey"
-                 label="Master registration key" 
-                 type="password"
-                 required
-               />
-            </div>
 
             <UiBaseButton 
               type="submit" 
@@ -133,9 +103,9 @@
               Create account
             </UiBaseButton>
             
-            <p class="text-center text-sm font-medium text-brand-gray/50 mt-6">
+            <p class="text-center text-base font-medium text-brand-gray/50 mt-6">
               Already have an account? 
-              <NuxtLink to="/" class="text-brand-blue font-bold hover:underline">Login here</NuxtLink>
+              <NuxtLink to="/" class="text-gray-900 font-bold hover:underline">Login here</NuxtLink>
             </p>
         </form>
 
@@ -160,16 +130,16 @@
             <button 
               type="button" 
               @click="showOtp = false" 
-              class="w-full text-sm font-bold text-brand-gray/40 hover:text-brand-blue transition-all duration-300"
+              class="w-full text-sm font-bold text-gray-500 hover:text-gray-900 transition-all duration-300"
             >
               Back to registration
             </button>
         </form>
 
         <div class="pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-           <p class="text-[10px] font-bold text-brand-gray/30 uppercase tracking-widest">Flybeth admin terminal</p>
+           <p class="text-sm font-bold text-brand-gray/30  tracking-widest">Flybeth system</p>
            <div class="flex items-center space-x-2">
-              <span class="text-[10px] font-bold text-brand-gray/40 uppercase tracking-widest">Secure enrollment</span>
+              <span class="text-sm font-bold text-gray-500  tracking-widest">Join us</span>
            </div>
         </div>
       </div>
@@ -196,18 +166,12 @@ const form = ref({
   firstName: '',
   lastName: '',
   phone: '',
-  role: 'tenant_admin',
+  role: 'staff',
   token: invitationToken.value || undefined
 })
 
 const showOtp = ref(false)
 const otp = ref('')
-const masterKey = ref('')
-
-const roleOptions = [
-  { label: 'Tenant Administrator', value: 'tenant_admin' },
-  { label: 'Super Administrator', value: 'super_admin' }
-]
 
 const { register, verifyOtp, loading: authLoading } = useAuth()
 const { verifyInvitation, loading: inviteLoading } = useUsers()
@@ -246,11 +210,6 @@ onMounted(async () => {
 
 const handleSignup = async () => {
   const signupData = { ...form.value }
-  
-  // If no invitation token, use the entered master key
-  if (!invitationToken.value && masterKey.value) {
-    signupData.token = masterKey.value
-  }
 
   const res = await register(signupData)
   if (res) {

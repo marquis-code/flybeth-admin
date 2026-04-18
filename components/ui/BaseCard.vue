@@ -5,7 +5,7 @@
   >
     <div v-if="$slots.header || title" class="mb-6 flex items-center justify-between">
       <slot name="header">
-        <h3 v-if="title" class="text-lg font-bold text-brand-blue">{{ title }}</h3>
+        <h3 v-if="title" class="text-lg font-bold text-gray-900">{{ title }}</h3>
       </slot>
     </div>
     

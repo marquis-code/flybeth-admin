@@ -1,154 +1,166 @@
 <template>
-  <div class="p-6 space-y-6">
-    <div class="flex justify-between items-center">
+  <div class="space-y-10 container mx-auto pb-20">
+    <!-- Header Area -->
+    <div class="flex justify-between items-end">
       <div>
-        <h1 class="text-2xl font-bold text-brand-blue font-outfit">Email Campaigns</h1>
-        <p class="text-brand-gray/60 text-sm">Design and schedule automated user engagement blasts.</p>
+        <p class="text-sm tracking-widest text-brand-green mb-4 font-bold">Marketing center</p>
+        <h1 class="text-2xl text-gray-900 tracking-tighter font-bold">Email campaigns</h1>
       </div>
-      <div class="flex gap-3">
-        <UiBaseButton @click="triggerReminders" variant="secondary" :loading="triggering">
-          Trigger Reminders
+      <div class="flex gap-4">
+        <UiBaseButton variant="primary" @click="triggerReminders" :loading="triggering" class="shadow-none min-w-[160px] h-12">
+           <BellAlertIcon class="h-4 w-4 mr-2" />
+           Send reminders
         </UiBaseButton>
-        <UiBaseButton @click="navigateTo('/campaigns/create')" variant="primary">
-          New Campaign
-        </UiBaseButton>
+        <NuxtLink to="/campaigns/create">
+          <UiBaseButton variant="primary" class="bg-gray-900 text-white shadow-none min-w-[180px] h-12">
+             <PlusIcon class="h-4 w-4 mr-2" />
+             Create new campaign
+          </UiBaseButton>
+        </NuxtLink>
       </div>
     </div>
 
-    <UiBaseCard class="!p-0 overflow-hidden">
-      <UiBaseTable 
-        :columns="headers" 
-        :items="campaigns" 
-        :loading="loading"
-      >
-        <template #cell(title)="{ item }">
-          <div class="flex flex-col">
-            <span class="font-bold text-brand-blue">{{ item.title }}</span>
-            <span class="text-xs text-brand-gray/60">{{ item.subject }}</span>
+    <!-- Stats Dashboard -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+       <div v-for="stat in stats" :key="stat.label" class="bg-white border border-gray-100 rounded-3xl p-8 transition-premium hover:border-brand-blue/30 shadow-none">
+          <p class="text-xs font-bold text-gray-400 mb-2">{{ stat.label }}</p>
+          <div class="flex items-end justify-between">
+             <h3 class="text-3xl font-bold text-gray-900 leading-none">{{ stat.value }}</h3>
+             <div class="text-[10px] font-bold py-1 px-2 rounded-lg" :class="stat.trendClass">
+                {{ stat.trend }}
+             </div>
           </div>
-        </template>
-        
-        <template #cell(status)="{ item }">
-          <div class="flex items-center">
-            <div :class="[
-              'w-2 h-2 rounded-full mr-2',
-              item.status === 'sent' ? 'bg-green-500' : 
-              item.status === 'scheduled' ? 'bg-blue-500' : 'bg-gray-400'
-            ]"></div>
-            <span class="text-xs  uppercase tracking-widest" :class="[
-              item.status === 'sent' ? 'text-green-600' : 
-              item.status === 'scheduled' ? 'text-blue-600' : 'text-gray-500'
-            ]">
-              {{ item.status }}
-            </span>
+       </div>
+    </div>
+
+    <!-- Campaigns Table -->
+    <div class="bg-white border border-gray-100 rounded-[2.5rem] overflow-hidden shadow-none">
+       <div v-if="loading" class="p-20 space-y-4">
+          <div v-for="i in 5" :key="i" class="h-16 bg-gray-50 rounded-2xl animate-pulse" />
+       </div>
+
+       <div v-else-if="campaigns.length === 0" class="p-24 text-center">
+          <div class="h-24 w-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-10">
+             <RocketLaunchIcon class="h-10 w-10 text-brand-gray/20" />
           </div>
-        </template>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">No campaigns found</h3>
+          <p class="text-gray-400 font-medium max-w-sm mx-auto mb-10 leading-relaxed text-sm">Start by creating your first marketing campaign to engage your members.</p>
+          <UiBaseButton variant="primary" size="lg" @click="navigateTo('/campaigns/create')" class="shadow-none">Create your first campaign</UiBaseButton>
+       </div>
 
-        <template #cell(actions)="{ item }">
-          <div class="flex flex-wrap gap-2">
-            <button @click="viewCampaign(item)" class="text-[11px]  uppercase tracking-widest text-brand-gray px-3 py-1.5 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
-              View
-            </button>
-            
-            <button v-if="item.status !== 'sent'" @click="editCampaign(item._id)" class="text-[11px]  uppercase tracking-widest text-orange-600 px-3 py-1.5 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors">
-              Edit
-            </button>
-            
-            <button v-if="item.status !== 'sent'" @click="sendNow(item._id)" class="text-[11px]  uppercase tracking-widest text-brand-green px-3 py-1.5 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
-              Blast Now
-            </button>
+       <div v-else class="overflow-x-auto">
+          <table class="w-full border-collapse">
+             <thead>
+                <tr class="bg-gray-50/50 border-b border-gray-100">
+                   <th class="px-8 py-6 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Campaign information</th>
+                   <th class="px-8 py-6 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Audience</th>
+                   <th class="px-8 py-6 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Status</th>
+                   <th class="px-8 py-6 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Created date</th>
+                   <th class="px-8 py-6 text-right text-[10px] font-bold text-gray-400 uppercase tracking-widest">Actions</th>
+                </tr>
+             </thead>
+             <tbody class="divide-y divide-gray-50">
+                <tr v-for="campaign in campaigns" :key="campaign._id" class="group hover:bg-gray-50/30 transition-premium cursor-pointer" @click="viewCampaign(campaign)">
+                   <td class="px-8 py-6">
+                      <div class="flex items-center space-x-4">
+                         <div class="h-12 w-12 bg-gray-50 rounded-xl flex items-center justify-center text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-premium">
+                            <PaperAirplaneIcon class="h-5 w-5" />
+                         </div>
+                         <div>
+                            <p class="text-base font-bold text-gray-900 group-hover:text-brand-blue transition-premium">{{ campaign.title }}</p>
+                            <p class="text-[11px] text-gray-400 font-medium truncate max-w-xs italic">{{ campaign.subject }}</p>
+                         </div>
+                      </div>
+                   </td>
+                   <td class="px-8 py-6">
+                      <span class="inline-flex items-center px-3 py-1.5 rounded-lg bg-gray-50 text-[10px] font-bold text-gray-500 capitalize border border-gray-100">
+                         {{ campaign.targetAudience }}
+                      </span>
+                   </td>
+                   <td class="px-8 py-6">
+                      <div class="flex items-center space-x-2">
+                         <div class="h-1.5 w-1.5 rounded-full" :class="getStatusColor(campaign.status)"></div>
+                         <span class="text-[11px] font-bold text-gray-600 capitalize">{{ campaign.status || 'Draft' }}</span>
+                      </div>
+                   </td>
+                   <td class="px-8 py-6 text-sm text-gray-500 font-medium">
+                      {{ new Date(campaign.createdAt).toLocaleDateString() }}
+                   </td>
+                   <td class="px-8 py-6 text-right" @click.stop>
+                      <div class="flex justify-end items-center space-x-2">
+                         <button 
+                           @click="sendNow(campaign)"
+                           class="px-4 py-2 rounded-xl text-[10px] font-bold tracking-widest transition-premium"
+                           :class="campaign.status === 'sent' ? 'bg-gray-50 text-gray-300 cursor-not-allowed' : 'bg-brand-blue text-white hover:ring-8 hover:ring-brand-blue/5'"
+                         >
+                            {{ campaign.status === 'sent' ? 'SENT' : 'SEND NOW' }}
+                         </button>
+                         <button 
+                           v-if="campaign.status !== 'sent'"
+                           @click="navigateTo(`/campaigns/create?id=${campaign._id}`)"
+                           class="p-2.5 rounded-xl bg-gray-50 hover:bg-orange-50 hover:text-orange-600 transition-premium"
+                         >
+                            <PencilIcon class="h-4 w-4" />
+                         </button>
+                         <button 
+                           @click="confirmDelete(campaign._id)"
+                           class="p-2.5 rounded-xl bg-gray-50 hover:bg-red-50 hover:text-red-500 transition-premium"
+                         >
+                            <TrashIcon class="h-4 w-4" />
+                         </button>
+                      </div>
+                   </td>
+                </tr>
+             </tbody>
+          </table>
+       </div>
+    </div>
 
-            <button v-if="item.status === 'sent'" @click="resendCampaign(item._id)" class="text-[11px]  uppercase tracking-widest text-brand-blue px-3 py-1.5 bg-brand-blue/10 rounded-lg hover:bg-brand-blue/20 transition-colors">
-              Resend
-            </button>
-            
-            <button @click="deleteCampaign(item._id)" class="text-[11px]  uppercase tracking-widest text-red-500 px-3 py-1.5 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
-              Delete
-            </button>
+    <!-- View Sidebar -->
+    <UiSideDrawer :show="showViewDrawer" @close="showViewDrawer = false" title="Campaign review">
+       <div v-if="selectedCampaign" class="space-y-10 p-8">
+          <div class="space-y-3">
+             <p class="text-[10px] font-bold text-gray-400 capitalize">Internal name</p>
+             <h2 class="text-2xl font-bold text-gray-900 leading-tight">{{ selectedCampaign.title }}</h2>
+             <div class="p-5 bg-brand-blue/5 rounded-2xl border border-brand-blue/5">
+                <p class="text-[10px] font-bold text-brand-blue uppercase tracking-widest mb-1">Subject line</p>
+                <p class="text-sm text-gray-900 font-bold italic">"{{ selectedCampaign.subject }}"</p>
+             </div>
           </div>
-        </template>
-      </UiBaseTable>
-    </UiBaseCard>
+          
+          <div class="grid grid-cols-2 gap-4">
+             <div class="p-6 bg-gray-50 rounded-2xl border border-gray-50">
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Status</p>
+                <p class="font-bold text-gray-900 capitalize text-sm">{{ selectedCampaign.status }}</p>
+             </div>
+             <div class="p-6 bg-gray-50 rounded-2xl border border-gray-50">
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Audience</p>
+                <p class="font-bold text-gray-900 capitalize text-sm">{{ selectedCampaign.targetAudience }}</p>
+             </div>
+          </div>
 
-    <!-- UI Overlays -->
-    <!-- View Campaign Drawer -->
-    <UiSideDrawer 
-      :show="showViewDrawer" 
-      @close="showViewDrawer = false" 
-      :title="selectedCampaign ? 'Viewing Campaign' : ''"
-    >
-      <div v-if="selectedCampaign" class="space-y-6">
-        <div>
-           <div class="text-xs  uppercase tracking-widest text-brand-gray/50 mb-1">Subject</div>
-           <div class="text-lg font-bold text-brand-blue">{{ selectedCampaign.subject }}</div>
-        </div>
-        <div>
-           <div class="text-xs  uppercase tracking-widest text-brand-gray/50 mb-3">Target Audience</div>
-           <div class="text-sm font-medium text-gray-700 capitalize">
-             {{ selectedCampaign.targetAudience === 'specific' ? 'Specific Users' : selectedCampaign.targetAudience }}
-           </div>
-        </div>
-        <div>
-           <div class="text-xs  uppercase tracking-widest text-brand-gray/50 mb-3">Email Content</div>
-           <div class="bg-gray-50 border border-gray-100 rounded-xl p-6 overflow-x-hidden text-sm prose max-w-none shadow-inner" v-html="selectedCampaign.content"></div>
-        </div>
-      </div>
+          <div class="space-y-4 pt-6 border-t border-gray-50">
+             <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Email blueprint</p>
+             <div class="border border-gray-100 rounded-[2rem] p-8 bg-white max-h-[600px] overflow-y-auto prose prose-sm shadow-none" v-html="selectedCampaign.content"></div>
+          </div>
+       </div>
     </UiSideDrawer>
-
-    <!-- Edit Campaign Drawer -->
-    <UiSideDrawer 
-      :show="showEditDrawer" 
-      @close="showEditDrawer = false" 
-      title="Edit Campaign Draft"
-    >
-      <div v-if="editForm" class="space-y-6">
-         <div>
-            <label class="text-xs  uppercase tracking-widest text-brand-gray/40 block mb-2">Campaign Title</label>
-            <input v-model="editForm.title" type="text" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" />
-         </div>
-         <div>
-            <label class="text-xs  uppercase tracking-widest text-brand-gray/40 block mb-2">Email Subject</label>
-            <input v-model="editForm.subject" type="text" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-blue/20 outline-none" />
-         </div>
-         <div class="pt-2">
-            <label class="block text-xs  uppercase tracking-widest text-brand-gray/40 mb-3">Content Builder</label>
-            <CampaignBlockBuilder v-model="editForm.content" />
-         </div>
-         
-         <div class="pt-6 border-t border-gray-100 flex justify-end gap-3">
-            <UiBaseButton variant="secondary" @click="showEditDrawer = false">Cancel</UiBaseButton>
-            <UiBaseButton variant="primary" @click="processEdit" :loading="savingEdit">Update Draft</UiBaseButton>
-         </div>
-      </div>
-    </UiSideDrawer>
-
-    <!-- Delete Confirmation Modal -->
-    <UiBaseModal
-      :show="showDeleteModal"
-      @close="showDeleteModal = false"
-      title="Delete Campaign"
-    >
-      <div v-if="selectedCampaign" class="text-center text-brand-gray py-4">
-        <svg class="h-16 w-16 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-        </svg>
-        <p class="font-bold text-gray-900 text-lg mb-2">Are you absolutely sure?</p>
-        <p class="text-sm">This will permanently destroy <strong>{{ selectedCampaign.title }}</strong> from the database. This action is irreversible.</p>
-      </div>
-      <template #footer>
-         <UiBaseButton variant="secondary" @click="showDeleteModal = false">Cancel</UiBaseButton>
-         <button class="bg-red-500 hover:bg-red-600 text-white font-bold px-6 py-2.5 rounded-xl transition-colors disabled:opacity-50" @click="confirmDelete" :disabled="deletingAction">
-           {{ deletingAction ? 'Destroying...' : 'Yes, Delete Campaign' }}
-         </button>
-      </template>
-    </UiBaseModal>
-
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { 
+  PlusIcon,
+  BellAlertIcon,
+  PaperAirplaneIcon,
+  PencilIcon,
+  TrashIcon,
+  RocketLaunchIcon,
+  ChevronRightIcon
+} from '@heroicons/vue/24/outline'
 import { useCustomToast } from '@/composables/core/useCustomToast'
+import { useConfirmation } from '@/composables/core/useConfirmation'
 import { adminApiFactory } from '@/api_factory/modules/admin'
 
 definePageMeta({
@@ -156,92 +168,59 @@ definePageMeta({
 })
 
 const { showToast } = useCustomToast()
-const loading = ref(false)
+const { confirm } = useConfirmation()
+const loading = ref(true)
 const triggering = ref(false)
 const campaigns = ref<any[]>([])
-
-// View/Edit/Delete Refs
 const showViewDrawer = ref(false)
-const showEditDrawer = ref(false)
-const showDeleteModal = ref(false)
 const selectedCampaign = ref<any>(null)
-const deletingAction = ref(false)
 
-// Edit Form State
-const editForm = ref({
-  _id: '',
-  title: '',
-  subject: '',
-  content: ''
-})
-const savingEdit = ref(false)
-
-const triggerReminders = async () => {
-  if (!confirm('Send engagement reminders to all active customers?')) return
-  triggering.value = true
-  try {
-    await adminApiFactory.triggerReminders()
-    showToast({ title: 'Success', message: 'Engagement reminders triggered', toastType: 'success' })
-  } catch (error) {
-    showToast({ title: 'Error', message: 'Failed to trigger reminders', toastType: 'error' })
-  } finally {
-    triggering.value = false
-  }
-}
-
-const headers = [
-  { label: 'Campaign Details', key: 'title' },
-  { label: 'Targeting', key: 'targetRoles' },
-  { label: 'Status', key: 'status' },
-  { label: 'Created At', key: 'createdAt' },
-  { label: 'Actions', key: 'actions' }
-]
+const stats = computed(() => [
+  { label: 'Total active', value: campaigns.value.length, trend: '+4%', trendClass: 'bg-green-50 text-green-600' },
+  { label: 'Emails sent', value: campaigns.value.filter(c => c.status === 'sent').length, trend: '92%', trendClass: 'bg-blue-50 text-blue-600' },
+  { label: 'Scheduled', value: campaigns.value.filter(c => c.status === 'scheduled').length, trend: 'NEW', trendClass: 'bg-orange-50 text-orange-600' },
+  { label: 'Open rate', value: '24.8%', trend: '+2.1%', trendClass: 'bg-green-50 text-green-600' }
+])
 
 const fetchCampaigns = async () => {
   loading.value = true
   try {
     const res = await adminApiFactory.getCampaigns()
     campaigns.value = res.data?.data || res.data || []
-  } catch (error) {
-    showToast({ title: 'Error', message: 'Failed to fetch campaigns', toastType: 'error' })
   } finally {
     loading.value = false
   }
 }
 
-onMounted(fetchCampaigns)
-
-const sendNow = async (id: string) => {
-  if (!confirm('Start campaign blast to all target users?')) return
-  try {
-    await adminApiFactory.sendCampaign(id)
-    showToast({ title: 'Success', message: 'Campaign blast started', toastType: 'success' })
-    fetchCampaigns()
-  } catch (error) {
-    showToast({ title: 'Error', message: 'Failed to send campaign', toastType: 'error' })
-  }
+const sendNow = async (campaign: any) => {
+   if (campaign.status === 'sent') return
+   const confirmed = await confirm({
+      title: 'Initiate send?',
+      message: `Wait! Are you sure you want to send "${campaign.title}" to all recipients now?`,
+      confirmText: 'Yes, blast it'
+   })
+   if (!confirmed) return
+   
+   try {
+      await adminApiFactory.sendCampaign(campaign._id)
+      showToast({ title: 'Success', message: 'Campaign is being delivered.', toastType: 'success' })
+      fetchCampaigns()
+   } catch (e: any) {
+      showToast({ title: 'System error', message: 'Failed to trigger campaign logic.', toastType: 'error' })
+   }
 }
 
-const deleteCampaign = (id: string) => {
-  selectedCampaign.value = campaigns.value.find(c => c._id === id)
-  if (selectedCampaign.value) {
-    showDeleteModal.value = true
-  }
-}
-
-const confirmDelete = async () => {
-  if (!selectedCampaign.value) return
-  deletingAction.value = true
-  try {
-    await adminApiFactory.deleteCampaign(selectedCampaign.value._id)
-    showToast({ title: 'Deleted', message: 'Campaign completely removed', toastType: 'success' })
-    showDeleteModal.value = false
-    fetchCampaigns()
-  } catch (error) {
-    showToast({ title: 'Error', message: 'Failed to delete campaign', toastType: 'error' })
-  } finally {
-    deletingAction.value = false
-  }
+const confirmDelete = async (id: string) => {
+   const confirmed = await confirm({
+      title: 'Remove campaign?',
+      message: 'This will permanently delete the campaign history and settings.',
+      confirmText: 'Delete permanently',
+      variant: 'danger'
+   })
+   if (!confirmed) return
+   await adminApiFactory.deleteCampaign(id)
+   showToast({ title: 'Deleted', message: 'Campaign removed from system.', toastType: 'success' })
+   fetchCampaigns()
 }
 
 const viewCampaign = (item: any) => {
@@ -249,49 +228,21 @@ const viewCampaign = (item: any) => {
   showViewDrawer.value = true
 }
 
-const editCampaign = (id: string) => {
-  const c = campaigns.value.find(c => c._id === id)
-  if (!c) return
-  
-  editForm.value = {
-    _id: c._id,
-    title: c.title,
-    subject: c.subject,
-    content: c.content
-  }
-  showEditDrawer.value = true
+const getStatusColor = (status: string) => {
+   if (status === 'sent') return 'bg-brand-green'
+   if (status === 'scheduled') return 'bg-brand-blue'
+   return 'bg-gray-300'
 }
 
-const processEdit = async () => {
-  if (!editForm.value.title || !editForm.value.subject) {
-     showToast({ title: 'Error', message: 'Title and Subject required', toastType: 'error' })
-     return
-  }
-  savingEdit.value = true
+const triggerReminders = async () => {
+  triggering.value = true
   try {
-    await adminApiFactory.updateCampaign(editForm.value._id, {
-       title: editForm.value.title,
-       subject: editForm.value.subject,
-       content: editForm.value.content
-    })
-    showToast({ title: 'Success', message: 'Draft completely updated', toastType: 'success' })
-    showEditDrawer.value = false
-    fetchCampaigns()
-  } catch (error) {
-    showToast({ title: 'Error', message: 'Failed to update campaign', toastType: 'error' })
+    await adminApiFactory.triggerReminders()
+    showToast({ title: 'Success', message: 'Reminders have been initiated.', toastType: 'success' })
   } finally {
-    savingEdit.value = false
+    triggering.value = false
   }
 }
 
-const resendCampaign = async (id: string) => {
-  if (!confirm('WARNING: Are you absolutely sure you want to resend this blast to all target users?')) return
-  try {
-    await adminApiFactory.sendCampaign(id)
-    showToast({ title: 'Success', message: 'Campaign logic re-engaged! Blast re-sent.', toastType: 'success' })
-    fetchCampaigns()
-  } catch (error) {
-    showToast({ title: 'Error', message: 'Failed to resend campaign', toastType: 'error' })
-  }
-}
+onMounted(fetchCampaigns)
 </script>

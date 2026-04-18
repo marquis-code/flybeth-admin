@@ -1,7 +1,7 @@
 <template>
   <div class="p-6 space-y-6">
     <div class="flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-brand-blue">Airline Commissions</h1>
+      <h1 class="text-2xl font-bold text-gray-900">Airline Commissions</h1>
       <UiBaseButton @click="showAddModal = true" variant="primary">
         Add Commission
       </UiBaseButton>
@@ -15,12 +15,12 @@
       >
         <template #cell(airlineCode)="{ item }">
           <div class="flex items-center space-x-2">
-            <span class="font-bold text-brand-blue">{{ item.airlineCode }}</span>
+            <span class="font-bold text-gray-900">{{ item.airlineCode }}</span>
           </div>
         </template>
         <template #cell(value)="{ item }">
-          <span v-if="item.type === 'percentage'" class="font-bold text-brand-blue">{{ item.value }}%</span>
-          <span v-else class="font-bold text-brand-blue">${{ item.value }}</span>
+          <span v-if="item.type === 'percentage'" class="font-bold text-gray-900">{{ item.value }}%</span>
+          <span v-else class="font-bold text-gray-900">${{ item.value }}</span>
         </template>
         <template #cell(isActive)="{ item }">
           <div class="flex items-center">
@@ -28,7 +28,7 @@
               'w-2 h-2 rounded-full mr-2',
               item.isActive ? 'bg-green-500' : 'bg-red-500'
             ]"></div>
-            <span class="text-xs  uppercase tracking-widest" :class="[
+            <span class="text-sm   tracking-widest" :class="[
               item.isActive ? 'text-green-600' : 'text-red-500'
             ]">
               {{ item.isActive ? 'Active' : 'Inactive' }}
@@ -37,10 +37,10 @@
         </template>
         <template #cell(actions)="{ item }">
           <div class="flex space-x-3">
-            <button @click="editCommission(item)" class="text-xs font-bold text-brand-blue hover:underline">
+            <button @click="editCommission(item)" class="text-sm font-bold text-gray-900 hover:underline">
               Edit
             </button>
-            <button @click="deleteCommission(item._id)" class="text-xs font-bold text-red-500 hover:underline">
+            <button @click="deleteCommission(item._id)" class="text-sm font-bold text-red-500 hover:underline">
               Delete
             </button>
           </div>
@@ -51,14 +51,14 @@
     <!-- Add/Edit Drawer -->
     <UiSideDrawer :show="showAddModal || !!editingItem" :title="editingItem ? 'Edit Commission' : 'Add Commission'" @close="resetForm">
       <div class="space-y-6">
-        <p class="text-sm text-brand-gray/60 leading-relaxed font-medium">Configure IATA-compliant commission overrides for prioritized global carriers.</p>
+        <p class="text-sm text-gray-600 leading-relaxed font-medium">Configure IATA-compliant commission overrides for prioritized global carriers.</p>
         
         <form @submit.prevent="saveCommission" class="space-y-6">
           <UiAnimatedInput 
             v-model="form.airlineCode"
             label="Airline Code (IATA)"
             placeholder="e.g. DL, BA"
-            uppercase
+            
             required
           />
 
@@ -95,12 +95,14 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useCustomToast } from '@/composables/core/useCustomToast'
+import { useConfirmation } from '@/composables/core/useConfirmation'
 
 definePageMeta({
   layout: 'admin'
 })
 
 const { showToast } = useCustomToast()
+const { confirm } = useConfirmation()
 const loading = ref(false)
 const saving = ref(false)
 const showAddModal = ref(false)
@@ -152,7 +154,13 @@ const saveCommission = async () => {
 }
 
 const deleteCommission = async (id: string) => {
-  if (!confirm('Are you sure you want to delete this commission?')) return
+  const confirmed = await confirm({
+    title: 'Delete Commission',
+    message: 'Are you sure you want to permanently delete this airline commission override? This will revert this carrier to the default platform rates.',
+    confirmText: 'Delete Override',
+    variant: 'danger'
+  })
+  if (!confirmed) return
   try {
     await (useNuxtApp().$axios as any).delete(`/admin/commissions/${id}`)
     showToast({ title: 'Deleted', message: 'Commission removed', toastType: 'success' })

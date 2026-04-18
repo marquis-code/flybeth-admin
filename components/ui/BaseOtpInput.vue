@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col space-y-2">
-    <label v-if="label" class="text-xs  uppercase tracking-widest text-brand-gray/40 ml-1">
+    <label v-if="label" class="text-sm   tracking-widest text-gray-500 ml-1">
       {{ label }}
     </label>
     <div class="flex items-center justify-between gap-2 md:gap-4">
@@ -11,7 +11,7 @@
         v-model="digits[index]"
         type="text"
         maxlength="1"
-        class="w-full h-12 md:h-14 text-center text-xl  text-brand-blue bg-gray-50 border-2 border-transparent rounded-xl focus:border-brand-blue focus:bg-white outline-none transition-all"
+        class="w-full h-12 md:h-14 text-center text-xl  text-gray-900 bg-gray-50 border-2 border-transparent rounded-xl focus:border-brand-blue focus:bg-white outline-none transition-all"
         @input="handleInput($event, index)"
         @keydown.delete="handleDelete($event, index)"
         @paste="handlePaste"

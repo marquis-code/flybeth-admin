@@ -6,7 +6,7 @@
         :class="[
           'absolute transition-all duration-300 ease-in-out pointer-events-none z-10',
           isFocused || modelValue ? 
-            'text-xs text-gray-500 left-3 top-2' : 
+            'text-sm text-gray-500 left-3 top-2' : 
             `text-base text-gray-500 left-3 ${type === 'textarea' ? 'top-4' : 'top-1/2 transform -translate-y-1/2'}`
         ]"
       >
@@ -80,7 +80,7 @@
     </div>
     
     <Transition name="slide-fade">
-      <p v-if="errorMessage && showError" class="text-xs text-red-500 mt-1 ml-3">
+      <p v-if="errorMessage && showError" class="text-sm text-red-500 mt-1 ml-3">
         {{ errorMessage }}
       </p>
     </Transition>
@@ -387,7 +387,7 @@
               </div>
               
               <div class="grid grid-cols-7 gap-1 mb-2">
-                <div v-for="d in weekDays" :key="d" class="text-center text-xs font-bold text-gray-500 py-1">{{ d }}</div>
+                <div v-for="d in weekDays" :key="d" class="text-center text-sm font-bold text-gray-500 py-1">{{ d }}</div>
               </div>
               <div class="grid grid-cols-7 gap-1 mb-4">
                 <button 
@@ -669,7 +669,7 @@ function generateCalendar(compareDate: Date | null): CalendarDay[] {
 
 function getDayClass(day: CalendarDay) {
   return [
-    'aspect-square p-2 text-sm font-semibold rounded-xl transition-all relative',
+    'aspect-square p-2 text-base font-semibold rounded-xl transition-all relative',
     day.isCurrentMonth ? 'hover:bg-gray-100 hover:scale-105 cursor-pointer' : 'text-gray-300 opacity-40 cursor-not-allowed',
     day.isToday && !day.isSelected ? 'bg-blue-50 text-[#033958] ring-2 ring-[#033958] ring-inset font-bold' : '',
     day.isSelected ? 'bg-[#033958] text-white shadow-lg scale-105' : ''
@@ -678,7 +678,7 @@ function getDayClass(day: CalendarDay) {
 
 function getDTDayClass(day: CalendarDay) {
   return [
-    'aspect-square p-2 text-xs font-medium rounded-lg transition-all',
+    'aspect-square p-2 text-base font-medium rounded-lg transition-all',
     day.isCurrentMonth ? 'hover:bg-gray-100 cursor-pointer' : 'text-gray-300 opacity-30 cursor-not-allowed',
     day.isToday && !day.isSelected ? 'border-2 border-[#033958] text-[#033958] font-bold' : '',
     day.isSelected ? 'bg-[#033958] text-white shadow-md' : ''

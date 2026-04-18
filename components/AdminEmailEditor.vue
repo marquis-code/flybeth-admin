@@ -1,42 +1,28 @@
 <template>
-  <div class="email-editor-container bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden flex flex-col h-[700px] relative">
+  <div class="email-editor-container bg-white rounded-3xl border border-gray-100 overflow-hidden flex flex-col h-[700px] relative">
     <!-- Image Upload Overlay -->
     <div v-if="uploadingImage" class="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center">
       <div class="h-10 w-10 border-4 border-gray-100 border-t-brand-blue rounded-full animate-spin"></div>
-      <p class="mt-4 text-sm font-bold text-brand-blue">Uploading image payload...</p>
+      <p class="mt-4 text-sm font-bold text-gray-900">Uploading image payload...</p>
     </div>
     
+    <!-- Hidden native file input for capturing block images -->
     <input type="file" ref="fileInput" class="hidden" accept="image/*" @change="handleImageUpload" />
     <!-- Editor Header -->
     <div class="px-8 py-6 border-b border-gray-50 bg-gray-50/30 flex justify-between items-center">
       <div>
-        <h3 class="text-xl   text-brand-blue">Template Designer</h3>
-        <p class="text-sm  uppercase tracking-widest text-brand-gray/40">Visual Branded Email Architecture</p>
-      </div>
-      <div class="flex items-center gap-3">
-        <slot name="actions"></slot>
+        <h3 class="text-xl font-bold text-gray-900">Content editor</h3>
+        <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mt-1">Design your block content below</p>
       </div>
     </div>
 
     <div class="flex flex-1 overflow-hidden">
       <!-- Editor Main Area -->
       <div class="flex-1 p-8 flex flex-col overflow-hidden">
-        <div class="mb-6 space-y-4">
-          <div class="space-y-1">
-            <label class="text-sm  uppercase tracking-[0.2em] text-brand-gray/50 ml-1">Email Subject Line</label>
-            <input 
-              v-model="localTemplate.subject" 
-              type="text" 
-              placeholder="e.g. Your flight to {{destination}} is confirmed!"
-              class="w-full bg-gray-50 border-none rounded-2xl py-4 px-6 text-sm font-bold text-brand-blue placeholder:text-brand-gray/30 focus:ring-4 focus:ring-brand-blue/5 transition-premium outline-none"
-            />
-          </div>
-        </div>
-
-        <div class="editor-wrapper flex-1 bg-gray-50 rounded-3xl overflow-hidden relative border border-gray-100 shadow-inner">
+        <div class="editor-wrapper flex-1 bg-gray-50 rounded-3xl overflow-hidden relative border border-gray-100 shadow-none">
           <!-- Toolbar Container -->
-          <div id="toolbar" class="border-b border-gray-100 bg-white px-4 py-2 flex flex-wrap gap-2">
-            <select class="ql-header bg-white border-none text-xs font-bold text-brand-blue rounded-lg cursor-pointer">
+          <div :id="`toolbar-${instanceId}`" class="border-b border-gray-100 bg-white px-4 py-2 flex flex-wrap gap-2">
+            <select class="ql-header bg-white border-none text-sm font-bold text-gray-900 rounded-lg cursor-pointer">
               <option selected></option>
               <option value="1"></option>
               <option value="2"></option>
@@ -49,38 +35,24 @@
             <button class="ql-clean"></button>
           </div>
           <!-- Editor Content -->
-          <div id="editor" class="h-[calc(100%-48px)] text-brand-blue overflow-y-auto prose max-w-none px-6 py-4"></div>
+          <div :id="`editor-${instanceId}`" class="h-[calc(100%-48px)] text-gray-900 overflow-y-auto prose max-w-none px-6 py-4"></div>
         </div>
       </div>
 
       <!-- Variables Sidebar -->
-      <div class="w-72 bg-gray-50/50 border-l border-gray-50 p-6 flex flex-col gap-6 overflow-y-auto">
+      <div class="w-64 bg-gray-50/50 border-l border-gray-100 p-6 flex flex-col gap-6 overflow-y-auto">
         <div>
-          <h4 class="text-xs  uppercase tracking-widest text-brand-blue mb-4">Merge Variables</h4>
-          <p class="text-sm font-medium text-brand-gray/50 leading-relaxed mb-6">Click a variable to inject it at the current cursor position.</p>
-          
+          <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Click to add</p>
           <div class="space-y-2">
             <button 
               v-for="v in (variables as string[])" 
               :key="v"
               @click="insertVariable(v)"
-              class="w-full text-left px-4 py-3 bg-white border border-gray-100 rounded-xl text-xs font-bold text-brand-blue hover:border-brand-blue hover:shadow-md transition-premium flex items-center justify-between group"
+              class="w-full text-left px-4 py-3 bg-white border border-gray-100 rounded-xl text-xs font-bold text-gray-900 hover:border-brand-blue hover:text-brand-blue transition-premium flex items-center justify-between group shadow-none"
             >
               <span>{{ v }}</span>
-              <PlusIcon class="h-4 w-4 text-brand-gray/30 group-hover:text-brand-blue" />
+              <PlusIcon class="h-4 w-4 text-gray-300 group-hover:text-brand-blue" />
             </button>
-          </div>
-        </div>
-
-        <div class="mt-auto pt-6 border-t border-gray-100">
-          <div class="p-4 bg-brand-blue/5 rounded-2xl">
-             <div class="flex items-center gap-2 mb-2 text-brand-blue">
-                <InformationCircleIcon class="h-4 w-4" />
-                <span class="text-sm font-bold uppercase tracking-widest">Syntax Tip</span>
-             </div>
-             <p class="text-sm text-brand-blue/60 font-medium leading-relaxed">
-               Always surround variables with double braces like <strong v-pre>{{variable}}</strong> for correct parsing.
-             </p>
           </div>
         </div>
       </div>
@@ -89,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { PlusIcon, InformationCircleIcon } from '@heroicons/vue/24/outline'
 import { adminApiFactory } from '@/api_factory/modules/admin'
 import { useCustomToast } from '@/composables/core/useCustomToast'
@@ -97,6 +69,7 @@ import { useCustomToast } from '@/composables/core/useCustomToast'
 const { showToast } = useCustomToast()
 const fileInput = ref<HTMLInputElement | null>(null)
 const uploadingImage = ref(false)
+const instanceId = Math.random().toString(36).substr(2, 9)
 
 const props = defineProps({
   modelValue: {
@@ -135,13 +108,13 @@ onMounted(async () => {
     })
   }
 
-  // Initialize Quill
-  quill = new (window as any).Quill('#editor', {
+  // Initialize Quill 
+  quill = new (window as any).Quill(`#editor-${instanceId}`, {
     theme: 'snow',
     modules: {
-      toolbar: '#toolbar'
+      toolbar: `#toolbar-${instanceId}`
     },
-    placeholder: 'Design your branded email here...'
+    placeholder: 'Write your content block here...'
   })
 
   // Override Image Handler if enabled
@@ -183,14 +156,14 @@ const handleImageUpload = async (event: Event) => {
   uploadingImage.value = true
   try {
     const res = await adminApiFactory.uploadFile(formData)
-    const url = res.data?.url
+    const url = res.data?.data?.url || res.data?.url
     if (url && quill) {
       const range = quill.getSelection(true) || { index: quill.getLength() }
       quill.insertEmbed(range.index, 'image', url)
       quill.setSelection(range.index + 1)
     }
   } catch (error) {
-    showToast({ title: 'Image Upload Failed', message: 'Could not upload media asset.', toastType: 'error' })
+    showToast({ title: 'Upload failed', message: 'Could not upload image.', toastType: 'error' })
   } finally {
     uploadingImage.value = false
     input.value = ''

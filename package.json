@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "PORT=3002 nuxt dev --port 3002 --host 0.0.0.0",
+    "dev": "nuxt dev --port 3004 --host localhost",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -14,6 +14,7 @@
     "axios": "^1.13.6",
     "lucide-vue-next": "^1.0.0",
     "nuxt": "^4.3.1",
+    "socket.io-client": "^4.8.3",
     "vue": "^3.5.28",
     "vue-router": "^4.6.4"
   },

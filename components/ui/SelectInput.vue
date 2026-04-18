@@ -6,7 +6,7 @@
           :for="inputId"
           :class="[
             'absolute transition-all duration-300 ease-in-out pointer-events-none z-10',
-            isFocused || modelValue ? 'text-xs text-gray-500 left-3 top-2' : 'text-base text-gray-500 left-3 top-1/2 transform -translate-y-1/2'
+            isFocused || modelValue ? 'text-sm text-gray-500 left-3 top-2' : 'text-base text-gray-500 left-3 top-1/2 transform -translate-y-1/2'
           ]"
         >
           {{ label }}
@@ -53,7 +53,7 @@
           <div class="p-2 border-b border-gray-50 sticky top-0 bg-white">
             <div class="relative">
               <svg 
-                class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-brand-gray/40" 
+                class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" 
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"

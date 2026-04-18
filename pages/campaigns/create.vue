@@ -1,178 +1,263 @@
 <template>
-  <div class="p-6 space-y-6">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-4">
-        <button @click="navigateTo('/campaigns')" class="p-2 hover:bg-gray-100 rounded-full transition-colors">
-          <ArrowLeftIcon class="w-6 h-6 text-brand-blue" />
+  <div class="space-y-10 max-w-7xl mx-auto pb-20">
+    <!-- Action Header -->
+    <div class="flex justify-between items-center bg-white border border-gray-100 p-8 rounded-3xl transition-premium shadow-none">
+      <div class="flex items-center space-x-6">
+        <button @click="navigateTo('/campaigns')" class="h-14 w-14 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-400 hover:bg-brand-blue hover:text-white transition-premium group shadow-none">
+          <ArrowLeftIcon class="h-6 w-6 group-hover:-translate-x-1 transition-premium" />
         </button>
         <div>
-          <h1 class="text-2xl font-bold text-brand-blue font-outfit">Create Campaign</h1>
-          <p class="text-brand-gray/60 text-sm">Draft your next masterpiece for the Flybeth community.</p>
+          <h1 class="text-3xl font-bold text-gray-900 tracking-tight leading-none capitalize">{{ isEdit ? 'Edit' : 'Create' }} campaign</h1>
+          <p class="text-sm text-gray-500 mt-2 font-medium">Set up an email campaign to reach your users.</p>
         </div>
       </div>
-      <div class="flex space-x-3">
-        <UiBaseButton @click="saveCampaign" variant="primary" :loading="saving">
-          {{ buttonLabel }}
+      <div class="flex gap-4">
+        <UiBaseButton variant="secondary" @click="navigateTo('/campaigns')">Cancel</UiBaseButton>
+        <UiBaseButton variant="primary" @click="saveCampaign" :loading="saving" class="bg-gray-900 text-white min-w-[180px] h-14 text-base font-bold shadow-none">
+           <CloudArrowUpIcon class="h-5 w-5 mr-3" />
+           {{ buttonLabel }}
         </UiBaseButton>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div class="lg:col-span-2 space-y-6">
-        <UiBaseCard>
-          <div class="space-y-4">
-            <UiAnimatedInput 
-              v-model="form.title"
-              label="Campaign Title"
-              placeholder="e.g. October Flight Extravaganza"
-              required
-            />
-            <UiAnimatedInput 
-              v-model="form.subject"
-              label="Email Subject Line"
-              placeholder="e.g. ✈️ 20% Off Your Next Flight!"
-              required
-            />
-          </div>
-        </UiBaseCard>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <!-- Main Configuration Column -->
+      <div class="lg:col-span-2 space-y-10">
+        <!-- Section 1: Basic Information -->
+        <div class="bg-white border border-gray-100 rounded-[2.5rem] p-12 space-y-12 shadow-none">
+           <div class="flex items-center space-x-3 mb-2">
+              <div class="h-2.5 w-2.5 rounded-full bg-brand-blue"></div>
+              <h3 class="text-lg font-bold text-gray-900">1. Basic information</h3>
+           </div>
+           
+           <div class="space-y-10">
+              <div class="space-y-3">
+                 <label class="text-sm font-bold text-gray-700 ml-1">Campaign name (Internal use)</label>
+                 <input 
+                   v-model="form.title" 
+                   type="text" 
+                   placeholder="e.g. October flight special"
+                   class="w-full bg-gray-50 border border-gray-100 rounded-2xl py-6 px-8 text-lg font-bold text-gray-900 focus:ring-4 focus:ring-brand-blue/5 focus:bg-white transition-premium outline-none shadow-none"
+                 />
+              </div>
+              <div class="space-y-3">
+                 <label class="text-sm font-bold text-gray-700 ml-1">Subject line (What users will see)</label>
+                 <input 
+                   v-model="form.subject" 
+                   type="text" 
+                   placeholder="e.g. ✈️ 20% off your next trip!"
+                   class="w-full bg-gray-50 border border-gray-100 rounded-2xl py-6 px-8 text-lg font-bold text-gray-900 focus:ring-4 focus:ring-brand-blue/5 focus:bg-white transition-premium outline-none shadow-none"
+                 />
+              </div>
 
-        <UiBaseCard class="!p-0 overflow-hidden bg-transparent border-none shadow-none text-brand-blue">
-          <CampaignBlockBuilder v-model="form.content" />
-        </UiBaseCard>
+              <!-- Hero Image Upload with Spinner -->
+              <div class="space-y-3">
+                 <label class="text-sm font-bold text-gray-700 ml-1">Campaign banner image</label>
+                 <div 
+                   @click="triggerUpload"
+                   class="relative group cursor-pointer overflow-hidden rounded-[2.5rem] border-2 border-dashed border-gray-100 hover:border-brand-blue/30 transition-premium aspect-[21/9] flex items-center justify-center bg-gray-50 shadow-none"
+                 >
+                    <!-- Loading Spinner Layer -->
+                    <div v-if="uploading" class="absolute inset-0 bg-white/95 flex flex-col items-center justify-center z-50 animate-in fade-in duration-300">
+                       <div class="relative">
+                          <div class="h-16 w-16 border-4 border-gray-50 border-t-brand-blue rounded-full animate-spin"></div>
+                          <div class="absolute inset-0 flex items-center justify-center">
+                             <PhotoIcon class="h-6 w-6 text-brand-blue animate-pulse" />
+                          </div>
+                       </div>
+                       <p class="mt-4 text-sm font-bold text-brand-blue uppercase tracking-widest animate-pulse">Syncing media asset...</p>
+                    </div>
+
+                    <img v-if="form.imageUrl && !uploading" :src="form.imageUrl" class="absolute inset-0 w-full h-full object-cover transition-premium group-hover:scale-105 shadow-none" />
+                    
+                    <div v-if="!form.imageUrl && !uploading" class="text-center p-8">
+                       <PhotoIcon class="h-12 w-12 text-gray-300 mx-auto mb-4 group-hover:text-brand-blue transition-premium" />
+                       <p class="text-base font-bold text-gray-900">Click to upload a banner image</p>
+                       <p class="text-sm text-gray-400 mt-2">Recommended: 1200 x 500px</p>
+                    </div>
+                    <div v-if="form.imageUrl && !uploading" class="absolute top-6 right-6 z-20">
+                       <button @click.stop="form.imageUrl = ''" class="p-3 bg-white/90 backdrop-blur-sm hover:bg-red-500 hover:text-white rounded-2xl transition-premium shadow-none border border-gray-100">
+                          <TrashIcon class="h-5 w-5" />
+                       </button>
+                    </div>
+                    <input ref="fileInput" type="file" @change="handleFileUpload" class="hidden" accept="image/*" />
+                 </div>
+              </div>
+           </div>
+        </div>
+
+        <!-- Section 2: Email Content -->
+        <div class="bg-white border border-gray-100 rounded-[2.5rem] p-12 space-y-12 shadow-none">
+           <div class="flex items-center space-x-3 mb-2">
+              <div class="h-2.5 w-2.5 rounded-full bg-brand-green"></div>
+              <h3 class="text-lg font-bold text-gray-900">2. Email content</h3>
+           </div>
+           
+           <div class="border-none shadow-none min-h-[400px]">
+              <CampaignBlockBuilder v-model="form.content" />
+           </div>
+        </div>
       </div>
 
-      <div class="space-y-6">
-        <UiBaseCard title="Campaign Details">
-          <div class="space-y-6">
-            <div class="space-y-4">
-              <label class="text-xs  uppercase tracking-widest text-brand-gray/40 block">Target Audience</label>
+      <!-- Control Sidebar -->
+      <div class="space-y-10">
+        <!-- Target Selection Card -->
+        <div class="bg-white border border-gray-100 rounded-[2.5rem] p-10 space-y-10 sticky top-24 shadow-none">
+           <div>
+              <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Who should get this?</p>
               
-              <div class="grid grid-cols-2 gap-3">
-                <label v-for="aud in audiences" :key="aud.value" 
-                       class="flex flex-col p-4 border rounded-xl cursor-pointer transition-colors"
-                       :class="form.targetAudience === aud.value ? 'bg-brand-blue/5 border-brand-blue' : 'bg-white border-gray-100 hover:border-brand-gray/20'">
-                  <div class="flex items-center space-x-2 mb-1">
-                    <input type="radio" :value="aud.value" v-model="form.targetAudience" class="text-brand-blue focus:ring-brand-blue">
-                    <span class="text-sm font-bold text-gray-900">{{ aud.label }}</span>
-                  </div>
-                  <span class="text-xs text-brand-gray/50 ml-6">{{ aud.description }}</span>
-                </label>
-              </div>
-
-              <!-- Roles Selection (Only visible if targetAudience === 'roles') -->
-              <div v-if="form.targetAudience === 'roles'" class="p-4 bg-gray-50 rounded-xl space-y-3 mt-4">
-                <p class="text-xs font-bold text-brand-gray/60 uppercase tracking-widest mb-2">Select Roles</p>
-                <div class="space-y-2">
-                  <label v-for="role in roles" :key="role.value" class="flex items-center space-x-2 cursor-pointer">
-                    <input type="checkbox" :value="role.value" v-model="form.targetRoles" class="rounded border-gray-300 text-brand-blue focus:ring-brand-blue">
-                    <span class="text-sm font-medium text-brand-gray">{{ role.label }}</span>
-                  </label>
-                </div>
-              </div>
-
-              <!-- Specific Users Selection (Only visible if targetAudience === 'specific') -->
-              <div v-if="form.targetAudience === 'specific'" class="p-4 bg-gray-50 rounded-xl space-y-4 mt-4 relative">
-                <p class="text-xs font-bold text-brand-gray/60 uppercase tracking-widest mb-1">Select Specific Users</p>
-                
-                <div class="relative">
-                  <input 
-                    v-model="userSearchTerm" 
-                    @input="searchUsers"
-                    type="text" 
-                    placeholder="Search users by name or email..."
-                    class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue outline-none"
-                  />
-                  <div v-if="searchingUsers" class="absolute right-3 top-3 h-5 w-5 border-2 border-gray-200 border-t-brand-blue rounded-full animate-spin"></div>
-                  
-                  <!-- Search Results Dropdown -->
-                  <div v-if="userSearchResults.length > 0 && userSearchTerm" class="absolute z-10 w-full mt-1 bg-white border border-gray-100 rounded-xl shadow-lg max-h-60 overflow-y-auto">
-                    <button 
-                      v-for="user in userSearchResults" 
-                      :key="user._id"
-                      @click="addUser(user)"
-                      class="w-full text-left px-4 py-3 hover:bg-gray-50 flex flex-col border-b border-gray-50 last:border-0"
-                    >
-                      <span class="text-sm font-bold text-gray-900">{{ user.firstName }} {{ user.lastName }}</span>
-                      <span class="text-xs text-brand-gray/60">{{ user.email }}</span>
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Selected Users List -->
-                <div v-if="form.specificUsers.length > 0" class="space-y-2">
-                  <p class="text-[10px]  uppercase tracking-widest text-brand-gray/40">Selected Recipients ({{ form.specificUsers.length }})</p>
-                  <div class="flex flex-wrap gap-2">
-                    <div v-for="user in selectedUsersDetails" :key="user._id" class="flex items-center bg-white border border-gray-200 rounded-lg px-3 py-1.5 shadow-sm">
-                      <span class="text-xs font-medium text-gray-700 mr-2">{{ user.firstName }} {{ user.lastName }}</span>
-                      <button @click="removeUser(user._id)" class="text-red-400 hover:text-red-600 transition-colors">
-                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- External / Custom Emails Input -->
-              <div class="p-4 bg-gray-50 rounded-xl space-y-3 mt-4">
-                <p class="text-xs font-bold text-brand-gray/60 uppercase tracking-widest mb-1">External / Custom Emails</p>
-                <p class="text-[10px] text-brand-gray/40 mb-3">Target guests outside the platform. Separate emails with commas.</p>
-                
-                <input 
-                  v-model="customEmailsInput"
-                  @blur="parseCustomEmails"
-                  @keydown.enter.prevent="parseCustomEmails"
-                  type="text" 
-                  placeholder="e.g. john@example.com, jane@gmail.com"
-                  class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue outline-none"
-                />
-                
-                <div v-if="form.customEmails.length > 0" class="flex flex-wrap gap-2 mt-3">
-                  <div v-for="email in form.customEmails" :key="email" class="flex items-center bg-brand-blue/10 border border-brand-blue/20 rounded-lg px-3 py-1.5 shadow-sm">
-                    <span class="text-xs font-bold text-brand-blue mr-2">{{ email }}</span>
-                    <button @click="removeCustomEmail(email)" class="text-brand-blue/50 hover:text-red-500 transition-colors">
-                      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Send Timing -->
-            <div class="space-y-4 pt-4 border-t border-gray-100">
-              <label class="text-xs  uppercase tracking-widest text-brand-gray/40 block">Send Timing</label>
-              
+              <!-- Custom Dropdown Selector -->
               <div class="relative">
-                <select 
-                  v-model="sendTiming" 
-                  class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-900 focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue outline-none appearance-none cursor-pointer"
-                >
-                  <option value="immediate">Send Now (Blast immediately)</option>
-                  <option value="schedule">Schedule (Select specific date & time)</option>
-                  <option value="draft">Save Draft (Save without sending)</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
-                  <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                </div>
-              </div>
+                 <button 
+                   @click="showAudienceList = !showAudienceList"
+                   class="w-full flex items-center justify-between p-6 bg-gray-50 rounded-[1.5rem] border border-gray-100 hover:border-brand-blue hover:bg-white transition-premium outline-none shadow-none"
+                 >
+                    <div class="flex items-center space-x-5 text-left">
+                       <div class="h-12 w-12 bg-white rounded-2xl flex items-center justify-center text-brand-blue shadow-none border border-gray-50">
+                          <component :is="selectedAudience?.icon || BoltIcon" class="h-6 w-6" />
+                       </div>
+                       <div>
+                          <p class="text-base font-bold text-gray-900">{{ selectedAudience?.label }}</p>
+                          <p class="text-xs text-gray-400 font-medium">{{ selectedAudience?.userFriendly }}</p>
+                       </div>
+                    </div>
+                    <ChevronDownIcon class="h-6 w-6 text-gray-400 transition-premium" :class="{ 'rotate-180': showAudienceList }" />
+                 </button>
 
-              <div v-if="sendTiming === 'schedule'" class="mt-4 p-4 bg-gray-50 rounded-xl">
-                <UiAnimatedInput 
-                  v-model="form.scheduledAt"
-                  label="Select Date & Time (ISO Required)"
-                  type="datetime-local"
-                  required
-                />
+                 <!-- Dropdown List -->
+                 <div v-if="showAudienceList" class="absolute z-50 w-full mt-3 bg-white border border-gray-100 rounded-[2rem] p-3 animate-in fade-in zoom-in-95 duration-200 shadow-none border-b-4 border-b-brand-blue/5">
+                    <button 
+                      v-for="aud in audiences" 
+                      :key="aud.value"
+                      @click="selectAudience(aud)"
+                      class="w-full flex items-center p-5 rounded-2xl hover:bg-gray-50 transition-premium group text-left"
+                      :class="{ 'bg-brand-blue/5': form.targetAudience === aud.value }"
+                    >
+                       <div class="h-12 w-12 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-400 group-hover:bg-brand-blue group-hover:text-white transition-premium mr-4 shadow-none">
+                          <component :is="aud.icon" class="h-6 w-6" />
+                       </div>
+                       <div>
+                          <p class="text-base font-bold text-gray-900">{{ aud.label }}</p>
+                          <p class="text-xs text-gray-400 font-medium">{{ aud.description }}</p>
+                       </div>
+                    </button>
+                 </div>
               </div>
-            </div>
-          </div>
-        </UiBaseCard>
+           </div>
+
+           <!-- Role Filters -->
+           <div v-if="form.targetAudience === 'roles'" class="animate-in fade-in slide-in-from-top-2 duration-300">
+              <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Select groups</p>
+              <div class="flex flex-wrap gap-3">
+                 <button 
+                  v-for="role in roles" 
+                  :key="role.value"
+                  @click="toggleRole(role.value)"
+                  class="px-5 py-3 rounded-2xl border text-sm font-bold transition-premium shadow-none"
+                  :class="form.targetRoles.includes(role.value) ? 'bg-brand-blue border-brand-blue text-white' : 'bg-gray-50 border-gray-100 text-gray-500 hover:border-brand-blue/30'"
+                 >
+                   {{ role.label }}
+                 </button>
+              </div>
+           </div>
+
+           <!-- User Search Selector -->
+           <div v-if="form.targetAudience === 'specific'" class="animate-in fade-in slide-in-from-top-2 duration-300 space-y-5">
+              <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Select members</p>
+              <div class="relative">
+                 <input 
+                   v-model="userSearchTerm" 
+                   @input="searchUsers"
+                   type="text" 
+                   placeholder="Search names or emails..."
+                   class="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-sm font-bold text-gray-900 outline-none focus:bg-white focus:ring-4 focus:ring-brand-blue/5 transition-premium shadow-none"
+                 />
+                 <div v-if="userSearchResults.length > 0" class="absolute z-50 w-full mt-3 bg-white border border-gray-100 rounded-[1.5rem] p-2 shadow-none border-b-4 border-b-brand-blue/5">
+                    <button v-for="user in userSearchResults" :key="user._id" @click="addUser(user)" class="w-full p-4 text-left hover:bg-gray-50 flex items-center rounded-xl">
+                       <div class="h-10 w-10 bg-brand-blue/5 rounded-xl flex items-center justify-center text-brand-blue font-bold text-sm mr-4 shadow-none">{{ user.firstName[0] }}</div>
+                       <div>
+                          <p class="text-sm font-bold text-gray-900">{{ user.firstName }} {{ user.lastName }}</p>
+                          <p class="text-xs text-gray-400 italic">{{ user.email }}</p>
+                       </div>
+                    </button>
+                 </div>
+              </div>
+              <div class="flex flex-wrap gap-2 max-h-48 overflow-y-auto pr-2">
+                 <div v-for="user in selectedUsersDetails" :key="user._id" class="flex items-center px-4 py-2.5 bg-gray-50 rounded-xl border border-gray-100 animate-in fade-in zoom-in-50 shadow-none">
+                    <span class="text-xs font-bold text-gray-900 mr-2">{{ user.firstName }}</span>
+                    <XMarkIcon @click="removeUser(user._id)" class="h-4 w-4 text-gray-400 hover:text-red-500 cursor-pointer" />
+                 </div>
+              </div>
+           </div>
+
+           <!-- Deployment Strategy (Dropdown) -->
+           <div>
+              <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">When to send?</p>
+              <div class="relative">
+                 <button 
+                   @click="showTimingList = !showTimingList"
+                   class="w-full flex items-center justify-between p-6 bg-gray-50 rounded-[1.5rem] border border-gray-100 hover:border-brand-blue hover:bg-white transition-premium outline-none shadow-none"
+                 >
+                    <div class="text-left">
+                       <p class="text-base font-bold text-gray-900">{{ selectedTiming?.label }}</p>
+                       <p class="text-xs text-gray-400 font-medium">{{ selectedTiming?.description }}</p>
+                    </div>
+                    <ChevronDownIcon class="h-6 w-6 text-gray-400 transition-premium" :class="{ 'rotate-180': showTimingList }" />
+                 </button>
+
+                 <!-- Timing Dropdown -->
+                 <div v-if="showTimingList" class="absolute z-50 w-full mt-3 bg-white border border-gray-100 rounded-[2rem] p-3 animate-in fade-in zoom-in-95 duration-200 shadow-none border-b-4 border-b-brand-blue/5">
+                    <button 
+                      v-for="time in timingOptions" 
+                      :key="time.value"
+                      @click="selectTiming(time)"
+                      class="w-full p-5 rounded-2xl hover:bg-gray-50 transition-premium group text-left shadow-none"
+                      :class="{ 'bg-brand-blue/5': sendTiming === time.value }"
+                    >
+                       <p class="text-base font-bold text-gray-900">{{ time.label }}</p>
+                       <p class="text-xs text-gray-400 font-medium group-hover:text-brand-blue transition-premium">{{ time.description }}</p>
+                    </button>
+                 </div>
+              </div>
+              
+              <div v-if="sendTiming === 'schedule'" class="mt-5 p-5 bg-gray-50 rounded-2xl border border-gray-100 animate-in fade-in zoom-in-95 duration-300 shadow-none">
+                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">Select date & time</label>
+                 <input v-model="form.scheduledAt" type="datetime-local" class="w-full bg-white border border-gray-100 rounded-xl py-3 px-4 font-bold text-sm text-gray-900 outline-none shadow-none" />
+              </div>
+           </div>
+
+           <!-- Summary Section -->
+           <div class="p-8 bg-gray-50 rounded-[2rem] space-y-5 border border-gray-100 shadow-none">
+              <div class="flex justify-between items-center text-xs font-bold uppercase tracking-widest">
+                 <span class="text-gray-400">Target count</span>
+                 <span class="text-brand-blue font-bold">{{ recipientCount }}</span>
+              </div>
+              <div class="h-1.5 w-full bg-white rounded-full overflow-hidden border border-gray-100">
+                 <div class="h-full bg-brand-blue transition-all duration-1000" :style="{ width: recipientCount === 'Global' ? '100%' : (typeof recipientCount === 'number' ? '40%' : '10%') }"></div>
+              </div>
+              <p class="text-xs italic text-gray-400 text-center leading-relaxed">Everything looks good! You can save this as a draft or send it now.</p>
+           </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { ArrowLeftIcon } from '@heroicons/vue/24/outline'
+import { ref, computed, onMounted } from 'vue'
+import { 
+  ArrowLeftIcon, 
+  CloudArrowUpIcon,
+  UsersIcon,
+  BoltIcon,
+  UserGroupIcon,
+  IdentificationIcon,
+  PlusIcon,
+  XMarkIcon,
+  ChevronDownIcon,
+  PhotoIcon,
+  TrashIcon
+} from '@heroicons/vue/24/outline'
 import { useCustomToast } from '@/composables/core/useCustomToast'
 import { adminApiFactory } from '@/api_factory/modules/admin'
 
@@ -180,22 +265,21 @@ definePageMeta({
   layout: 'admin'
 })
 
+const route = useRoute()
+const isEdit = computed(() => !!route.query.id)
 const { showToast } = useCustomToast()
 const saving = ref(false)
+const uploading = ref(false)
+const showAudienceList = ref(false)
+const showTimingList = ref(false)
 const sendTiming = ref<'immediate' | 'schedule' | 'draft'>('immediate')
-
-const buttonLabel = computed(() => {
-  if (saving.value) return 'Processing...'
-  if (sendTiming.value === 'immediate') return 'Send Campaign Now'
-  if (sendTiming.value === 'schedule') return 'Schedule Campaign'
-  return 'Save as Draft'
-})
+const fileInput = ref<HTMLInputElement | null>(null)
 
 const audiences = [
-  { label: 'All Users', value: 'all', description: 'Send to every registered user.' },
-  { label: 'Active Users', value: 'active', description: 'Send only to engaged users.' },
-  { label: 'Specific Roles', value: 'roles', description: 'Filter by account type.' },
-  { label: 'Specific Users', value: 'specific', description: 'Manually select recipients.' }
+  { label: 'All users', icon: BoltIcon, value: 'all', userFriendly: 'Send to everyone', description: 'Every registered member on Flybeth.' },
+  { label: 'Active members', icon: UsersIcon, value: 'active', userFriendly: 'Target engaged users', description: 'Users who have logged in recently.' },
+  { label: 'Specific groups', icon: UserGroupIcon, value: 'roles', userFriendly: 'Choose by role type', description: 'Customers, agents, or staff.' },
+  { label: 'Custom selection', icon: IdentificationIcon, value: 'specific', userFriendly: 'Pick specific people', description: 'Search and add members manually.' }
 ]
 
 const roles = [
@@ -204,10 +288,17 @@ const roles = [
   { label: 'Staff members', value: 'staff' }
 ]
 
+const timingOptions = [
+  { label: 'Send right away', value: 'immediate', description: 'Blast emails as soon as you save.' },
+  { label: 'Schedule for later', value: 'schedule', description: 'Pick a future time and date.' },
+  { label: 'Save as draft', value: 'draft', description: 'Keep it for later without sending.' }
+]
+
 const form = ref({
   title: '',
   subject: '',
   content: '',
+  imageUrl: '',
   targetAudience: 'all',
   targetRoles: ['customer'],
   specificUsers: [] as string[],
@@ -215,128 +306,159 @@ const form = ref({
   scheduledAt: ''
 })
 
-// Custom Emails Logic
-const customEmailsInput = ref('')
+const selectedAudience = computed(() => audiences.find(a => a.value === form.value.targetAudience))
+const selectedTiming = computed(() => timingOptions.find(t => t.value === sendTiming.value))
 
-const parseCustomEmails = () => {
-  if (!customEmailsInput.value) return
-  
-  const emails = customEmailsInput.value
-    .split(',')
-    .map(e => e.trim())
-    .filter(e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e))
-  
-  emails.forEach(email => {
-    if (!form.value.customEmails.includes(email)) {
-      form.value.customEmails.push(email)
-    }
-  })
-  
-  customEmailsInput.value = ''
+const selectAudience = (aud: any) => {
+   form.value.targetAudience = aud.value
+   showAudienceList.value = false
 }
 
-const removeCustomEmail = (email: string) => {
-  form.value.customEmails = form.value.customEmails.filter(e => e !== email)
+const selectTiming = (time: any) => {
+   sendTiming.value = time.value
+   showTimingList.value = false
 }
 
-// Specific Users Search Logic
+const toggleRole = (val: string) => {
+   const index = form.value.targetRoles.indexOf(val)
+   if (index > -1) form.value.targetRoles.splice(index, 1)
+   else form.value.targetRoles.push(val)
+}
+
+// User Selection Logic
 const userSearchTerm = ref('')
-const searchingUsers = ref(false)
 const userSearchResults = ref<any[]>([])
 const selectedUsersDetails = ref<any[]>([])
-let searchTimeout: any = null
 
-const searchUsers = () => {
-  clearTimeout(searchTimeout)
-  if (!userSearchTerm.value || userSearchTerm.value.length < 2) {
-    userSearchResults.value = []
-    return
-  }
-  
-  searchTimeout = setTimeout(async () => {
-    searchingUsers.value = true
-    try {
-      const res = await adminApiFactory.getUsers({ search: userSearchTerm.value, limit: 10 })
-      if (res.data?.data) {
-        // Filter out already selected users
-        userSearchResults.value = res.data.data.filter((u: any) => !form.value.specificUsers.includes(u._id))
-      }
-    } catch (e) {
-      console.error(e)
-    } finally {
-      searchingUsers.value = false
+const searchUsers = async () => {
+    if (userSearchTerm.value.length < 2) {
+       userSearchResults.value = []
+       return
     }
-  }, 300)
+    const res = await adminApiFactory.getUsers({ search: userSearchTerm.value, limit: 10 })
+    userSearchResults.value = res.data?.data || []
 }
 
 const addUser = (user: any) => {
-  if (!form.value.specificUsers.includes(user._id)) {
-    form.value.specificUsers.push(user._id)
-    selectedUsersDetails.value.push({ _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email })
-  }
-  userSearchTerm.value = ''
-  userSearchResults.value = []
+    if (!form.value.specificUsers.includes(user._id)) {
+        form.value.specificUsers.push(user._id)
+        selectedUsersDetails.value.push(user)
+    }
+    userSearchTerm.value = ''
+    userSearchResults.value = []
 }
 
 const removeUser = (id: string) => {
-  form.value.specificUsers = form.value.specificUsers.filter(uid => uid !== id)
-  selectedUsersDetails.value = selectedUsersDetails.value.filter(u => u._id !== id)
+    form.value.specificUsers = form.value.specificUsers.filter(u => u !== id)
+    selectedUsersDetails.value = selectedUsersDetails.value.filter(u => u._id !== id)
 }
+
+// Image Upload Logic
+const triggerUpload = () => fileInput.value?.click()
+
+const handleFileUpload = async (event: Event) => {
+   const file = (event.target as HTMLInputElement).files?.[0]
+   if (!file) return
+   
+   uploading.value = true
+   const formData = new FormData()
+   formData.append('file', file)
+   
+   try {
+      const res = await adminApiFactory.uploadFile(formData)
+      const uploadedUrl = res.data?.data?.url || res.data?.url
+      if (uploadedUrl) {
+        form.value.imageUrl = uploadedUrl
+        showToast({ title: 'Visual Synced', message: 'Campaign banner updated.', toastType: 'success' })
+      }
+   } catch (e) {
+      showToast({ title: 'Upload Failed', message: 'Failed to sync image.', toastType: 'error' })
+   } finally {
+      uploading.value = false
+   }
+}
+
+const recipientCount = computed(() => {
+   if (form.value.targetAudience === 'all') return 'Global'
+   if (form.value.targetAudience === 'specific') return form.value.specificUsers.length
+   return 'Segmented'
+})
+
+const buttonLabel = computed(() => {
+  if (saving.value) return 'Saving...'
+  if (sendTiming.value === 'immediate') return 'Send campaign now'
+  if (sendTiming.value === 'schedule') return 'Schedule campaign'
+  return 'Save as draft'
+})
 
 const saveCampaign = async () => {
   if (!form.value.title || !form.value.subject) {
-    showToast({ title: 'Validation Error', message: 'Please fill in required fields', toastType: 'error' })
-    return
-  }
-  if (form.value.targetAudience === 'roles' && form.value.targetRoles.length === 0) {
-    showToast({ title: 'Validation Error', message: 'Please select at least one role', toastType: 'error' })
-    return
-  }
-  if (form.value.targetAudience === 'specific' && form.value.specificUsers.length === 0) {
-    showToast({ title: 'Validation Error', message: 'Please select at least one user', toastType: 'error' })
+    showToast({ title: 'Wait!', message: 'Please add a name and subject first.', toastType: 'error' })
     return
   }
   
   if (sendTiming.value === 'schedule' && !form.value.scheduledAt) {
-    showToast({ title: 'Validation Error', message: 'You must select a schedule date', toastType: 'error' })
+    showToast({ title: 'Logic Error', message: 'Please select a date for the scheduled send.', toastType: 'error' })
     return
   }
-  
+
   saving.value = true
   try {
     const payload: any = { ...form.value }
-    // Clean up specificUsers to ensure it's mapped correctly
-    if (payload.targetAudience !== 'specific') payload.specificUsers = []
-    if (payload.targetAudience !== 'roles') payload.targetRoles = []
     
-    // Aggressively clean up scheduledAt to strictly avoid ISO parsing errors
-    if (sendTiming.value !== 'schedule' || !payload.scheduledAt || payload.scheduledAt.trim() === '') {
-      delete payload.scheduledAt
+    // Aggressively fix the ISO 8601 validation issue
+    if (sendTiming.value === 'schedule' && payload.scheduledAt) {
+        payload.scheduledAt = new Date(payload.scheduledAt).toISOString()
     } else {
-      payload.scheduledAt = new Date(payload.scheduledAt).toISOString()
+        delete payload.scheduledAt // COMPLETELY REMOVE if not scheduling to avoid backend val errors
     }
     
-    // Step 1: Commit payload to DB
-    const res = await adminApiFactory.createCampaign(payload)
-    const newCampaignId = res?.data?.data?._id || res?.data?._id
-    
-    // Step 2: Trigger immediate blast if explicitly required
-    if (sendTiming.value === 'immediate' && newCampaignId) {
-       await adminApiFactory.sendCampaign(newCampaignId)
-       showToast({ title: 'Success', message: 'Campaign executed perfectly!', toastType: 'success' })
-    } else if (sendTiming.value === 'schedule') {
-       showToast({ title: 'Success', message: 'Campaign heavily scheduled!', toastType: 'success' })
+    const res = isEdit.value 
+        ? await adminApiFactory.updateCampaign(route.query.id as string, payload)
+        : await adminApiFactory.createCampaign(payload)
+        
+    const data = res?.data?.data || res?.data
+    const campaignId = data?._id
+
+    if (sendTiming.value === 'immediate' && campaignId) {
+        await adminApiFactory.sendCampaign(campaignId)
+        showToast({ title: 'Success', message: 'Campaign sent successfully.', toastType: 'success' })
     } else {
-       showToast({ title: 'Success', message: 'Draft securely filed.', toastType: 'success' })
+        showToast({ title: 'Saved', message: 'Campaign saved successfully.', toastType: 'success' })
     }
-    
+
     navigateTo('/campaigns')
   } catch (error: any) {
-    // Highly defensive error logging for UI debugging
-    const errMsg = error?.response?.data?.message || error?.message || 'Failed to save campaign'
-    showToast({ title: 'Error', message: typeof errMsg === 'string' ? errMsg : JSON.stringify(errMsg), toastType: 'error' })
+    const msg = error.response?.data?.message || 'Protocol failure.'
+    showToast({ title: 'Error', message: msg, toastType: 'error' })
   } finally {
     saving.value = false
   }
 }
+
+// Load existing if Edit
+onMounted(async () => {
+   if (isEdit.value) {
+      const res = await adminApiFactory.getCampaigns()
+      const list = res.data?.data || res.data
+      const existing = list.find((c: any) => c._id === route.query.id)
+      if (existing) {
+         form.value = { ...existing }
+         if (existing.scheduledAt) {
+            sendTiming.value = 'schedule'
+            form.value.scheduledAt = new Date(existing.scheduledAt).toISOString().slice(0, 16)
+         } else if (existing.status === 'draft') {
+            sendTiming.value = 'draft'
+         }
+         
+         if (existing.targetAudience === 'specific' && existing.specificUsers?.length) {
+             for (const userId of existing.specificUsers) {
+                 const uRes = await adminApiFactory.getUser(userId)
+                 const uData = uRes.data?.data || uRes.data
+                 if (uData) selectedUsersDetails.value.push(uData)
+             }
+         }
+      }
+   }
+})
 </script>

@@ -1,4 +1,4 @@
-import { GATEWAY_ENDPOINT_WITH_AUTH } from "../axios.config";
+import { GATEWAY_ENDPOINT_WITH_AUTH } from "@/api_factory/axios.config";
 
 export const usersApiFactory = {
     getProfile() {

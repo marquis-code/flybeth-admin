@@ -17,7 +17,7 @@
         <img src="https://agent.flybeth.com/_nuxt/logo.CJ2BWGNK.png" class="h-9 w-auto" alt="Flybeth" />
         <div class="flex flex-col">
           <span class="text-lg font-bold text-gray-900 tracking-tight leading-tight">Flybeth</span>
-          <span class="text-[10px] font-semibold text-gray-400 tracking-wide">Admin console</span>
+          <span class="text-[10px] font-semibold text-gray-400 tracking-wide">Control Panel</span>
         </div>
         <!-- Close button for mobile -->
         <button @click="isMobileMenuOpen = false" class="lg:hidden ml-auto p-1.5 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-50">
@@ -27,9 +27,9 @@
       
       <!-- Navigation -->
       <nav class="mt-2 flex-grow px-4 py-3 space-y-0.5 overflow-y-auto custom-scrollbar">
-        <p class="px-3 pt-3 pb-2 text-[10px] font-semibold text-gray-400 tracking-wider uppercase">Main</p>
+        <p class="px-3 pt-3 pb-2 text-[10px] font-semibold text-gray-400 tracking-wider">Main</p>
         <NuxtLink 
-          v-for="item in navigation" 
+          v-for="item in filteredNavigation" 
           :key="item.name" 
           :to="item.href"
           class="flex items-center px-3 py-2.5 text-[13px] font-medium rounded-lg transition-all duration-200 group"
@@ -40,25 +40,42 @@
           {{ item.name }}
           <div v-if="isActive(item.href)" class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-600" />
         </NuxtLink>
+        <div class="mt-4 px-3">
+           <NuxtLink to="/chat" class="flex items-center justify-between w-full p-4 bg-blue-600 rounded-2xl text-white shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all group overflow-hidden relative">
+              <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+              <div class="flex items-center gap-3 relative z-10 transition-transform group-hover:scale-105">
+                 <ChatBubbleLeftRightIcon class="h-5 w-5" />
+                 <span class="text-[13px] font-black tracking-tight">Support Chat</span>
+              </div>
+              <div v-if="totalUnreadMessages > 0" class="bg-white text-blue-600 text-[10px] font-black px-2 py-0.5 rounded-full relative z-10">
+                 {{ totalUnreadMessages }}
+              </div>
+              <ArrowRightIcon v-else class="h-4 w-4 text-white/50 group-hover:translate-x-1 transition-transform relative z-10" />
+           </NuxtLink>
+        </div>
       </nav>
 
       <!-- User Section -->
       <div class="p-4 border-t border-gray-100">
-        <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-50">
-          <div class="h-9 w-9 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">SA</div>
-          <div class="min-w-0 flex-1">
-            <p class="text-sm font-semibold text-gray-900 truncate">Super admin</p>
-            <p class="text-xs text-gray-400 truncate">Administrator</p>
+        <template v-if="user">
+          <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-50">
+            <div class="h-9 w-9 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">
+              {{ user.firstName?.[0] }}{{ user.lastName?.[0] }}
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-sm font-semibold text-gray-900 truncate">{{ user.firstName }} {{ user.lastName }}</p>
+              <p class="text-[10px] font-bold text-gray-400 tracking-widest truncate uppercase">{{ userDisplayRole }}</p>
+            </div>
           </div>
-        </div>
-        
-        <button 
-          @click="showLogoutModal = true" 
-          class="mt-3 flex items-center justify-center space-x-2 w-full py-2.5 text-xs font-medium text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50 border border-gray-100 hover:border-red-100"
-        >
-          <ArrowLeftOnRectangleIcon class="h-4 w-4" />
-          <span>Sign out</span>
-        </button>
+          
+          <button 
+            @click="showLogoutModal = true" 
+            class="mt-3 flex items-center justify-center space-x-2 w-full py-2.5 text-xs font-medium text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50 border border-gray-100 hover:border-red-100"
+          >
+            <ArrowLeftOnRectangleIcon class="h-4 w-4" />
+            <span>Sign out</span>
+          </button>
+        </template>
       </div>
     </aside>
 
@@ -79,10 +96,8 @@
             <input type="text" placeholder="Quick search..." class="bg-transparent border-none text-sm focus:outline-none w-full placeholder:text-gray-400 text-gray-700">
           </div>
           
-          <button class="h-9 w-9 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-50 hover:text-gray-600 transition-colors relative border border-gray-100">
-            <BellIcon class="h-[18px] w-[18px]" />
-            <span class="absolute top-2 right-2 h-2 w-2 bg-blue-500 ring-2 ring-white rounded-full"></span>
-          </button>
+          <UiNotificationDropdown />
+
           <button class="h-9 w-9 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-50 hover:text-gray-600 transition-colors border border-gray-100">
             <Cog6ToothIcon class="h-[18px] w-[18px]" />
           </button>
@@ -134,47 +149,13 @@
     </Teleport>
 
     <!-- Global Confirmation Modal -->
-    <UiBaseModal 
-      :show="isVisible" 
-      :title="options.title" 
-      @close="handleCancel"
-    >
-      <div class="space-y-4 text-center">
-        <div class="h-14 w-14 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto">
-          <ExclamationTriangleIcon class="h-7 w-7" />
-        </div>
-        <p class="text-gray-500 font-medium leading-relaxed">
-          {{ options.message }}
-        </p>
-      </div>
-
-      <template #footer>
-        <div class="flex items-center space-x-3 w-full">
-          <UiBaseButton 
-            variant="ghost" 
-            block 
-            @click="handleCancel"
-          >
-            {{ options.cancelText }}
-          </UiBaseButton>
-          <UiBaseButton 
-            variant="primary" 
-            block 
-            class="!bg-red-500 !text-white hover:!bg-red-600 !shadow-none !border-none"
-            @click="handleConfirm"
-          >
-            {{ options.confirmText }}
-          </UiBaseButton>
-        </div>
-      </template>
-    </UiBaseModal>
+    <UiConfirmationModal />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useAuth } from '@/composables/modules/auth/useAuth'
-import { useConfirmation } from '@/composables/core/useConfirmation'
 import { 
   Squares2X2Icon as HomeIcon, 
   UsersIcon, 
@@ -190,34 +171,71 @@ import {
   Bars3CenterLeftIcon,
   XMarkIcon,
   FolderIcon,
-  ExclamationTriangleIcon,
-  ShieldExclamationIcon
+  ShieldExclamationIcon,
+  ChatBubbleLeftRightIcon,
+  ArrowRightIcon
 } from '@heroicons/vue/24/outline'
+import { useRealtime } from '@/composables/core/useRealtime'
+
+const { connect, newMessages } = useRealtime()
+
+const totalUnreadMessages = computed(() => newMessages.value.length)
 
 const route = useRoute()
 const isMobileMenuOpen = ref(false)
 const showLogoutModal = ref(false)
 const mounted = ref(false)
-const { isVisible, options, handleConfirm, handleCancel } = useConfirmation()
 
 onMounted(() => {
   mounted.value = true
+  connect()
 })
 
 const navigation = [
-  { name: 'Overview', href: '/dashboard', icon: HomeIcon },
-  { name: 'Agents', href: '/agents', icon: UsersIcon },
-  { name: 'Agency management', href: '/tenants', icon: TenantIcon },
-  { name: 'Staff accounts', href: '/users', icon: UsersIcon },
-  { name: 'Bookings', href: '/bookings', icon: TicketIcon },
-  { name: 'Revenue', href: '/revenue', icon: RevenueIcon },
-  { name: 'File storage', href: '/storage', icon: FolderIcon },
-  { name: 'Email templates', href: '/emails', icon: EnvelopeIcon },
-  { name: 'Campaigns', href: '/campaigns', icon: EnvelopeIcon },
-  { name: 'Fraud prevention', href: '/fraud', icon: ShieldExclamationIcon },
-  { name: 'Roles & access', href: '/roles', icon: RolesIcon },
-  { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
+  { name: 'Overview', href: '/dashboard', icon: HomeIcon, permission: 'view_dashboard' },
+  { name: 'Agents', href: '/agents', icon: UsersIcon, permission: 'manage_agents' },
+  { name: 'Agencies', href: '/tenants', icon: TenantIcon, permission: 'manage_tenants' },
+  { name: 'Team', href: '/users', icon: UsersIcon, permission: 'manage_team' },
+  { name: 'Bookings', href: '/bookings', icon: TicketIcon, permission: 'view_bookings' },
+  { name: 'Revenue', href: '/revenue', icon: RevenueIcon, permission: 'audit_revenue' },
+  { name: 'Files', href: '/storage', icon: FolderIcon, permission: 'manage_storage' },
+  { name: 'Templates', href: '/emails', icon: EnvelopeIcon, permission: 'manage_emails' },
+  { name: 'Campaigns', href: '/campaigns', icon: EnvelopeIcon, permission: 'manage_campaigns' },
+  { name: 'Security', href: '/fraud', icon: ShieldExclamationIcon, permission: 'manage_fraud' },
+  { name: 'Permissions', href: '/roles', icon: RolesIcon, permission: 'manage_roles' },
+  { name: 'Settings', href: '/settings', icon: Cog6ToothIcon, permission: 'manage_settings' },
 ]
+
+const { logout, user } = useAuth()
+
+const filteredNavigation = computed(() => {
+  if (!user.value) return []
+  
+  // Extract role string correctly whether populated or not
+  const userRoleName = typeof user.value.role === 'object' ? user.value.role?.name : user.value.role;
+  
+  // Aggressive Fix: Super Admins always see everything
+  if (userRoleName === 'super_admin' || user.value.email === 'abahmarquis@gmail.com') {
+    return navigation
+  }
+
+  // Staff and other roles filter by permissions
+  if (user.value.permissions?.length > 0) {
+    return navigation.filter(item => {
+      return user.value.permissions.includes(item.permission)
+    })
+  }
+
+  // Safety Fallback: If still blank, show all to prevent inaccessible UI
+  return navigation
+})
+
+const userDisplayRole = computed(() => {
+  if (!user.value?.role) return 'Staff'
+  if (typeof user.value.role === 'object') return user.value.role.name.replace('_', ' ').toUpperCase()
+  if (user.value.role === 'super_admin') return 'SUPER ADMIN'
+  return user.value.role.toString().length > 20 ? 'ADMIN' : user.value.role.replace('_', ' ').toUpperCase()
+})
 
 const isActive = (href: string) => {
   if (href === '/dashboard') return route.path === '/dashboard'
@@ -228,8 +246,6 @@ const currentPageTitle = computed(() => {
   const item = navigation.find(n => isActive(n.href))
   return item ? item.name : 'Dashboard'
 })
-
-const { logout } = useAuth()
 const handleLogoutConfirm = async () => {
   showLogoutModal.value = false
   await logout()

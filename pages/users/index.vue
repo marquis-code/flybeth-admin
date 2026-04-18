@@ -2,8 +2,8 @@
   <div class="space-y-10 pb-12">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
        <div class="space-y-1">
-         <h1 class="text-3xl font-bold text-brand-blue tracking-tight">Staffing and control</h1>
-         <p class="text-brand-gray/60 font-medium text-sm">Manage your core team, administrators, and infrastructure support staff</p>
+         <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Team</h1>
+         <p class="text-gray-600 font-medium text-sm">Manage your administrators and support staff</p>
        </div>
        <div class="flex items-center gap-4">
          <UiBaseButton variant="secondary" size="lg" @click="showCreateDrawer = true">
@@ -20,10 +20,10 @@
     <!-- Quick Stats -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <UiBaseCard v-for="s in computedUserStats" :key="s.label" padding class="group transition-all duration-300">
-         <p class="text-[10px] font-bold text-brand-gray/40 uppercase tracking-widest mb-1">{{ s.label }}</p>
+         <p class="text-sm font-bold text-gray-500  tracking-widest mb-1">{{ s.label }}</p>
          <div class="flex items-center justify-between">
-           <h3 class="text-3xl font-bold text-brand-blue">{{ s.value }}</h3>
-           <div class="h-10 w-10 bg-brand-blue/5 rounded-xl flex items-center justify-center text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-colors">
+           <h3 class="text-3xl font-bold text-gray-900">{{ s.value }}</h3>
+           <div class="h-10 w-10 bg-brand-blue/5 rounded-xl flex items-center justify-center text-gray-900 group-hover:bg-brand-blue group-hover:text-white transition-colors">
              <component :is="s.icon" class="h-5 w-5" />
            </div>
          </div>
@@ -31,32 +31,30 @@
     </div>
 
     <!-- User Table -->
-    <div v-if="loading && users.length === 0" class="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-gray-100">
-      <div class="h-10 w-10 border-4 border-brand-blue/10 border-t-brand-blue rounded-full animate-spin"></div>
-      <p class="mt-4 text-sm font-bold text-brand-blue/40 uppercase tracking-widest">Hydrating staff profiles...</p>
-    </div>
-
     <UiBaseTable 
-      v-else
       :columns="userColumns" 
       :items="users"
+      :meta="meta"
+      :loading="loading"
       empty-title="No staff members"
       empty-description="You haven't added any team members yet. Invite your first colleague to start collaborating."
+      @page-change="onPageChange"
+      @update:limit="onLimitChange"
     >
       <template #cell(profile)="{ item }">
         <div class="flex items-center space-x-4">
-          <div class="h-10 w-10 rounded-xl bg-brand-blue/5 border border-brand-blue/5 flex items-center justify-center font-bold text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-colors">
+          <div class="h-10 w-10 rounded-xl bg-brand-blue/5 border border-brand-blue/5 flex items-center justify-center font-bold text-gray-900 group-hover:bg-brand-blue group-hover:text-white transition-colors">
             {{ item.name?.[0] || item.firstName?.[0] || '?' }}
           </div>
           <div class="text-left">
-             <div class="text-sm font-bold text-brand-blue tracking-tight">{{ item.name || `${item.firstName} ${item.lastName}` }}</div>
-             <div class="text-[10px] font-bold text-brand-gray/40 uppercase tracking-widest">{{ item.email }}</div>
+             <div class="text-sm font-bold text-gray-900 tracking-tight">{{ item.name || `${item.firstName} ${item.lastName}` }}</div>
+             <div class="text-sm font-bold text-gray-500  tracking-widest">{{ item.email }}</div>
           </div>
         </div>
       </template>
 
       <template #cell(role)="{ item }">
-        <span class="text-[9px] font-bold text-brand-blue uppercase tracking-widest bg-brand-blue/5 px-4 py-1.5 rounded-lg border border-brand-blue/10">
+        <span class="text-sm font-bold text-gray-900  tracking-widest bg-brand-blue/5 px-4 py-1.5 rounded-lg border border-brand-blue/10">
           {{ item.role }}
         </span>
       </template>
@@ -64,7 +62,7 @@
       <template #cell(status)="{ item }">
          <div class="flex items-center px-4 py-1.5 rounded-xl bg-gray-50/50 border border-gray-100 w-fit">
            <div class="h-1.5 w-1.5 rounded-full mr-3" :class="(item.status === 'Active' || item.isActive) ? 'bg-brand-green' : 'bg-brand-gray/30'"></div>
-           <span class="text-[9px] font-bold uppercase tracking-widest" :class="(item.status === 'Active' || item.isActive) ? 'text-brand-green' : 'text-brand-gray/50'">
+           <span class="text-sm font-bold  tracking-widest" :class="(item.status === 'Active' || item.isActive) ? 'text-brand-green' : 'text-brand-gray/50'">
              {{ item.status || (item.isActive ? 'Active' : 'Inactive') }}
            </span>
          </div>
@@ -72,7 +70,7 @@
 
       <template #cell(actions)="{ item }">
         <div class="flex items-center justify-end space-x-2">
-          <button @click="handleEdit(item)" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-brand-gray/40 transition-colors hover:text-brand-blue hover:bg-brand-blue/5">
+          <button @click="handleEdit(item)" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-gray-500 transition-colors hover:text-gray-900 hover:bg-brand-blue/5">
             <PencilSquareIcon class="h-4 w-4" />
           </button>
           <button @click="handleDelete(item._id)" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-red-300 transition-colors hover:text-red-500 hover:bg-red-50">
@@ -91,7 +89,7 @@
       <div class="space-y-8">
         <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5">
           <p class="text-sm text-amber-800 font-bold">🔒 Security notice</p>
-          <p class="text-xs text-amber-600 mt-1.5 leading-relaxed font-medium">This creates a fully verified account with immediate access. The user will receive login credentials via email.</p>
+          <p class="text-sm text-amber-600 mt-1.5 leading-relaxed font-medium">This creates a fully verified account with immediate access. The user will receive login credentials via email.</p>
         </div>
         
         <div class="space-y-4">
@@ -101,7 +99,7 @@
           <UiAnimatedInput v-model="createForm.password" label="Temporary password" type="password" />
           <UiAnimatedInput v-model="createForm.phone" label="Phone number (optional)" type="tel" />
           <div class="space-y-2">
-            <label class="text-[10px] font-bold uppercase tracking-widest text-brand-gray/40 ml-1">System role</label>
+            <label class="text-sm font-bold  tracking-widest text-gray-500 ml-1">System role</label>
             <UiSelectInput
               v-model="createForm.role"
               label=""
@@ -128,13 +126,13 @@
       @close="showInviteDrawer = false"
     >
       <div class="space-y-8">
-        <p class="text-sm text-brand-gray/60 leading-relaxed font-medium">Send a secure invitation to a new administrative or support staff member.</p>
+        <p class="text-sm text-gray-600 leading-relaxed font-medium">Send a secure invitation to a new administrative or support staff member.</p>
         
         <div class="space-y-4">
           <UiAnimatedInput v-model="inviteForm.name" label="Full name" />
           <UiAnimatedInput v-model="inviteForm.email" label="Professional email" type="email" />
           <div class="space-y-2">
-            <label class="text-[10px] font-bold uppercase tracking-widest text-brand-gray/40 ml-1">Security role</label>
+            <label class="text-sm font-bold  tracking-widest text-gray-500 ml-1">Security role</label>
             <UiSelectInput
               v-model="inviteForm.role"
               label=""
@@ -150,6 +148,32 @@
           <UiBaseButton variant="primary" class="flex-1" :loading="loading" @click="handleInvite">Send invite</UiBaseButton>
         </div>
       </template>
+    </UiSideDrawer>
+    <!-- Edit Team Member Drawer -->
+    <UiSideDrawer 
+      :show="showEditDrawer" 
+      title="Edit team member" 
+      @close="showEditDrawer = false; editingUserId = null"
+    >
+      <div class="space-y-6">
+        <div class="bg-blue-50 border border-blue-100 rounded-2xl p-5 mb-4">
+          <p class="text-sm text-blue-900 font-bold mb-1">Modify access level</p>
+          <p class="text-xs text-blue-700 leading-relaxed font-medium">Changing a user's role will immediately update their permissions and platform access horizontally across all endpoints.</p>
+        </div>
+
+        <UiAnimatedInput 
+          v-model="editForm.role" 
+          label="Role capability" 
+          type="select" 
+          :options="[...createRoleOptions, ...inviteRoleOptions, 'agent', 'customer']" 
+        />
+
+        <div class="pt-8">
+          <UiBaseButton variant="primary" class="w-full" :loading="loading" @click="submitEdit">
+            Update role capabilities
+          </UiBaseButton>
+        </div>
+      </div>
     </UiSideDrawer>
   </div>
 </template>
@@ -173,12 +197,18 @@ definePageMeta({
   layout: 'admin'
 })
 
-const { users, loading, fetchUsers, inviteUser, createAdminUser, deleteUser } = useUsers()
+const { users, loading, fetchUsers, inviteUser, createAdminUser, updateUserRole, deleteUser } = useUsers()
 const { showToast } = useCustomToast()
 const { confirm } = useConfirmation()
+const meta = computed(() => {
+  const m = useUsers().meta
+  return m?.value || null
+})
 
 const showInviteDrawer = ref(false)
 const showCreateDrawer = ref(false)
+const showEditDrawer = ref(false)
+const editingUserId = ref<string | null>(null)
 const createError = ref('')
 
 const inviteForm = ref({
@@ -196,24 +226,54 @@ const createForm = ref({
   role: 'super_admin'
 })
 
+const editForm = ref({
+  role: ''
+})
+
 const createRoleOptions = ['super_admin', 'tenant_admin', 'staff']
 const inviteRoleOptions = ['Super Admin', 'Finance Manager', 'Content Moderator', 'Support Tier 1', 'Support Tier 2']
 
 const userColumns = [
-  { key: 'profile', label: 'Staff profile' },
-  { key: 'role', label: 'Security role' },
-  { key: 'status', label: 'Access status' },
+  { key: 'profile', label: 'Member' },
+  { key: 'role', label: 'Role' },
+  { key: 'status', label: 'Status' },
   { key: 'actions', label: '', tdClass: 'text-right' },
 ]
 
-const computedUserStats = computed(() => [
-  { label: 'Infrastructure staff', value: users.value.length.toString(), icon: UsersIcon },
-  { label: 'Global admins', value: users.value.filter(u => u.role?.includes('admin')).length.toString(), icon: ShieldCheckIcon },
-  { label: 'Support response', value: users.value.filter(u => u.role?.includes('staff')).length.toString(), icon: LifebuoyIcon },
-])
+const computedUserStats = computed(() => {
+  const total = meta.value?.total || users.value.length
+  return [
+    { label: 'Team members', value: total.toString(), icon: UsersIcon },
+    { label: 'Admins', value: users.value.filter(u => u.role?.includes('admin')).length.toString(), icon: ShieldCheckIcon },
+    { label: 'Support staff', value: users.value.filter(u => u.role?.includes('staff')).length.toString(), icon: LifebuoyIcon },
+  ]
+})
+
+const currentPage = ref(1)
+const currentLimit = ref(20)
+
+const fetchParams = computed(() => ({
+  page: currentPage.value,
+  limit: currentLimit.value
+}))
+
+const loadUsers = async () => {
+  await fetchUsers(fetchParams.value)
+}
+
+const onPageChange = (page: number) => {
+  currentPage.value = page
+  loadUsers()
+}
+
+const onLimitChange = (limit: number) => {
+  currentLimit.value = limit
+  currentPage.value = 1
+  loadUsers()
+}
 
 onMounted(() => {
-  fetchUsers()
+  loadUsers()
 })
 
 const handleCreateAdmin = async () => {
@@ -234,7 +294,7 @@ const handleCreateAdmin = async () => {
     showToast({ title: 'Success', message: 'Admin user created successfully!', toastType: 'success' })
     showCreateDrawer.value = false
     createForm.value = { firstName: '', lastName: '', email: '', password: '', phone: '', role: 'super_admin' }
-    await fetchUsers()
+    await loadUsers()
   } catch (err: any) {
     createError.value = err?.response?.data?.message || 'Failed to create admin user.'
   }
@@ -246,14 +306,29 @@ const handleInvite = async () => {
     showToast({ title: 'Success', message: 'Invitation sent!', toastType: 'success' })
     showInviteDrawer.value = false
     inviteForm.value = { name: '', email: '', role: 'Support Tier 1' }
-    await fetchUsers()
+    await loadUsers()
   } catch (err) {
     // Error handled by composable/interceptor
   }
 }
 
 const handleEdit = (user: any) => {
-  // Logic for opening edit modal/drawer
+  editingUserId.value = user._id
+  editForm.value.role = user.role
+  showEditDrawer.value = true
+}
+
+const submitEdit = async () => {
+  if (!editingUserId.value || !editForm.value.role) return
+  try {
+    await updateUserRole(editingUserId.value, editForm.value.role)
+    showToast({ title: 'Success', message: 'Team member role updated successfully!', toastType: 'success' })
+    showEditDrawer.value = false
+    editingUserId.value = null
+    await loadUsers()
+  } catch (err: any) {
+     showToast({ title: 'Failed', message: 'Could not update role.', toastType: 'error' })
+  }
 }
 
 const handleDelete = async (id: string) => {
@@ -268,7 +343,7 @@ const handleDelete = async (id: string) => {
        try {
          await deleteUser(id)
          showToast({ title: 'Deleted', message: 'Staff member removed.', toastType: 'success' })
-         await fetchUsers()
+         await loadUsers()
        } catch (err) {}
     }
 }

@@ -2,15 +2,27 @@ import { ref } from "vue";
 import { adminApiFactory } from "@/api_factory/modules/admin";
 
 export interface DashboardData {
-    totalRevenue: string;
-    revenueTrend: string;
-    activeTenants: string | number;
-    tenantGrowth: string;
-    totalBookings: string | number;
-    bookingTrend: string;
-    totalUsers: string | number;
-    userGrowth: string;
-    topTenants: any[];
+    overview: {
+        totalTenants: number;
+        totalUsers: number;
+        totalBookings: number;
+        bookingTrend: string;
+        userTrend: string;
+        currentMonthPerformance: {
+            newBookings: number;
+            newUsers: number;
+        };
+    };
+    revenue: {
+        byCurrency: any[];
+        totalTransactions: number;
+        topPartners: any[];
+    };
+    analytics: {
+        bookingStatus: any[];
+        successRate: string;
+    };
+    recentBookings: any[];
 }
 
 export interface SystemHealth {
@@ -71,6 +83,35 @@ export const useAdmin = () => {
         }
     };
 
+    const downloadRevenueLedger = async () => {
+        try {
+            const res = await adminApiFactory.downloadLedger();
+            const blob = new Blob([res.data], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `flybeth-ledger-${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error: any) {
+            console.error('Ledger download failed', error);
+        }
+    };
+
+    const initiateGlobalSettlement = async () => {
+        loading.value = true;
+        try {
+            await adminApiFactory.initiateSettlement();
+            return true;
+        } catch (error: any) {
+            console.error('Settlement failed', error);
+            return false;
+        } finally {
+            loading.value = false;
+        }
+    };
+
     return {
         loading,
         dashboardData,
@@ -79,5 +120,7 @@ export const useAdmin = () => {
         fetchDashboard,
         fetchRevenue,
         fetchSystemHealth,
+        downloadRevenueLedger,
+        initiateGlobalSettlement,
     };
 };
