@@ -45,9 +45,9 @@
               <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
               <div class="flex items-center gap-3 relative z-10 transition-transform group-hover:scale-105">
                  <ChatBubbleLeftRightIcon class="h-5 w-5" />
-                 <span class="text-[13px] font-black tracking-tight">Support Chat</span>
+                 <span class="text-[13px]  tracking-tight">Support Chat</span>
               </div>
-              <div v-if="totalUnreadMessages > 0" class="bg-white text-blue-600 text-[10px] font-black px-2 py-0.5 rounded-full relative z-10">
+              <div v-if="totalUnreadMessages > 0" class="bg-white text-blue-600 text-[10px]  px-2 py-0.5 rounded-full relative z-10">
                  {{ totalUnreadMessages }}
               </div>
               <ArrowRightIcon v-else class="h-4 w-4 text-white/50 group-hover:translate-x-1 transition-transform relative z-10" />
@@ -173,7 +173,8 @@ import {
   FolderIcon,
   ShieldExclamationIcon,
   ChatBubbleLeftRightIcon,
-  ArrowRightIcon
+  ArrowRightIcon,
+  CurrencyDollarIcon
 } from '@heroicons/vue/24/outline'
 import { useRealtime } from '@/composables/core/useRealtime'
 
@@ -201,8 +202,10 @@ const navigation = [
   { name: 'Files', href: '/storage', icon: FolderIcon, permission: 'manage_storage' },
   { name: 'Templates', href: '/emails', icon: EnvelopeIcon, permission: 'manage_emails' },
   { name: 'Campaigns', href: '/campaigns', icon: EnvelopeIcon, permission: 'manage_campaigns' },
+  { name: 'Support Desk', href: '/support', icon: ChatBubbleLeftRightIcon, permission: 'manage_support' },
   { name: 'Security', href: '/fraud', icon: ShieldExclamationIcon, permission: 'manage_fraud' },
   { name: 'Permissions', href: '/roles', icon: RolesIcon, permission: 'manage_roles' },
+  { name: 'Currency & Pricing', href: '/pricing', icon: CurrencyDollarIcon, permission: 'manage_settings' },
   { name: 'Settings', href: '/settings', icon: Cog6ToothIcon, permission: 'manage_settings' },
 ]
 

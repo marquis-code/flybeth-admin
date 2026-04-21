@@ -26,7 +26,7 @@
           <component :is="stat.icon" class="w-5 h-5" />
         </div>
         <div class="text-gray-400 text-sm font-bold  tracking-widest mb-1">{{ stat.label }}</div>
-        <div class="text-2xl font-black text-gray-900">{{ stat.value }}</div>
+        <div class="text-2xl  text-gray-900">{{ stat.value }}</div>
         <div class="mt-2 text-base font-semibold flex items-center gap-1" :class="stat.trendColor">
           <ArrowTrendingDownIcon class="w-3 h-3" />
           {{ stat.trend }} vs last 7d
@@ -39,7 +39,7 @@
       <div class="p-6 border-b border-gray-50 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
         <h3 class="text-base font-bold text-gray-900 flex items-center gap-2">
           High Risk Bookings
-          <span class="px-2 py-0.5 bg-red-100 text-red-600 text-sm rounded-full font-black  tracking-wider">Requires Action</span>
+          <span class="px-2 py-0.5 bg-red-100 text-red-600 text-sm rounded-full   tracking-wider">Requires Action</span>
         </h3>
         <div class="flex gap-2 w-full md:w-auto">
           <div class="relative flex-1 md:flex-none">
@@ -54,12 +54,12 @@
         <table class="w-full text-left">
           <thead class="bg-gray-50/80">
             <tr>
-              <th class="px-6 py-4 text-sm font-black text-gray-400  tracking-widest">Booking / PNR</th>
-              <th class="px-6 py-4 text-sm font-black text-gray-400  tracking-widest">User / IP</th>
-              <th class="px-6 py-4 text-sm font-black text-gray-400  tracking-widest text-center">Risk Score</th>
-              <th class="px-6 py-4 text-sm font-black text-gray-400  tracking-widest">Fraud Signals</th>
-              <th class="px-6 py-4 text-sm font-black text-gray-400  tracking-widest">Amount</th>
-              <th class="px-6 py-4 text-sm font-black text-gray-400  tracking-widest text-right">Actions</th>
+              <th class="px-6 py-4 text-sm  text-gray-400  tracking-widest">Booking / PNR</th>
+              <th class="px-6 py-4 text-sm  text-gray-400  tracking-widest">User / IP</th>
+              <th class="px-6 py-4 text-sm  text-gray-400  tracking-widest text-center">Risk Score</th>
+              <th class="px-6 py-4 text-sm  text-gray-400  tracking-widest">Fraud Signals</th>
+              <th class="px-6 py-4 text-sm  text-gray-400  tracking-widest">Amount</th>
+              <th class="px-6 py-4 text-sm  text-gray-400  tracking-widest text-right">Actions</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">
@@ -72,28 +72,28 @@
               </td>
               <td class="px-6 py-4">
                 <div class="flex flex-col">
-                  <span class="font-semibold text-gray-700 text-sm">{{ booking.user }}</span>
-                  <span class="text-sm font-mono text-orange-500 mt-0.5">{{ booking.ip }}</span>
+                  <span class="font-semibold text-gray-700 text-sm">{{ booking.user?.firstName }} {{ booking.user?.lastName }}</span>
+                  <span class="text-sm font-mono text-orange-500 mt-0.5">{{ booking.ipAddress }}</span>
                 </div>
               </td>
               <td class="px-6 py-4 text-center">
                 <div
                   class="inline-flex items-center justify-center w-12 h-12 rounded-full border-[3px] transition-all"
-                  :style="{ borderColor: getRiskColor(booking.score), color: getRiskColor(booking.score) }"
+                  :style="{ borderColor: getRiskColor(booking.riskScore), color: getRiskColor(booking.riskScore) }"
                 >
-                  <span class="text-sm font-black">{{ booking.score }}</span>
+                  <span class="text-sm ">{{ booking.riskScore }}</span>
                 </div>
               </td>
               <td class="px-6 py-4">
                 <div class="flex flex-wrap gap-1.5 max-w-[280px]">
-                  <span v-for="signal in booking.signals" :key="signal"
+                  <span v-for="signal in booking.fraudSignals" :key="signal"
                     class="px-2 py-0.5 bg-gray-100 text-gray-600 text-sm rounded-lg font-bold whitespace-nowrap">
                     {{ signal }}
                   </span>
                 </div>
               </td>
               <td class="px-6 py-4">
-                <span class="font-bold text-gray-900 text-sm">{{ booking.amount }}</span>
+                <span class="font-bold text-gray-900 text-sm">{{ booking.pricing?.totalAmount }} {{ booking.pricing?.currency }}</span>
               </td>
               <td class="px-6 py-4 text-right">
                 <div class="flex justify-end gap-1.5">
@@ -128,25 +128,25 @@
       <div class="p-6 border-b border-gray-50">
         <h3 class="text-base font-bold text-gray-900 flex items-center gap-2">
           Recent Bot Guard Activity
-          <span class="px-2 py-0.5 bg-blue-100 text-blue-600 text-sm rounded-full font-black  tracking-wider">Auto-blocked</span>
+          <span class="px-2 py-0.5 bg-blue-100 text-blue-600 text-sm rounded-full   tracking-wider">Auto-blocked</span>
         </h3>
       </div>
       <div class="divide-y divide-gray-50">
-        <div v-for="event in botEvents" :key="event.id" class="px-6 py-4 flex items-center justify-between hover:bg-gray-50/50 transition-colors">
+        <div v-for="event in botEvents" :key="event._id" class="px-6 py-4 flex items-center justify-between hover:bg-gray-50/50 transition-colors">
           <div class="flex items-center gap-4">
-            <div class="w-8 h-8 rounded-lg flex items-center justify-center" :class="event.blocked ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-600'">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-red-100 text-red-600">
               <ShieldExclamationIcon class="w-4 h-4" />
             </div>
             <div>
-              <span class="text-base font-semibold text-gray-800">{{ event.path }}</span>
-              <span class="text-sm text-gray-400 ml-2 font-mono">{{ event.ip }}</span>
+              <span class="text-base font-semibold text-gray-800">{{ event.eventCount }} suspicious events</span>
+              <span class="text-sm text-gray-400 ml-2 font-mono">{{ event._id }}</span>
             </div>
           </div>
           <div class="flex items-center gap-4">
-            <span :class="event.blocked ? 'text-red-600 bg-red-50' : 'text-yellow-600 bg-yellow-50'" class="text-sm font-bold  tracking-wider px-2 py-1 rounded-lg">
-              {{ event.blocked ? 'Blocked' : 'Warned' }}
+            <span class="text-red-600 bg-red-50 text-sm font-bold  tracking-wider px-2 py-1 rounded-lg">
+              Auto-Flagged
             </span>
-            <span class="text-sm text-gray-400 font-semibold">{{ event.time }}</span>
+            <span class="text-sm text-gray-400 font-semibold">{{ new Date(event.lastEvent).toLocaleTimeString() }}</span>
           </div>
         </div>
       </div>
@@ -190,10 +190,10 @@ definePageMeta({
 })
 
 const stats = computed(() => [
-  { label: 'Blocked Attacks', value: apiStats.value?.blockedAttacks || '1,284', trend: '↓ 12%', icon: ShieldCheckIcon, colorClass: 'bg-green-100 text-green-600', trendColor: 'text-green-500' },
-  { label: 'High Risk Alerts', value: apiStats.value?.highRiskAlerts || '24', trend: '↓ 5%', icon: ShieldExclamationIcon, colorClass: 'bg-orange-100 text-orange-600', trendColor: 'text-green-500' },
-  { label: 'Banned IPs', value: apiStats.value?.bannedIps || '89', trend: '↑ 2%', icon: UserMinusIcon, colorClass: 'bg-gray-100 text-gray-600', trendColor: 'text-red-400' },
-  { label: 'Chargebacks', value: apiStats.value?.chargebacks || '$850', trend: '↓ 45%', icon: CreditCardIcon, colorClass: 'bg-red-100 text-red-600', trendColor: 'text-green-500' },
+  { label: 'Analyzed Events', value: apiStats.value?.totalEventsAnalyzed?.toLocaleString() || '0', trend: 'Live', icon: ShieldCheckIcon, colorClass: 'bg-green-100 text-green-600', trendColor: 'text-green-500' },
+  { label: 'High Risk Alerts', value: apiStats.value?.highRiskBookings || '0', trend: apiStats.value?.riskLevel || 'None', icon: ShieldExclamationIcon, colorClass: 'bg-orange-100 text-orange-600', trendColor: 'text-orange-500' },
+  { label: 'Bot Threats', value: apiStats.value?.activeBotThreats || '0', trend: 'Active', icon: UserMinusIcon, colorClass: 'bg-gray-100 text-gray-600', trendColor: 'text-red-400' },
+  { label: 'Security Score', value: `${apiStats.value?.securityScore || 100}%`, trend: 'System', icon: CreditCardIcon, colorClass: 'bg-blue-100 text-blue-600', trendColor: 'text-blue-500' },
 ])
 
 onMounted(async () => {
@@ -207,12 +207,13 @@ onMounted(async () => {
 const searchQuery = ref('')
 
 const filteredBookings = computed(() => {
-  if (!searchQuery.value) return highRiskBookings.value
+  const bookings = highRiskBookings.value || []
+  if (!searchQuery.value) return bookings
   const q = searchQuery.value.toLowerCase()
-  return highRiskBookings.value.filter(b =>
-    b.pnr.toLowerCase().includes(q) ||
-    b.user.toLowerCase().includes(q) ||
-    b.ip.toLowerCase().includes(q)
+  return bookings.filter(b =>
+    (b.pnr || '').toLowerCase().includes(q) ||
+    (b.user?.firstName || b.user?.email || '').toLowerCase().includes(q) ||
+    (b.ipAddress || '').includes(q)
   )
 })
 

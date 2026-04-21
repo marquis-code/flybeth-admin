@@ -137,7 +137,9 @@
     <!-- Add Agent Side Drawer -->
     <UiSideDrawer 
       :show="showAddAgent" 
-      title="Add new partner" 
+      title="Agency Onboarding" 
+      subtitle="Initiate the vetting process for a new travel agency partner"
+      size="full"
       @close="showAddAgent = false"
     >
       <div class="space-y-8">

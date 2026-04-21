@@ -126,7 +126,9 @@
     <!-- New Booking Side Drawer -->
     <UiSideDrawer 
       :show="showNewBooking" 
-      title="Direct transaction entry" 
+      title="Direct Ledger Entry" 
+      subtitle="Manually record a booking for auditing and ledger reconciliation"
+      size="full"
       @close="showNewBooking = false"
     >
       <div class="space-y-8">

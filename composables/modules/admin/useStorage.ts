@@ -40,9 +40,9 @@ export const useStorage = () => {
                 toastType: "success"
             })
             // Add the metadata to the local files list if we got a response
-            if (res?.data) {
+            if (res?.data?.data) {
                 files.value.unshift({
-                    ...res.data,
+                    ...res.data.data,
                     label: metadata?.label || '',
                     category: metadata?.category || ''
                 })

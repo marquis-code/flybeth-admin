@@ -3,137 +3,179 @@
     <!-- Header Architecture -->
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 bg-white border border-gray-100 p-8 rounded-[2rem] shadow-none transition-premium">
       <div class="space-y-2">
-        <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Security Orchestration</h1>
-        <p class="text-gray-500 font-medium">Define, audit, and deconstruct security roles across the platform infrastructure.</p>
+        <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Roles & Permissions</h1>
+        <p class="text-gray-500 font-medium text-sm">Create and manage what different team members can see and do on the platform.</p>
       </div>
       <div class="flex gap-4">
         <UiBaseButton variant="outline" @click="fetchData" :loading="loading">
-           <ArrowPathIcon class="h-4 w-4 mr-2" />
-           Sync tiers
+           <RefreshCwIcon class="h-4 w-4 mr-2" />
+           Sync list
         </UiBaseButton>
         <UiBaseButton variant="primary" size="lg" @click="openCreateModal" class="bg-gray-900 text-white min-w-[200px] shadow-none">
           <PlusIcon class="h-5 w-5 mr-3" />
-          Architect new role
+          Create New Role
         </UiBaseButton>
       </div>
     </div>
 
     <!-- Tier visualization -->
-    <div v-if="loading" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-       <div v-for="i in 3" :key="i" class="h-48 bg-white border border-gray-100 rounded-[2rem] animate-pulse"></div>
+    <div v-if="loading" class="bg-white border border-gray-100 rounded-[2rem] p-12 flex flex-col items-center justify-center animate-pulse">
+       <RefreshCwIcon class="h-10 w-10 text-gray-200 animate-spin mb-4" />
+       <p class="text-sm font-bold text-gray-400 uppercase tracking-widest">Updating data...</p>
     </div>
     
-    <div v-else class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-      <!-- Role Cards -->
-      <div v-for="role in roles" :key="role._id" class="relative group">
-         <div class="bg-white border border-gray-100 p-8 rounded-[2.5rem] h-full flex flex-col hover:border-brand-blue/30 hover:bg-gray-50/30 transition-premium shadow-none">
-            <div class="flex justify-between items-start mb-6">
-               <div class="h-14 w-14 bg-brand-blue/5 rounded-2xl flex items-center justify-center text-brand-blue shadow-none group-hover:scale-110 transition-premium">
-                  <ShieldCheckIcon class="h-7 w-7" />
-               </div>
-               <div class="flex space-x-2">
-                  <button @click="handleEdit(role)" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-gray-400 hover:text-brand-blue hover:bg-white transition-premium shadow-none border border-transparent hover:border-gray-100">
-                    <PencilSquareIcon class="h-4 w-4" />
-                  </button>
-                  <button v-if="!role.isDefault" @click="handleDelete(role)" class="h-9 w-9 flex items-center justify-center rounded-xl bg-gray-50 text-gray-400 hover:text-red-500 hover:bg-white transition-premium shadow-none border border-transparent hover:border-gray-100">
-                    <TrashIcon class="h-4 w-4" />
-                  </button>
-               </div>
-            </div>
-
-            <h3 class="text-xl font-bold text-gray-900 mb-2 truncate uppercase tracking-tight">{{ role.name.replace('_', ' ') }}</h3>
-            <p class="text-sm text-gray-500 line-clamp-2 mb-8 min-h-[40px] leading-relaxed">{{ role.description || 'No system definition provided for this security tier.' }}</p>
-            
-            <div class="mt-auto space-y-4">
-               <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-gray-400">
-                  <span>Authorized capabilities</span>
-                  <span class="text-brand-blue">{{ role.permissions.length }}</span>
-               </div>
-               <div class="flex flex-wrap gap-1.5 pt-2">
-                  <span 
-                    v-for="perm in role.permissions.slice(0, 4)" 
-                    :key="perm" 
-                    class="text-[9px] font-bold text-gray-500 uppercase tracking-widest bg-white px-2.5 py-1 rounded-md border border-gray-100"
-                  >
-                    {{ perm.split('_').pop() }}
+    <div v-else class="bg-white border border-gray-100 rounded-[2.5rem] overflow-hidden shadow-none">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-gray-50/50 border-b border-gray-100">
+              <th class="px-8 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Role Name</th>
+              <th class="px-8 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Description</th>
+              <th class="px-8 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Permissions</th>
+              <th class="px-8 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Type</th>
+              <th class="px-8 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-50">
+            <tr v-for="role in roles" :key="role._id" class="group hover:bg-gray-50/50 transition-premium">
+              <td class="px-8 py-7">
+                <div class="flex items-center space-x-4">
+                  <div class="h-10 w-10 rounded-xl bg-brand-blue/5 flex items-center justify-center text-brand-blue group-hover:scale-110 transition-premium">
+                    <ShieldCheckIcon class="h-5 w-5" />
+                  </div>
+                  <span class="text-sm font-bold text-gray-900 uppercase tracking-tight">{{ role.name.replace('_', ' ') }}</span>
+                </div>
+              </td>
+              <td class="px-8 py-7 max-w-xs">
+                <p class="text-xs text-gray-500 leading-relaxed truncate">{{ role.description || 'No specific description provided.' }}</p>
+              </td>
+              <td class="px-8 py-7">
+                <div class="flex items-center gap-2">
+                  <span class="px-3 py-1 rounded-lg bg-gray-100 text-[10px] font-bold text-gray-500 uppercase tracking-widest border border-gray-200/50">
+                    {{ role.permissions.length }} Access Points
                   </span>
-                  <span v-if="role.permissions.length > 4" class="text-[9px] font-bold text-brand-blue bg-brand-blue/5 px-2.5 py-1 rounded-md border border-brand-blue/10">
-                    +{{ role.permissions.length - 4 }}
-                  </span>
-               </div>
-            </div>
-
-            <div v-if="role.isDefault" class="absolute top-6 left-1/2 -translate-x-1/2">
-               <span class="text-[10px] font-bold text-white bg-gray-900 px-4 py-1.5 rounded-full tracking-widest uppercase shadow-none ring-4 ring-gray-100/50">Core Engine Role</span>
-            </div>
-         </div>
+                  <div class="flex -space-x-1 overflow-hidden">
+                    <div v-for="i in Math.min(3, role.permissions.length)" :key="i" class="h-5 w-5 rounded-full border-2 border-white bg-brand-blue/10 flex items-center justify-center">
+                      <div class="h-1 w-1 rounded-full bg-brand-blue"></div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-8 py-7">
+                <span v-if="role.isDefault" class="px-3 py-1 rounded-full bg-gray-900 text-[9px] font-bold text-white uppercase tracking-widest">System Role</span>
+                <span v-else class="px-3 py-1 rounded-full bg-emerald-50 text-[9px] font-bold text-emerald-600 uppercase tracking-widest border border-emerald-100">Custom Role</span>
+              </td>
+              <td class="px-8 py-7 text-right">
+                <div class="flex justify-end items-center space-x-2">
+                  <button @click="handleEdit(role)" class="h-9 w-9 flex items-center justify-center rounded-xl bg-white border border-gray-100 text-gray-400 hover:text-brand-blue hover:border-brand-blue/30 transition-premium shadow-sm">
+                    <PencilIcon class="h-4 w-4" />
+                  </button>
+                  <button v-if="!role.isDefault" @click="handleDelete(role)" class="h-9 w-9 flex items-center justify-center rounded-xl bg-white border border-gray-100 text-gray-400 hover:text-red-500 hover:border-red-200 transition-premium shadow-sm">
+                    <Trash2Icon class="h-4 w-4" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr v-if="!roles.length && !loading">
+              <td colspan="5" class="px-8 py-20 text-center">
+                <div class="flex flex-col items-center justify-center space-y-3 opacity-40">
+                  <SearchIcon class="h-10 w-10 text-gray-400" />
+                  <p class="text-xs font-bold uppercase tracking-widest text-gray-500">No roles found.</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
     <!-- Security Tier Architect (Drawer) -->
     <UiSideDrawer 
       :show="showModal" 
-      :title="isEdit ? 'Reconstruct security policy' : 'Architect new role'" 
+      :title="isEdit ? 'Edit Role Details' : 'Create New Role'" 
+      subtitle="Define and map specialized team capabilities"
+      size="full"
       @close="showModal = false"
     >
       <div class="space-y-10 py-4">
          <div class="p-6 bg-brand-blue/5 rounded-[2rem] border border-brand-blue/10 space-y-3">
             <h4 class="text-xs font-bold text-brand-blue uppercase tracking-widest flex items-center">
-               <InformationCircleIcon class="h-4 w-4 mr-2" />
-               Architectural Guidance
+               <InfoIcon class="h-4 w-4 mr-2" />
+               Quick Tips
             </h4>
-            <p class="text-sm text-gray-700 leading-relaxed font-medium">Define a role designation and map it to specific infrastructure permissions. These permissions directly control sidebar accessibility and API authorization.</p>
+            <p class="text-sm text-gray-700 leading-relaxed font-medium">Select a name for the role and choose exactly what permissions members assigned to this role should have.</p>
          </div>
          
          <div class="space-y-8">
            <div class="space-y-3">
-              <label class="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Role Designation</label>
+              <label class="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Role Name</label>
               <input 
                 v-model="form.name" 
                 type="text" 
-                placeholder="e.g. support_tier_3"
+                placeholder="e.g. Sales Executive"
                 class="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 font-bold text-lg text-gray-900 outline-none focus:bg-white focus:ring-4 focus:ring-brand-blue/5 transition-premium"
                 :disabled="isEdit && form.isDefault"
               />
            </div>
            
            <div class="space-y-3">
-              <label class="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">System Description</label>
+              <label class="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">What this role does</label>
               <textarea 
                 v-model="form.description" 
                 rows="3" 
-                placeholder="Briefly define the scope of this tier..."
+                placeholder="Give a short summary of this role's purpose..."
                 class="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 font-bold text-sm text-gray-900 outline-none focus:bg-white focus:ring-4 focus:ring-brand-blue/5 transition-premium resize-none"
               ></textarea>
            </div>
            
            <div class="space-y-6">
              <div class="flex justify-between items-center px-1">
-                <label class="text-xs font-bold text-gray-400 uppercase tracking-widest">Authorized Capabilities</label>
+                <label class="text-xs font-bold text-gray-400 uppercase tracking-widest">Assigned Permissions</label>
                 <button @click="toggleSelectAll" class="text-[10px] font-bold text-brand-blue uppercase tracking-widest hover:underline transition-premium">{{ allSelected ? 'Deselect all' : 'Select all' }}</button>
              </div>
              
-             <div class="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
-                <div 
-                  v-for="p in availablePermissions" 
-                  :key="p.key" 
-                  class="flex items-center justify-between p-5 rounded-[1.5rem] border transition-premium cursor-pointer group shadow-none"
-                  :class="form.permissions.includes(p.key) ? 'bg-brand-blue/5 border-brand-blue/20' : 'bg-gray-50/50 border-gray-100 hover:border-gray-300' "
-                  @click="togglePermission(p.key)"
-                >
-                   <div class="flex items-center space-x-4">
-                      <div class="h-10 w-10 bg-white rounded-xl flex items-center justify-center border border-gray-100 shadow-none transition-premium group-hover:scale-110">
-                         <div class="h-1.5 w-1.5 rounded-full" :class="form.permissions.includes(p.key) ? 'bg-brand-blue' : 'bg-gray-300'"></div>
-                      </div>
-                      <div>
-                         <p class="text-sm font-bold text-gray-900 tracking-tight">{{ p.name }}</p>
-                         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">{{ p.category }}</p>
-                      </div>
-                   </div>
-                   <div class="h-6 w-6 rounded-full border-2 flex items-center justify-center transition-premium" :class="form.permissions.includes(p.key) ? 'bg-brand-blue border-brand-blue' : 'bg-white border-gray-200'">
-                      <CheckIcon v-if="form.permissions.includes(p.key)" class="h-3 w-3 text-white" />
-                   </div>
-                </div>
+             <div class="border border-gray-100 rounded-[1.5rem] overflow-hidden bg-white max-h-[600px] overflow-y-auto custom-scrollbar">
+                <table class="w-full text-left border-collapse">
+                   <thead>
+                      <tr class="bg-gray-50 border-b border-gray-100 uppercase tracking-widest text-[9px] font-bold text-gray-400">
+                         <th class="px-6 py-4">Capability Name</th>
+                         <th class="px-6 py-4">Group</th>
+                         <th class="px-6 py-4 text-right">Enabled</th>
+                      </tr>
+                   </thead>
+                   <tbody class="divide-y divide-gray-50 font-medium">
+                      <tr 
+                        v-for="p in availablePermissions" 
+                        :key="p.key" 
+                        class="hover:bg-gray-50/50 transition-premium cursor-pointer group"
+                        @click="togglePermission(p.key)"
+                      >
+                         <td class="px-6 py-5">
+                            <div class="flex items-center space-x-3">
+                               <div class="h-8 w-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 group-hover:bg-brand-blue group-hover:text-white transition-premium">
+                                  <div v-if="!form.permissions.includes(p.key)" class="h-1 w-1 rounded-full bg-gray-300"></div>
+                                  <CheckIcon v-else class="h-3 w-3" />
+                               </div>
+                               <div>
+                                  <p class="text-xs font-bold text-gray-900 tracking-tight">{{ p.name }}</p>
+                                  <p class="text-[10px] text-gray-400 mt-0.5">{{ p.description }}</p>
+                               </div>
+                            </div>
+                         </td>
+                         <td class="px-6 py-5">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 opacity-60">{{ p.category }}</span>
+                         </td>
+                         <td class="px-6 py-5 text-right">
+                            <div 
+                              class="inline-flex h-5 w-5 rounded-md border-2 transition-premium items-center justify-center ml-auto"
+                              :class="form.permissions.includes(p.key) ? 'bg-brand-blue/10 border-brand-blue' : 'bg-white border-gray-200'"
+                            >
+                               <CheckIcon v-if="form.permissions.includes(p.key)" class="h-3 w-3 text-brand-blue" />
+                            </div>
+                         </td>
+                      </tr>
+                   </tbody>
+                </table>
              </div>
            </div>
          </div>
@@ -143,7 +185,7 @@
          <div class="flex gap-4 w-full px-2">
            <UiBaseButton variant="ghost" class="flex-1 py-4 text-sm font-bold" @click="showModal = false">Cancel</UiBaseButton>
            <UiBaseButton variant="primary" class="flex-1 py-4 text-sm font-bold bg-gray-900 text-white shadow-none" @click="handleSave" :loading="saving">
-              {{ isEdit ? 'Update security policy' : 'Establish role' }}
+              {{ isEdit ? 'Save Changes' : 'Create Role' }}
            </UiBaseButton>
          </div>
       </template>
@@ -152,9 +194,19 @@
 </template>
 
 <script setup lang="ts">
+import { 
+  ShieldCheck as ShieldCheckIcon, 
+  RefreshCw as RefreshCwIcon, 
+  Plus as PlusIcon, 
+  Pencil as PencilIcon, 
+  Trash2 as Trash2Icon, 
+  Info as InfoIcon, 
+  Check as CheckIcon, 
+  Search as SearchIcon 
+} from 'lucide-vue-next'
 import { useRoles } from '@/composables/modules/admin/useRoles'
 import { useCustomToast } from "@/composables/core/useCustomToast"
-import { onMounted } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 
 const { 
   loading, 
@@ -203,7 +255,7 @@ const handleEdit = (role: any) => {
 }
 
 const handleDelete = async (role: any) => {
-  if (confirm(`Are you sure you want to deconstruct the "${role.name}" role?`)) {
+  if (confirm(`Are you sure you want to delete the "${role.name}" role?`)) {
     try {
       await apiDeleteRole(role._id)
       await fetchData()
@@ -230,7 +282,7 @@ const toggleSelectAll = () => {
 
 const handleSave = async () => {
   if (!form.value.name) {
-    showToast({ title: 'Invalid Logic', message: 'Role designation is required.', toastType: 'error' })
+    showToast({ title: 'Role Name Missing', message: 'Please enter a name for this role.', toastType: 'error' })
     return
   }
   

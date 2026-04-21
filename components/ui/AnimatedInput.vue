@@ -248,7 +248,7 @@
                 </button>
               </div>
               
-              <span class="text-5xl font-bold text-gray-300 select-none">:</span>
+              <span class="text-5xl font-bold text-gray-500 select-none">:</span>
               
               <div class="flex flex-col items-center">
                 <button type="button" @click.stop="incMin" class="p-3 hover:bg-gray-100 rounded-xl mb-3 transition-all group">
@@ -430,7 +430,7 @@
                     </svg>
                   </button>
                 </div>
-                <span class="text-4xl font-bold text-gray-300">:</span>
+                <span class="text-4xl font-bold text-gray-500">:</span>
                 <div class="flex flex-col items-center">
                   <button type="button" @click.stop="incMin" class="p-2 hover:bg-gray-100 rounded-lg mb-2">
                     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -670,7 +670,7 @@ function generateCalendar(compareDate: Date | null): CalendarDay[] {
 function getDayClass(day: CalendarDay) {
   return [
     'aspect-square p-2 text-base font-semibold rounded-xl transition-all relative',
-    day.isCurrentMonth ? 'hover:bg-gray-100 hover:scale-105 cursor-pointer' : 'text-gray-300 opacity-40 cursor-not-allowed',
+    day.isCurrentMonth ? 'hover:bg-gray-100 hover:scale-105 cursor-pointer' : 'text-gray-500 opacity-40 cursor-not-allowed',
     day.isToday && !day.isSelected ? 'bg-blue-50 text-[#033958] ring-2 ring-[#033958] ring-inset font-bold' : '',
     day.isSelected ? 'bg-[#033958] text-white shadow-lg scale-105' : ''
   ]
@@ -679,7 +679,7 @@ function getDayClass(day: CalendarDay) {
 function getDTDayClass(day: CalendarDay) {
   return [
     'aspect-square p-2 text-base font-medium rounded-lg transition-all',
-    day.isCurrentMonth ? 'hover:bg-gray-100 cursor-pointer' : 'text-gray-300 opacity-30 cursor-not-allowed',
+    day.isCurrentMonth ? 'hover:bg-gray-100 cursor-pointer' : 'text-gray-500 opacity-30 cursor-not-allowed',
     day.isToday && !day.isSelected ? 'border-2 border-[#033958] text-[#033958] font-bold' : '',
     day.isSelected ? 'bg-[#033958] text-white shadow-md' : ''
   ]

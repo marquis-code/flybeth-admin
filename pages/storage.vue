@@ -111,7 +111,7 @@
               <tr v-if="!loading && filteredFiles.length === 0">
                 <td colspan="7" class="px-6 py-12 text-center">
                    <div class="flex flex-col items-center">
-                      <FolderOpenIcon class="h-10 w-10 text-gray-300 mb-3" />
+                      <FolderOpenIcon class="h-10 w-10 text-gray-500 mb-3" />
                       <p class="text-sm text-gray-400 font-medium">No files found</p>
                    </div>
                 </td>
@@ -123,7 +123,13 @@
     </UiBaseCard>
 
     <!-- Upload Drawer -->
-    <UiSideDrawer :show="showUploadDrawer" title="Upload file" @close="closeUploadDrawer">
+    <UiSideDrawer 
+      :show="showUploadDrawer" 
+      title="Cloud Asset Provisioning" 
+      subtitle="Provision and manage assets within the platform cloud storage"
+      size="full"
+      @close="closeUploadDrawer"
+    >
       <div class="space-y-6">
         <p class="text-sm text-gray-500">Upload a new file to cloud storage. You can optionally give it a custom name and category for easier searching.</p>
 
@@ -149,7 +155,7 @@
             <button @click.stop="removeSelectedFile" class="text-base font-medium text-red-500 hover:text-red-600">Remove</button>
           </div>
           <div v-else class="flex flex-col items-center space-y-2">
-            <ArrowUpTrayIcon class="h-10 w-10 text-gray-300" />
+            <ArrowUpTrayIcon class="h-10 w-10 text-gray-500" />
             <p class="text-base font-medium text-gray-500">Click to select a file</p>
             <p class="text-sm text-gray-400">Max 25 MB · Images, PDFs, Documents</p>
           </div>

@@ -71,7 +71,7 @@
                     <img v-if="form.imageUrl && !uploading" :src="form.imageUrl" class="absolute inset-0 w-full h-full object-cover transition-premium group-hover:scale-105 shadow-none" />
                     
                     <div v-if="!form.imageUrl && !uploading" class="text-center p-8">
-                       <PhotoIcon class="h-12 w-12 text-gray-300 mx-auto mb-4 group-hover:text-brand-blue transition-premium" />
+                       <PhotoIcon class="h-12 w-12 text-gray-500 mx-auto mb-4 group-hover:text-brand-blue transition-premium" />
                        <p class="text-base font-bold text-gray-900">Click to upload a banner image</p>
                        <p class="text-sm text-gray-400 mt-2">Recommended: 1200 x 500px</p>
                     </div>
@@ -177,7 +177,7 @@
                        <div class="h-10 w-10 bg-brand-blue/5 rounded-xl flex items-center justify-center text-brand-blue font-bold text-sm mr-4 shadow-none">{{ user.firstName[0] }}</div>
                        <div>
                           <p class="text-sm font-bold text-gray-900">{{ user.firstName }} {{ user.lastName }}</p>
-                          <p class="text-xs text-gray-400 italic">{{ user.email }}</p>
+                          <p class="text-xs text-gray-400 ">{{ user.email }}</p>
                        </div>
                     </button>
                  </div>
@@ -235,7 +235,7 @@
               <div class="h-1.5 w-full bg-white rounded-full overflow-hidden border border-gray-100">
                  <div class="h-full bg-brand-blue transition-all duration-1000" :style="{ width: recipientCount === 'Global' ? '100%' : (typeof recipientCount === 'number' ? '40%' : '10%') }"></div>
               </div>
-              <p class="text-xs italic text-gray-400 text-center leading-relaxed">Everything looks good! You can save this as a draft or send it now.</p>
+              <p class="text-xs  text-gray-400 text-center leading-relaxed">Everything looks good! You can save this as a draft or send it now.</p>
            </div>
         </div>
       </div>

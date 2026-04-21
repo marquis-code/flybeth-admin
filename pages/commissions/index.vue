@@ -49,7 +49,13 @@
     </UiBaseCard>
 
     <!-- Add/Edit Drawer -->
-    <UiSideDrawer :show="showAddModal || !!editingItem" :title="editingItem ? 'Edit Commission' : 'Add Commission'" @close="resetForm">
+    <UiSideDrawer 
+      :show="showAddModal || !!editingItem" 
+      :title="editingItem ? 'Edit Commission Tier' : 'Carrier Override Configuration'" 
+      subtitle="Configure IATA-compliant commission overrides for prioritized global carriers"
+      size="full"
+      @close="resetForm"
+    >
       <div class="space-y-6">
         <p class="text-sm text-gray-600 leading-relaxed font-medium">Configure IATA-compliant commission overrides for prioritized global carriers.</p>
         

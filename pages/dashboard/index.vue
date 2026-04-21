@@ -134,7 +134,9 @@
     <!-- Details Side Drawer -->
     <UiSideDrawer 
       :show="showDetailsDrawer" 
-      :title="drawerTitle" 
+      title="System Insight" 
+      subtitle="Review detailed forensics for selected transaction or partner profile"
+      size="full"
       @close="showDetailsDrawer = false"
     >
       <div v-if="selectedItem" class="space-y-8">

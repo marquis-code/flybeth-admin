@@ -110,7 +110,7 @@
         
         <div class="space-y-8">
           <UiBaseCard padding class="text-center">
-             <div class="h-24 w-24 bg-gray-900 rounded-[2.5rem] flex items-center justify-center text-4xl font-black text-white mx-auto mb-6">
+             <div class="h-24 w-24 bg-gray-900 rounded-[2.5rem] flex items-center justify-center text-4xl  text-white mx-auto mb-6">
                 {{ tenant?.name?.[0] }}
              </div>
              <h4 class="text-xl font-bold text-gray-900 mb-1">{{ tenant?.name }}</h4>
@@ -118,11 +118,11 @@
              
              <div class="mt-8 grid grid-cols-2 gap-4 border-t border-gray-100 pt-8">
                <div>
-                  <p class="text-2xl font-black text-gray-900">{{ tenant?.totalAgents || 0 }}</p>
+                  <p class="text-2xl  text-gray-900">{{ tenant?.totalAgents || 0 }}</p>
                   <p class="text-xs font-bold text-gray-400 tracking-widest uppercase mt-1">Staff Bound</p>
                </div>
                <div>
-                  <p class="text-2xl font-black text-gray-900">{{ tenant?.totalBookings || 0 }}</p>
+                  <p class="text-2xl  text-gray-900">{{ tenant?.totalBookings || 0 }}</p>
                   <p class="text-xs font-bold text-gray-400 tracking-widest uppercase mt-1">Gross Bookings</p>
                </div>
              </div>
@@ -195,7 +195,7 @@
       <div v-if="activeTab === 'finance'" class="grid lg:grid-cols-2 gap-8">
          <div class="bg-gray-900 text-white overflow-hidden relative rounded-3xl p-8 shadow-xl">
            <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
-           <p class="text-xs font-bold text-white/50 tracking-[0.3em] uppercase mb-10">Verified Settlement Destination</p>
+           <p class="text-xs font-bold text-white/50  uppercase mb-10">Verified Settlement Destination</p>
            
            <div class="space-y-8 relative z-10">
               <div class="space-y-1">
@@ -209,7 +209,7 @@
               <div class="pt-6 border-t border-white/10 flex items-center justify-between">
                  <div>
                    <p class="text-xs font-bold text-white/50 tracking-widest uppercase mb-2">Account Digest</p>
-                   <p class="text-3xl font-black tracking-[0.15em]">{{ tenant?.bankDetails?.accountNumber || '**** ****' }}</p>
+                   <p class="text-3xl  tracking-[0.15em]">{{ tenant?.bankDetails?.accountNumber || '**** ****' }}</p>
                  </div>
                  <div class="h-16 w-16 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md">
                    <BanknotesIcon class="h-8 w-8 text-white" />
@@ -224,7 +224,7 @@
         <div class="space-y-8">
            <UiBaseCard padding title="Revenue Analytics">
              <div class="p-8 flex flex-col items-center justify-center space-y-4 border-2 border-dashed border-gray-100 rounded-3xl min-h-[200px] bg-gray-50">
-                <ChartBarIcon class="h-12 w-12 text-gray-300" />
+                <ChartBarIcon class="h-12 w-12 text-gray-500" />
                 <p class="text-gray-500 font-bold text-sm text-center">Comprehensive ledger routing for this agency is currently being processed. Analytics block will populate after the first successful net bill transaction.</p>
              </div>
            </UiBaseCard>
@@ -238,7 +238,7 @@
              <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
                 <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Global Markup Ceiling</p>
                 <div class="flex items-end space-x-2">
-                  <p class="text-3xl font-black text-gray-900">{{ tenant?.settings?.markupPercentage ?? 0 }}</p>
+                  <p class="text-3xl  text-gray-900">{{ tenant?.settings?.markupPercentage ?? 0 }}</p>
                   <span class="text-black font-bold pb-1">%</span>
                 </div>
              </div>
@@ -246,14 +246,14 @@
              <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
                 <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Commission Split Rate</p>
                 <div class="flex items-end space-x-2">
-                  <p class="text-3xl font-black text-gray-900">{{ tenant?.settings?.commissionPercentage ?? 0 }}</p>
+                  <p class="text-3xl  text-gray-900">{{ tenant?.settings?.commissionPercentage ?? 0 }}</p>
                    <span class="text-black font-bold pb-1">%</span>
                 </div>
              </div>
              
              <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
                 <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Base Currency Link</p>
-                <p class="text-3xl font-black text-gray-900">{{ tenant?.settings?.defaultCurrency || 'USD' }}</p>
+                <p class="text-3xl  text-gray-900">{{ tenant?.settings?.defaultCurrency || 'USD' }}</p>
              </div>
 
              <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">

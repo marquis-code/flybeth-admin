@@ -104,7 +104,7 @@
                     <div class="aspect-[16/10] rounded-2xl bg-gray-50 border border-gray-100 overflow-hidden group relative cursor-pointer" @click="openPreview(agent.agentProfile?.idCardUrl, 'idCard')">
                         <embed v-if="agent.agentProfile?.idCardUrl?.includes('.pdf')" :src="agent.agentProfile.idCardUrl" class="w-full h-full pointer-events-none">
                         <img v-else-if="agent.agentProfile?.idCardUrl" :src="agent.agentProfile.idCardUrl" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div v-else class="w-full h-full flex items-center justify-center text-gray-300">No document uploaded</div>
+                        <div v-else class="w-full h-full flex items-center justify-center text-gray-500">No document uploaded</div>
                         <div v-if="agent.agentProfile?.idCardUrl" class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                             <span class="text-sm font-bold text-white px-4 py-2 bg-white/10 backdrop-blur-xl rounded-lg border border-white/20">Preview & Moderate</span>
                         </div>
@@ -126,7 +126,7 @@
                     <div class="aspect-[16/10] rounded-2xl bg-gray-50 border border-gray-100 overflow-hidden group relative cursor-pointer" @click="openPreview(agent.agentProfile?.selfieUrl, 'selfie')">
                         <embed v-if="agent.agentProfile?.selfieUrl?.includes('.pdf')" :src="agent.agentProfile.selfieUrl" class="w-full h-full pointer-events-none">
                         <img v-else-if="agent.agentProfile?.selfieUrl" :src="agent.agentProfile.selfieUrl" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                        <div v-else class="w-full h-full flex items-center justify-center text-gray-300">No photo uploaded</div>
+                        <div v-else class="w-full h-full flex items-center justify-center text-gray-500">No photo uploaded</div>
                         <div v-if="agent.agentProfile?.selfieUrl" class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                             <span class="text-sm font-bold text-white px-4 py-2 bg-white/10 backdrop-blur-xl rounded-lg border border-white/20">Preview & Moderate</span>
                         </div>
@@ -212,7 +212,7 @@
                           {{ tier }}
                       </UiBaseButton>
                  </div>
-                 <div class="p-4 rounded-xl bg-gray-50 border border-gray-100 text-sm text-gray-500 font-medium leading-relaxed italic">
+                 <div class="p-4 rounded-xl bg-gray-50 border border-gray-100 text-sm text-gray-500 font-medium leading-relaxed ">
                    "Partnership tiers determine wholesale inventory access, markup limits, and priority customer support response times."
                  </div>
               </div>
@@ -252,7 +252,7 @@
                   class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-[1.5rem] outline-none focus:ring-4 focus:ring-red-600/5 focus:border-red-400 text-base font-medium transition-all"
                   :placeholder="currentDocToReject === 'global' ? 'Explain why the entire agency application is rejected...' : 'Explain exactly why this document was rejected...'"
                 ></textarea>
-                <p class="text-sm text-gray-400 italic leading-relaxed">This message will be sent to the agent's email immediately to help them correct the issue.</p>
+                <p class="text-sm text-gray-400  leading-relaxed">This message will be sent to the agent's email immediately to help them correct the issue.</p>
             </div>
             
             <div class="grid grid-cols-2 gap-3 pt-4">

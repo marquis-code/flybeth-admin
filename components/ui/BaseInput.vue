@@ -20,7 +20,7 @@
         :value="modelValue"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         :class="[
-          'block w-full bg-white border border-gray-100 rounded-2xl transition-all duration-300 font-bold text-gray-900 placeholder:text-gray-300 focus:outline-none focus:ring-4 focus:ring-brand-blue/5 focus:border-brand-blue',
+          'block w-full bg-white border border-gray-100 rounded-2xl transition-all duration-300 font-bold text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-4 focus:ring-brand-blue/5 focus:border-brand-blue',
           icon ? 'pl-14' : 'px-6',
           'py-4 text-sm tracking-tight'
         ]"

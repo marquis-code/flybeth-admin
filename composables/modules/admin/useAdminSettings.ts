@@ -12,17 +12,52 @@ export const useAdminSettings = () => {
         b2bCommission: 0,
         b2cCommission: 0,
         whitelistedStates: [],
-        isWhitelistingEnabled: false
+        isWhitelistingEnabled: false,
+        ancillaryMargin: 15,
+        exchangeRates: [],
+        ancillaryPrices: {
+            bags: 0,
+            seats: 0,
+            insurance: 0
+        }
     });
 
     const fetchConfig = async () => {
         loading.value = true;
         try {
-            const res = await adminApiFactory.getSystemConfig();
-            config.value = res.data?.data || res.data;
+            // Bypass potential caching with timestamp
+            const res = await adminApiFactory.getSystemConfig({ params: { t: Date.now() } });
+            const data = res.data?.data || res.data;
+            
+            // Merge with defaults to prevent UI breakage
+            config.value = {
+                ...config.value,
+                ...data,
+                ancillaryPrices: {
+                    ...(config.value.ancillaryPrices || {}),
+                    ...(data?.ancillaryPrices || {})
+                },
+                exchangeRates: data?.exchangeRates || config.value.exchangeRates || []
+            };
+            
             return res;
         } catch (e) {
             showToast({ title: 'Fetch Error', message: 'Could not retrieve platform parameters.', toastType: 'error' });
+        } finally {
+            loading.value = false;
+        }
+    };
+
+    const resetConfig = async () => {
+        loading.value = true;
+        try {
+            const res = await adminApiFactory.resetSystemConfig();
+            const data = res.data?.data || res.data;
+            config.value = data;
+            showToast({ title: 'System Reset', message: 'Master economic blueprint has been restored.', toastType: 'success' });
+            return res;
+        } catch (e) {
+            showToast({ title: 'Reset Failed', message: 'Could not restore defaults.', toastType: 'error' });
         } finally {
             loading.value = false;
         }
@@ -45,7 +80,7 @@ export const useAdminSettings = () => {
         loading.value = true;
         try {
             const res = await adminApiFactory.getIntegrations();
-            integrationsList.value = res.data?.providers || [];
+            integrationsList.value = res.data?.data?.providers || res.data?.providers || [];
             return res;
         } catch (e) {
             console.error('Failed to fetch integrations', e);

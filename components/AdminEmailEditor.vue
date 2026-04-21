@@ -28,7 +28,7 @@
               <option value="2"></option>
             </select>
             <button class="ql-bold"></button>
-            <button class="ql-italic"></button>
+            <button class="ql-"></button>
             <button class="ql-underline"></button>
             <button class="ql-link"></button>
             <button v-if="!hideImageUpload" class="ql-image"></button>
@@ -51,7 +51,7 @@
               class="w-full text-left px-4 py-3 bg-white border border-gray-100 rounded-xl text-xs font-bold text-gray-900 hover:border-brand-blue hover:text-brand-blue transition-premium flex items-center justify-between group shadow-none"
             >
               <span>{{ v }}</span>
-              <PlusIcon class="h-4 w-4 text-gray-300 group-hover:text-brand-blue" />
+              <PlusIcon class="h-4 w-4 text-gray-500 group-hover:text-brand-blue" />
             </button>
           </div>
         </div>

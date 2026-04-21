@@ -83,7 +83,9 @@
     <!-- Create Admin User Drawer -->
     <UiSideDrawer 
       :show="showCreateDrawer" 
-      title="Create admin user" 
+      title="Team Member Creation" 
+      subtitle="Instantly provision new administrative access"
+      size="full"
       @close="showCreateDrawer = false"
     >
       <div class="space-y-8">
@@ -122,7 +124,9 @@
     <!-- Invite Side Drawer -->
     <UiSideDrawer 
       :show="showInviteDrawer" 
-      title="Team expansion" 
+      title="Team Expansion" 
+      subtitle="Send a secure invitation to join the platform"
+      size="full"
       @close="showInviteDrawer = false"
     >
       <div class="space-y-8">
@@ -152,7 +156,9 @@
     <!-- Edit Team Member Drawer -->
     <UiSideDrawer 
       :show="showEditDrawer" 
-      title="Edit team member" 
+      title="Credential Update" 
+      subtitle="Modify team member access and governance tiers"
+      size="full"
       @close="showEditDrawer = false; editingUserId = null"
     >
       <div class="space-y-6">

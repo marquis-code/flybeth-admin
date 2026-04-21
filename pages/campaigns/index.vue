@@ -68,7 +68,7 @@
                          </div>
                          <div>
                             <p class="text-base font-bold text-gray-900 group-hover:text-brand-blue transition-premium">{{ campaign.title }}</p>
-                            <p class="text-[11px] text-gray-400 font-medium truncate max-w-xs italic">{{ campaign.subject }}</p>
+                            <p class="text-[11px] text-gray-400 font-medium truncate max-w-xs ">{{ campaign.subject }}</p>
                          </div>
                       </div>
                    </td>
@@ -91,7 +91,7 @@
                          <button 
                            @click="sendNow(campaign)"
                            class="px-4 py-2 rounded-xl text-[10px] font-bold tracking-widest transition-premium"
-                           :class="campaign.status === 'sent' ? 'bg-gray-50 text-gray-300 cursor-not-allowed' : 'bg-brand-blue text-white hover:ring-8 hover:ring-brand-blue/5'"
+                           :class="campaign.status === 'sent' ? 'bg-gray-50 text-gray-500 cursor-not-allowed' : 'bg-brand-blue text-white hover:ring-8 hover:ring-brand-blue/5'"
                          >
                             {{ campaign.status === 'sent' ? 'SENT' : 'SEND NOW' }}
                          </button>
@@ -117,14 +117,20 @@
     </div>
 
     <!-- View Sidebar -->
-    <UiSideDrawer :show="showViewDrawer" @close="showViewDrawer = false" title="Campaign review">
+    <UiSideDrawer 
+      :show="showViewDrawer" 
+      title="Campaign Review" 
+      subtitle="Audit campaign performance and review the communication blueprint"
+      size="full"
+      @close="showViewDrawer = false"
+    >
        <div v-if="selectedCampaign" class="space-y-10 p-8">
           <div class="space-y-3">
              <p class="text-[10px] font-bold text-gray-400 capitalize">Internal name</p>
              <h2 class="text-2xl font-bold text-gray-900 leading-tight">{{ selectedCampaign.title }}</h2>
              <div class="p-5 bg-brand-blue/5 rounded-2xl border border-brand-blue/5">
                 <p class="text-[10px] font-bold text-brand-blue uppercase tracking-widest mb-1">Subject line</p>
-                <p class="text-sm text-gray-900 font-bold italic">"{{ selectedCampaign.subject }}"</p>
+                <p class="text-sm text-gray-900 font-bold ">"{{ selectedCampaign.subject }}"</p>
              </div>
           </div>
           

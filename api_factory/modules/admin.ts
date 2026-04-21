@@ -19,8 +19,8 @@ export const adminApiFactory = {
     getSystemHealth() {
         return GATEWAY_ENDPOINT_WITH_AUTH.get("/admin/system-health");
     },
-    getSystemConfig() {
-        return GATEWAY_ENDPOINT_WITH_AUTH.get("/system-config");
+    getSystemConfig(config?: any) {
+        return GATEWAY_ENDPOINT_WITH_AUTH.get("/system-config", config);
     },
     getRoles() {
         return GATEWAY_ENDPOINT_WITH_AUTH.get("/access-control/roles");
@@ -39,6 +39,9 @@ export const adminApiFactory = {
     },
     updateSystemConfig(data: any) {
         return GATEWAY_ENDPOINT_WITH_AUTH.patch("/system-config", data);
+    },
+    resetSystemConfig() {
+        return GATEWAY_ENDPOINT_WITH_AUTH.post("/system-config/reset");
     },
     downloadLedger() {
         return GATEWAY_ENDPOINT_WITH_AUTH.get("/admin/revenue/ledger", { responseType: 'blob' });

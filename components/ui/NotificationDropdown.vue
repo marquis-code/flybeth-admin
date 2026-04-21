@@ -6,7 +6,7 @@
       :class="{ 'bg-blue-50 text-blue-600 border-blue-100': isOpen }"
     >
       <BellIcon class="h-5 w-5" />
-      <span v-if="unreadCount > 0" class="absolute -top-1 -right-1 h-5 w-5 bg-red-500 ring-4 ring-white rounded-full flex items-center justify-center text-[10px] font-black text-white shadow-lg animate-bounce">
+      <span v-if="unreadCount > 0" class="absolute -top-1 -right-1 h-5 w-5 bg-red-500 ring-4 ring-white rounded-full flex items-center justify-center text-[10px]  text-white shadow-lg animate-bounce">
         {{ unreadCount }}
       </span>
     </button>
@@ -22,10 +22,10 @@
       <div v-if="isOpen" class="absolute right-0 mt-3 w-[420px] bg-white rounded-[2rem] shadow-2xl border border-gray-100 z-[100] overflow-hidden origin-top-right">
         <div class="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
           <div>
-            <h3 class="text-base font-black text-gray-900 leading-tight">Intelligence Stream</h3>
+            <h3 class="text-base  text-gray-900 leading-tight">Intelligence Stream</h3>
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Real-time Operations Logic</p>
           </div>
-          <button @click="markAllAsRead" class="text-[10px] font-black text-blue-600 hover:text-blue-700 uppercase tracking-widest bg-blue-50 px-3 py-1.5 rounded-lg transition-all">
+          <button @click="markAllAsRead" class="text-[10px]  text-blue-600 hover:text-blue-700 uppercase tracking-widest bg-blue-50 px-3 py-1.5 rounded-lg transition-all">
             Dismiss All
           </button>
         </div>
@@ -35,7 +35,7 @@
              <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
                <BellSlashIcon class="h-8 w-8 text-gray-200" />
              </div>
-             <p class="text-sm font-bold text-gray-400 italic">No operational alerts triggered</p>
+             <p class="text-sm font-bold text-gray-400 ">No operational alerts triggered</p>
           </div>
           
           <div v-else class="divide-y divide-gray-50">
@@ -54,7 +54,7 @@
                 </div>
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center justify-between mb-1">
-                    <p class="text-xs font-black text-gray-900 truncate">{{ n.title }}</p>
+                    <p class="text-xs  text-gray-900 truncate">{{ n.title }}</p>
                     <span class="text-[9px] font-bold text-gray-400 whitespace-nowrap ml-2">{{ formatTime(n.createdAt) }}</span>
                   </div>
                   <p class="text-[13px] text-gray-500 leading-relaxed line-clamp-2 font-medium">{{ n.message }}</p>
@@ -65,7 +65,7 @@
         </div>
 
         <div class="p-4 bg-gray-50/50 border-t border-gray-100">
-           <NuxtLink to="/settings" class="block w-full text-center py-3 text-[11px] font-black text-gray-400 hover:text-gray-600 uppercase tracking-widest transition-colors">
+           <NuxtLink to="/settings" class="block w-full text-center py-3 text-[11px]  text-gray-400 hover:text-gray-600 uppercase tracking-widest transition-colors">
               Configure Notification Matrices
            </NuxtLink>
         </div>

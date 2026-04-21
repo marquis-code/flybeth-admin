@@ -87,7 +87,7 @@
         >
           1
         </button>
-        <span v-if="visiblePages[0] > 2" class="text-gray-300 px-1 text-sm">…</span>
+        <span v-if="visiblePages[0] > 2" class="text-gray-500 px-1 text-sm">…</span>
 
         <!-- Page numbers -->
         <button
@@ -105,7 +105,7 @@
         </button>
 
         <!-- Last page -->
-        <span v-if="visiblePages[visiblePages.length - 1] < meta.totalPages - 1" class="text-gray-300 px-1 text-sm">…</span>
+        <span v-if="visiblePages[visiblePages.length - 1] < meta.totalPages - 1" class="text-gray-500 px-1 text-sm">…</span>
         <button
           v-if="visiblePages[visiblePages.length - 1] < meta.totalPages"
           @click="goToPage(meta.totalPages)"

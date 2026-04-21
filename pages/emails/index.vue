@@ -67,7 +67,7 @@
             <div class="space-y-4">
                <div>
                   <p class="text-sm  text-brand-gray  tracking-widest mb-1 opacity-40">Subject Line</p>
-                  <p class="text-sm font-bold text-gray-900/80 line-clamp-1 italic">"{{ template.subject }}"</p>
+                  <p class="text-sm font-bold text-gray-900/80 line-clamp-1 ">"{{ template.subject }}"</p>
                </div>
                
                <div class="flex flex-wrap gap-1.5">
@@ -78,7 +78,7 @@
                   >
                     {{ v }}
                   </span>
-                  <span v-if="template.availableVariables.length > 3" class="text-sm  text-brand-gray/30 px-2 py-1 italic">
+                  <span v-if="template.availableVariables.length > 3" class="text-sm  text-brand-gray/30 px-2 py-1 ">
                     +{{ template.availableVariables.length - 3 }} more
                   </span>
                </div>

@@ -2329,8 +2329,8 @@ h6 {
   text-transform: uppercase;
 }
 
-.italic {
-  font-style: italic;
+. {
+  font-style: ;
 }
 
 .leading-none {
@@ -2477,7 +2477,7 @@ h6 {
   color: rgb(50 180 4 / 0.8);
 }
 
-.text-gray-300 {
+.text-gray-500 {
   --tw-text-opacity: 1;
   color: rgb(209 213 219 / var(--tw-text-opacity, 1));
 }
@@ -2968,12 +2968,12 @@ input[type=number] {
   color: rgb(96 96 98 / 0.3);
 }
 
-.placeholder\:text-gray-300::-moz-placeholder {
+.placeholder\:text-gray-500::-moz-placeholder {
   --tw-text-opacity: 1;
   color: rgb(209 213 219 / var(--tw-text-opacity, 1));
 }
 
-.placeholder\:text-gray-300::placeholder {
+.placeholder\:text-gray-500::placeholder {
   --tw-text-opacity: 1;
   color: rgb(209 213 219 / var(--tw-text-opacity, 1));
 }

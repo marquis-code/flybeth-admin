@@ -16,8 +16,8 @@ export const useRoles = () => {
                 adminApiFactory.getRoles(),
                 adminApiFactory.getPermissions()
             ]);
-            roles.value = rolesRes.data || [];
-            availablePermissions.value = permsRes.data || [];
+            roles.value = rolesRes.data?.data || rolesRes.data || [];
+            availablePermissions.value = permsRes.data?.data || permsRes.data || [];
             return { roles: roles.value, permissions: availablePermissions.value };
         } catch (e) {
             showToast({ title: 'Sync Error', message: 'Failed to retrieve security tiers.', toastType: 'error' });
