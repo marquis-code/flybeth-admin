@@ -41,7 +41,7 @@
     <!-- Template Info -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div class="space-y-1">
-        <label class="text-sm tracking-[0.2em] text-brand-gray/50 ml-1">Template Name</label>
+        <label class="text-sm  text-brand-gray/50 ml-1">Template Name</label>
         <input 
           v-model="template.name" 
           type="text" 
@@ -50,7 +50,7 @@
         />
       </div>
       <div class="space-y-1">
-        <label class="text-sm tracking-[0.2em] text-brand-gray/50 ml-1">System Slug (Unique Identifier)</label>
+        <label class="text-sm  text-brand-gray/50 ml-1">System Slug (Unique Identifier)</label>
         <input 
           v-model="template.slug" 
           type="text" 

@@ -29,11 +29,11 @@
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="bg-gray-50/50 border-b border-gray-100">
-              <th class="px-8 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Role Name</th>
-              <th class="px-8 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Description</th>
-              <th class="px-8 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Permissions</th>
-              <th class="px-8 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Type</th>
-              <th class="px-8 py-6 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 text-right">Actions</th>
+              <th class="px-8 py-6 text-[10px] font-bold uppercase  text-gray-400">Role Name</th>
+              <th class="px-8 py-6 text-[10px] font-bold uppercase  text-gray-400">Description</th>
+              <th class="px-8 py-6 text-[10px] font-bold uppercase  text-gray-400">Permissions</th>
+              <th class="px-8 py-6 text-[10px] font-bold uppercase  text-gray-400">Type</th>
+              <th class="px-8 py-6 text-[10px] font-bold uppercase  text-gray-400 text-right">Actions</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">

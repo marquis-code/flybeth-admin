@@ -80,7 +80,7 @@
               <h3 class="text-xl font-bold text-gray-900">Regional Bypassing</h3>
             </div>
             <div @click="config.isWhitelistingEnabled = !config.isWhitelistingEnabled" class="flex items-center space-x-4 cursor-pointer group">
-              <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 group-hover:text-gray-900 transition-premium">
+              <span class="text-[10px] font-bold uppercase  text-gray-400 group-hover:text-gray-900 transition-premium">
                 {{ config.isWhitelistingEnabled ? 'Restrictive Mode' : 'Global Access' }}
               </span>
               <div class="w-12 h-6 rounded-full border border-gray-100 relative transition-premium p-1" :class="config.isWhitelistingEnabled ? 'bg-brand-green' : 'bg-gray-100'">
@@ -138,7 +138,7 @@
                   </div>
                   <div>
                      <p class="text-base font-bold text-gray-900 tracking-tight">{{ api.displayName || api.name }}</p>
-                     <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mt-1">{{ api.name }} gateway</p>
+                     <p class="text-[10px] font-bold text-gray-400 uppercase  mt-1">{{ api.name }} gateway</p>
                   </div>
                </div>
                <div class="flex items-center space-x-6">
@@ -162,7 +162,7 @@
       <!-- Right Sidebar -->
       <div class="space-y-12">
         <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 space-y-8">
-           <h4 class="text-xs font-bold text-gray-400 uppercase tracking-[0.2em]">System Status</h4>
+           <h4 class="text-xs font-bold text-gray-400 uppercase ">System Status</h4>
            <div class="space-y-4">
               <div v-for="env in ['Flight Engine 4.0', 'Booking Gateway', 'Margin Resolver']" :key="env" class="flex items-center justify-between p-5 bg-white border border-gray-50 rounded-2xl shadow-none hover:border-brand-blue/20 transition-premium">
                  <span class="text-xs font-bold text-gray-700 tracking-tight">{{ env }}</span>

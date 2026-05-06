@@ -10,7 +10,7 @@
                   v-for="column in columns" 
                   :key="column.key"
                   scope="col" 
-                  class="px-6 py-5 text-left text-sm  text-gray-500  tracking-[0.2em]"
+                  class="px-6 py-5 text-left text-sm  text-gray-500  "
                   :class="column.class"
                 >
                   {{ column.label }}

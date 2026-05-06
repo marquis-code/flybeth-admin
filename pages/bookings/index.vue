@@ -88,7 +88,10 @@
             <component :is="serviceIcon(item.type)" class="h-4 w-4" />
           </div>
           <div>
-            <div class="text-sm font-bold text-gray-900 line-clamp-1 tracking-tight">{{ item.serviceName || item.service }}</div>
+            <div class="text-sm font-bold text-gray-900 line-clamp-1 tracking-tight flex items-center gap-2">
+              {{ item.serviceName || item.service }}
+              <span v-if="item.isBatchBooking" class="bg-indigo-50 text-indigo-600 text-[10px] px-2 py-0.5 rounded-full font-black uppercase tracking-wider border border-indigo-100">Batch</span>
+            </div>
             <div class="text-sm font-bold text-gray-500  tracking-widest">{{ formatDate(item.createdAt || item.date) }}</div>
           </div>
         </div>
@@ -97,7 +100,10 @@
       <template #cell(agent)="{ item }">
         <div class="flex flex-col text-left">
           <div class="text-sm font-bold text-gray-900  tracking-widest">{{ item.tenantName || item.agent }}</div>
-          <div class="text-sm text-gray-500 font-bold  tracking-widest mt-0.5">{{ item.customerName || item.customer }}</div>
+          <div class="flex items-center gap-2 mt-0.5">
+            <div class="text-sm text-gray-500 font-bold  tracking-widest">{{ item.customerName || item.customer }}</div>
+            <span v-if="item.totalPassengers > 1" class="text-[10px] text-gray-400 font-bold tracking-tighter">({{ item.totalPassengers }} pax)</span>
+          </div>
         </div>
       </template>
 

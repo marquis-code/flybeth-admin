@@ -135,7 +135,7 @@
          <UiBaseCard padding title="Agent Verification (KYC)">
           <div class="grid md:grid-cols-2 gap-6 pt-4">
              <div class="space-y-4">
-                <p class="text-xs font-bold text-gray-500 tracking-[0.2em] uppercase">Gov ID Document</p>
+                <p class="text-xs font-bold text-gray-500  uppercase">Gov ID Document</p>
                 <div v-if="tenant?.kycDocuments?.idCard" class="group relative aspect-[4/3] rounded-2xl overflow-hidden border border-gray-200 bg-gray-100 cursor-pointer" @click="openDoc(tenant?.kycDocuments?.idCard)">
                    <embed v-if="tenant?.kycDocuments?.idCard?.includes('.pdf')" :src="tenant?.kycDocuments?.idCard" class="w-full h-full pointer-events-none" />
                    <img v-else :src="tenant?.kycDocuments?.idCard" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
@@ -149,7 +149,7 @@
              </div>
              
              <div class="space-y-4">
-                <p class="text-xs font-bold text-gray-500 tracking-[0.2em] uppercase">Live Selfie Match</p>
+                <p class="text-xs font-bold text-gray-500  uppercase">Live Selfie Match</p>
                 <div v-if="tenant?.kycDocuments?.selfie" class="group relative aspect-[4/3] rounded-2xl overflow-hidden border border-gray-200 bg-gray-100 cursor-pointer" @click="openDoc(tenant?.kycDocuments?.selfie)">
                    <embed v-if="tenant?.kycDocuments?.selfie?.includes('.pdf')" :src="tenant?.kycDocuments?.selfie" class="w-full h-full pointer-events-none" />
                    <img v-else :src="tenant?.kycDocuments?.selfie" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />

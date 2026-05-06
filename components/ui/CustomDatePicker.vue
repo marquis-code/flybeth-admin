@@ -45,7 +45,7 @@
              </div>
 
              <div class="grid grid-cols-7 mb-6">
-                <span v-for="day in weekDays" :key="day" class="text-[11px]  text-brand-green  tracking-[0.2em] text-center opacity-60">{{ day }}</span>
+                <span v-for="day in weekDays" :key="day" class="text-[11px]  text-brand-green   text-center opacity-60">{{ day }}</span>
              </div>
 
              <div class="grid grid-cols-7 gap-y-2 relative">
@@ -89,7 +89,7 @@
              </div>
 
              <div class="grid grid-cols-7 mb-6">
-                <span v-for="day in weekDays" :key="day" class="text-[11px]  text-brand-green  tracking-[0.2em] text-center opacity-60">{{ day }}</span>
+                <span v-for="day in weekDays" :key="day" class="text-[11px]  text-brand-green   text-center opacity-60">{{ day }}</span>
              </div>
 
              <div class="grid grid-cols-7 gap-y-2 relative">
