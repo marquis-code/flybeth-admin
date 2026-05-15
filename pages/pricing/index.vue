@@ -29,7 +29,7 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div class="space-y-2">
-          <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Extra Baggage</label>
+          <label class="text-xs font-semibold text-gray-500 uppercase ">Extra Baggage</label>
           <div class="relative">
             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">$</span>
             <input v-model.number="ancillaryPrices.bags" type="number" step="1" min="0"
@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class="space-y-2">
-          <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Seat Selection</label>
+          <label class="text-xs font-semibold text-gray-500 uppercase ">Seat Selection</label>
           <div class="relative">
             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">$</span>
             <input v-model.number="ancillaryPrices.seats" type="number" step="1" min="0"
@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="space-y-2">
-          <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Travel Insurance</label>
+          <label class="text-xs font-semibold text-gray-500 uppercase ">Travel Insurance</label>
           <div class="relative">
             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">$</span>
             <input v-model.number="ancillaryPrices.insurance" type="number" step="1" min="0"
@@ -90,10 +90,10 @@
         <table class="w-full">
           <thead>
             <tr class="bg-gray-50 text-left">
-              <th class="px-5 py-3 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Currency</th>
-              <th class="px-5 py-3 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Symbol</th>
-              <th class="px-5 py-3 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Rate (1 USD =)</th>
-              <th class="px-5 py-3 text-[11px] font-semibold text-gray-500 uppercase tracking-wide text-right">Action</th>
+              <th class="px-5 py-3 text-[11px] font-semibold text-gray-500 uppercase ">Currency</th>
+              <th class="px-5 py-3 text-[11px] font-semibold text-gray-500 uppercase ">Symbol</th>
+              <th class="px-5 py-3 text-[11px] font-semibold text-gray-500 uppercase ">Rate (1 USD =)</th>
+              <th class="px-5 py-3 text-[11px] font-semibold text-gray-500 uppercase  text-right">Action</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">

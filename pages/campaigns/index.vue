@@ -3,8 +3,8 @@
     <!-- Header Area -->
     <div class="flex justify-between items-end">
       <div>
-        <p class="text-sm tracking-widest text-brand-green mb-4 font-bold">Marketing center</p>
-        <h1 class="text-2xl text-gray-900 tracking-tighter font-bold">Email campaigns</h1>
+        <p class="text-sm  text-brand-green mb-4 font-bold">Marketing center</p>
+        <h1 class="text-2xl text-gray-900 er font-bold">Email campaigns</h1>
       </div>
       <div class="flex gap-4">
         <UiBaseButton variant="primary" @click="triggerReminders" :loading="triggering" class="shadow-none min-w-[160px] h-12">
@@ -26,7 +26,7 @@
           <p class="text-xs font-bold text-gray-400 mb-2">{{ stat.label }}</p>
           <div class="flex items-end justify-between">
              <h3 class="text-3xl font-bold text-gray-900 leading-none">{{ stat.value }}</h3>
-             <div class="text-[10px] font-bold py-1 px-2 rounded-lg" :class="stat.trendClass">
+             <div class="text-sm font-bold py-1 px-2 rounded-lg" :class="stat.trendClass">
                 {{ stat.trend }}
              </div>
           </div>
@@ -52,11 +52,11 @@
           <table class="w-full border-collapse">
              <thead>
                 <tr class="bg-gray-50/50 border-b border-gray-100">
-                   <th class="px-8 py-6 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Campaign information</th>
-                   <th class="px-8 py-6 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Audience</th>
-                   <th class="px-8 py-6 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Status</th>
-                   <th class="px-8 py-6 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Created date</th>
-                   <th class="px-8 py-6 text-right text-[10px] font-bold text-gray-400 uppercase tracking-widest">Actions</th>
+                   <th class="px-8 py-6 text-left text-sm font-bold text-gray-400 uppercase ">Campaign information</th>
+                   <th class="px-8 py-6 text-left text-sm font-bold text-gray-400 uppercase ">Audience</th>
+                   <th class="px-8 py-6 text-left text-sm font-bold text-gray-400 uppercase ">Status</th>
+                   <th class="px-8 py-6 text-left text-sm font-bold text-gray-400 uppercase ">Created date</th>
+                   <th class="px-8 py-6 text-right text-sm font-bold text-gray-400 uppercase ">Actions</th>
                 </tr>
              </thead>
              <tbody class="divide-y divide-gray-50">
@@ -73,7 +73,7 @@
                       </div>
                    </td>
                    <td class="px-8 py-6">
-                      <span class="inline-flex items-center px-3 py-1.5 rounded-lg bg-gray-50 text-[10px] font-bold text-gray-500 capitalize border border-gray-100">
+                      <span class="inline-flex items-center px-3 py-1.5 rounded-lg bg-gray-50 text-sm font-bold text-gray-500 capitalize border border-gray-100">
                          {{ campaign.targetAudience }}
                       </span>
                    </td>
@@ -90,7 +90,7 @@
                       <div class="flex justify-end items-center space-x-2">
                          <button 
                            @click="sendNow(campaign)"
-                           class="px-4 py-2 rounded-xl text-[10px] font-bold tracking-widest transition-premium"
+                           class="px-4 py-2 rounded-xl text-sm font-bold  transition-premium"
                            :class="campaign.status === 'sent' ? 'bg-gray-50 text-gray-500 cursor-not-allowed' : 'bg-brand-blue text-white hover:ring-8 hover:ring-brand-blue/5'"
                          >
                             {{ campaign.status === 'sent' ? 'SENT' : 'SEND NOW' }}
@@ -126,27 +126,27 @@
     >
        <div v-if="selectedCampaign" class="space-y-10 p-8">
           <div class="space-y-3">
-             <p class="text-[10px] font-bold text-gray-400 capitalize">Internal name</p>
+             <p class="text-sm font-bold text-gray-400 capitalize">Internal name</p>
              <h2 class="text-2xl font-bold text-gray-900 leading-tight">{{ selectedCampaign.title }}</h2>
              <div class="p-5 bg-brand-blue/5 rounded-2xl border border-brand-blue/5">
-                <p class="text-[10px] font-bold text-brand-blue uppercase tracking-widest mb-1">Subject line</p>
+                <p class="text-sm font-bold text-brand-blue uppercase  mb-1">Subject line</p>
                 <p class="text-sm text-gray-900 font-bold ">"{{ selectedCampaign.subject }}"</p>
              </div>
           </div>
           
           <div class="grid grid-cols-2 gap-4">
              <div class="p-6 bg-gray-50 rounded-2xl border border-gray-50">
-                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Status</p>
+                <p class="text-sm font-bold text-gray-400 uppercase  mb-1">Status</p>
                 <p class="font-bold text-gray-900 capitalize text-sm">{{ selectedCampaign.status }}</p>
              </div>
              <div class="p-6 bg-gray-50 rounded-2xl border border-gray-50">
-                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Audience</p>
+                <p class="text-sm font-bold text-gray-400 uppercase  mb-1">Audience</p>
                 <p class="font-bold text-gray-900 capitalize text-sm">{{ selectedCampaign.targetAudience }}</p>
              </div>
           </div>
 
           <div class="space-y-4 pt-6 border-t border-gray-50">
-             <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Email blueprint</p>
+             <p class="text-xs font-bold text-gray-400 uppercase ">Email blueprint</p>
              <div class="border border-gray-100 rounded-[2rem] p-8 bg-white max-h-[600px] overflow-y-auto prose prose-sm shadow-none" v-html="selectedCampaign.content"></div>
           </div>
        </div>

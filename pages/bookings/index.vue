@@ -3,7 +3,7 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
        <div class="space-y-1">
-         <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Global inventory</h1>
+         <h1 class="text-2xl font-bold text-gray-900 ">Global inventory</h1>
          <p class="text-gray-600 font-medium text-sm">Monitor and oversee all travel transactions across the global network</p>
        </div>
        <div class="flex items-center gap-3">
@@ -24,9 +24,9 @@
         <div class="absolute right-0 top-0 p-6 opacity-[0.05] group-hover:scale-110 transition-transform">
           <component :is="s.icon" class="h-16 w-16 text-gray-900" />
         </div>
-        <p class="text-sm font-bold text-gray-500  tracking-widest mb-1 leading-none">{{ s.label }}</p>
+        <p class="text-sm font-bold text-gray-500   mb-1 leading-none">{{ s.label }}</p>
         <h4 class="text-3xl font-bold text-gray-900 leading-none">{{ s.value }}</h4>
-        <div v-if="s.trend" class="mt-4 flex items-center text-sm font-bold  tracking-wider" :class="s.trend > 0 ? 'text-brand-green' : 'text-red-400'">
+        <div v-if="s.trend" class="mt-4 flex items-center text-sm font-bold  " :class="s.trend > 0 ? 'text-brand-green' : 'text-red-400'">
           <component :is="s.trend > 0 ? ArrowUpIcon : ArrowDownIcon" class="h-3 w-3 mr-1" /> {{ Math.abs(s.trend) }}% vs period
         </div>
       </UiBaseCard>
@@ -61,7 +61,7 @@
     <!-- Table Section -->
     <div v-if="loading && bookings.length === 0" class="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-gray-100">
       <div class="h-10 w-10 border-4 border-brand-blue/10 border-t-brand-blue rounded-full animate-spin"></div>
-      <p class="mt-4 text-sm font-bold text-gray-900/40  tracking-widest">Querying global ledger...</p>
+      <p class="mt-4 text-sm font-bold text-gray-900/40  ">Querying global ledger...</p>
     </div>
 
     <UiBaseTable 
@@ -77,8 +77,8 @@
     >
       <template #cell(reference)="{ item }">
         <div class="flex flex-col text-left">
-          <span class="text-sm font-bold text-gray-900 tracking-tight">{{ item.reference || 'REF-N/A' }}</span>
-          <span class="text-sm font-bold text-brand-green  tracking-widest">{{ item.pnr || 'NO-PNR' }}</span>
+          <span class="text-sm font-bold text-gray-900 ">{{ item.reference || 'REF-N/A' }}</span>
+          <span class="text-sm font-bold text-brand-green  ">{{ item.pnr || 'NO-PNR' }}</span>
         </div>
       </template>
 
@@ -88,33 +88,33 @@
             <component :is="serviceIcon(item.type)" class="h-4 w-4" />
           </div>
           <div>
-            <div class="text-sm font-bold text-gray-900 line-clamp-1 tracking-tight flex items-center gap-2">
+            <div class="text-sm font-bold text-gray-900 line-clamp-1  flex items-center gap-2">
               {{ item.serviceName || item.service }}
-              <span v-if="item.isBatchBooking" class="bg-indigo-50 text-indigo-600 text-[10px] px-2 py-0.5 rounded-full font-black uppercase tracking-wider border border-indigo-100">Batch</span>
+              <span v-if="item.isBatchBooking" class="bg-indigo-50 text-indigo-600 text-sm px-2 py-0.5 rounded-full font-black uppercase  border border-indigo-100">Batch</span>
             </div>
-            <div class="text-sm font-bold text-gray-500  tracking-widest">{{ formatDate(item.createdAt || item.date) }}</div>
+            <div class="text-sm font-bold text-gray-500  ">{{ formatDate(item.createdAt || item.date) }}</div>
           </div>
         </div>
       </template>
 
       <template #cell(agent)="{ item }">
         <div class="flex flex-col text-left">
-          <div class="text-sm font-bold text-gray-900  tracking-widest">{{ item.tenantName || item.agent }}</div>
+          <div class="text-sm font-bold text-gray-900  ">{{ item.tenantName || item.agent }}</div>
           <div class="flex items-center gap-2 mt-0.5">
-            <div class="text-sm text-gray-500 font-bold  tracking-widest">{{ item.customerName || item.customer }}</div>
-            <span v-if="item.totalPassengers > 1" class="text-[10px] text-gray-400 font-bold tracking-tighter">({{ item.totalPassengers }} pax)</span>
+            <div class="text-sm text-gray-500 font-bold  ">{{ item.customerName || item.customer }}</div>
+            <span v-if="item.totalPassengers > 1" class="text-sm text-gray-400 font-bold er">({{ item.totalPassengers }} pax)</span>
           </div>
         </div>
       </template>
 
       <template #cell(status)="{ item }">
-        <span class="px-4 py-1.5 rounded-xl text-sm font-bold  tracking-widest inline-block text-center min-w-[100px] border" :class="statusClass(item.status)">
+        <span class="px-4 py-1.5 rounded-xl text-sm font-bold   inline-block text-center min-w-[100px] border" :class="statusClass(item.status)">
           {{ item.status }}
         </span>
       </template>
 
       <template #cell(price)="{ item }">
-        <span class="font-bold text-gray-900 text-sm tracking-tight">${{ (item.totalPrice || item.amount)?.toLocaleString() }}</span>
+        <span class="font-bold text-gray-900 text-sm ">${{ (item.totalPrice || item.amount)?.toLocaleString() }}</span>
       </template>
 
       <template #cell(actions)="{ item }">
@@ -146,7 +146,7 @@
           
           <div class="grid grid-cols-2 gap-4">
             <div class="space-y-2">
-              <label class="text-sm font-bold  tracking-widest text-gray-500 ml-1">Service category</label>
+              <label class="text-sm font-bold   text-gray-500 ml-1">Service category</label>
               <UiSelectInput
                 v-model="newBooking.type"
                 label=""

@@ -13,11 +13,11 @@ export default {
       colors: {
         brand: {
           blue: '#0D1DAD',
-          green: '#0D1DAD',
+          green: '#42D906',
           gray: '#606062',
         },
         primary: '#0D1DAD',
-        success: '#0D1DAD',
+        success: '#42D906',
         neutral: '#606062',
       },
       fontFamily: {

@@ -12,8 +12,8 @@
         </svg>
       </div>
       <div class="flex flex-col">
-        <span class="text-[11px]  tracking-[0.15em] text-brand-gray  mb-0.5 opacity-70">{{ label }}</span>
-        <span class="text-base font-bold text-gray-900 tracking-tight">
+        <span class="text-[11px]   text-brand-gray  mb-0.5 opacity-70">{{ label }}</span>
+        <span class="text-base font-bold text-gray-900 ">
           {{ formattedValue }}
         </span>
       </div>
@@ -35,7 +35,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
-                <h3 class="text-2xl  text-gray-900  tracking-tighter">{{ formatMonthYear(currentMonth) }}</h3>
+                <h3 class="text-2xl  text-gray-900  er">{{ formatMonthYear(currentMonth) }}</h3>
                 <div class="w-12 lg:hidden"></div> <!-- Spacer -->
                 <button v-if="!isDesktop" @click="nextMonth" class="p-3 hover:bg-brand-blue/5 rounded-full transition-all text-gray-500 hover:text-gray-900 lg:hidden">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -80,7 +80,7 @@
           <div v-if="isDesktop" class="flex-1">
              <div class="flex items-center justify-between mb-10">
                 <div class="w-12"></div> <!-- Spacer -->
-                <h3 class="text-2xl  text-gray-900  tracking-tighter">{{ formatMonthYear(nextMonthDate) }}</h3>
+                <h3 class="text-2xl  text-gray-900  er">{{ formatMonthYear(nextMonthDate) }}</h3>
                 <button @click="nextMonth" class="p-3 hover:bg-brand-blue/5 rounded-full transition-all text-gray-500 hover:text-gray-900">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
@@ -130,7 +130,7 @@
           </div>
           <button 
             @click="isOpen = false"
-            class="px-12 py-4 bg-brand-green text-white text-sm  rounded-full hover:bg-brand-green/90 transition-all duration-500 transform hover:scale-105 shadow-[0_10px_30px_-5px_rgba(50,180,4,0.4)] active:scale-95  tracking-widest"
+            class="px-12 py-4 bg-brand-green text-white text-sm  rounded-full hover:bg-brand-green/90 transition-all duration-500 transform hover:scale-105 shadow-[0_10px_30px_-5px_rgba(50,180,4,0.4)] active:scale-95  "
           >
             Apply Dates
           </button>

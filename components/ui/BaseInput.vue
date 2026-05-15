@@ -3,7 +3,7 @@
     <label 
       v-if="label" 
       :for="id" 
-      class="text-sm font-bold text-gray-500  tracking-widest mb-2 px-1 "
+      class="text-sm font-bold text-gray-500   mb-2 px-1 "
     >
       {{ label }}
     </label>
@@ -22,7 +22,7 @@
         :class="[
           'block w-full bg-white border border-gray-100 rounded-2xl transition-all duration-300 font-bold text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-4 focus:ring-brand-blue/5 focus:border-brand-blue',
           icon ? 'pl-14' : 'px-6',
-          'py-4 text-sm tracking-tight'
+          'py-4 text-sm '
         ]"
         v-bind="$attrs"
       />

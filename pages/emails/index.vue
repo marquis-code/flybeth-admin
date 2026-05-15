@@ -8,7 +8,7 @@
         </div>
         <div>
           <h4 class="text-base font-bold text-gray-900">Automation Protocol</h4>
-          <p class="text-sm text-gray-500 font-medium tracking-tight mt-0.5">Templates support dynamic data injection using the double-brace <code class="text-brand-blue">{{ renderVariable('variable') }}</code> syntax.</p>
+          <p class="text-sm text-gray-500 font-medium  mt-0.5">Templates support dynamic data injection using the double-brace <code class="text-brand-blue">{{ renderVariable('variable') }}</code> syntax.</p>
         </div>
       </div>
       <NuxtLink to="/emails/new" class="text-sm font-bold text-brand-blue hover:underline">View Syntax Guide</NuxtLink>
@@ -17,8 +17,8 @@
     <!-- Header Section -->
     <div class="flex justify-between items-end">
       <div>
-        <p class="text-sm   tracking-[0.4em] text-brand-green mb-2">Communication Hub</p>
-        <h1 class="text-3xl text-gray-900 tracking-tighter">Email Templates</h1>
+        <p class="text-sm    text-brand-green mb-2">Communication Hub</p>
+        <h1 class="text-3xl text-gray-900 er">Email Templates</h1>
       </div>
       <div class="flex gap-4">
         <UiBaseButton variant="secondary" @click="handleSeed" :loading="seeding">
@@ -61,12 +61,12 @@
                  <EnvelopeIcon class="h-6 w-6" />
               </div>
               <h3 class="text-xl   text-gray-900 group-hover:translate-x-1 transition-premium">{{ template.name }}</h3>
-              <p class="text-sm   tracking-widest text-gray-500 mt-1">{{ template.slug }}</p>
+              <p class="text-sm    text-gray-500 mt-1">{{ template.slug }}</p>
             </div>
 
             <div class="space-y-4">
                <div>
-                  <p class="text-sm  text-brand-gray  tracking-widest mb-1 opacity-40">Subject Line</p>
+                  <p class="text-sm  text-brand-gray   mb-1 opacity-40">Subject Line</p>
                   <p class="text-sm font-bold text-gray-900/80 line-clamp-1 ">"{{ template.subject }}"</p>
                </div>
                
@@ -74,7 +74,7 @@
                   <span 
                     v-for="v in template.availableVariables.slice(0, 3)" 
                     :key="v"
-                    class="text-sm   tracking-wider px-2 py-1 bg-gray-50 text-gray-600 rounded-md"
+                    class="text-sm    px-2 py-1 bg-gray-50 text-gray-600 rounded-md"
                   >
                     {{ v }}
                   </span>
@@ -87,7 +87,7 @@
             <div class="mt-auto pt-8 flex items-center justify-between">
                <div class="flex items-center space-x-2">
                   <div class="h-2 w-2 rounded-full" :class="template.isActive ? 'bg-brand-green animate-pulse' : 'bg-red-400'" />
-                  <span class="text-sm   tracking-widest" :class="template.isActive ? 'text-brand-green' : 'text-red-400'">
+                  <span class="text-sm   " :class="template.isActive ? 'text-brand-green' : 'text-red-400'">
                     {{ template.isActive ? 'Active Protocol' : 'Disabled' }}
                   </span>
                </div>

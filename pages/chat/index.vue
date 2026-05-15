@@ -78,14 +78,14 @@
               <div class="flex-1 min-w-0">
                 <div class="flex items-center justify-between mb-0.5">
                   <div class="flex items-center gap-1.5 mr-2 min-w-0">
-                    <span v-if="room.type === 'support'" class="shrink-0 text-[9px] font-bold uppercase tracking-wider bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-md">Support</span>
+                    <span v-if="room.type === 'support'" class="shrink-0 text-[9px] font-bold uppercase  bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-md">Support</span>
                     <span class="text-[15px] font-normal text-[#111b21] truncate">{{ getRoomName(room) }}</span>
                   </div>
                   <span class="text-[11px] text-[#667781] shrink-0">{{ formatTimeShort(room.updatedAt) }}</span>
                 </div>
                 <div class="flex items-center gap-1">
                   <p class="text-[13px] text-[#667781] truncate flex-1 leading-tight">{{ room.lastMessage?.content || 'Click to chat' }}</p>
-                  <div v-if="getUnreadCount(room) > 0" class="bg-[#25d366] text-white text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center shrink-0">{{ getUnreadCount(room) }}</div>
+                  <div v-if="getUnreadCount(room) > 0" class="bg-[#25d366] text-white text-sm font-bold h-5 w-5 rounded-full flex items-center justify-center shrink-0">{{ getUnreadCount(room) }}</div>
                 </div>
               </div>
             </div>
@@ -115,7 +115,7 @@
               <div class="flex flex-col">
                 <span class="text-[15px] font-medium text-[#111b21] leading-tight">{{ getRoomName(selectedRoom) }}</span>
                 <div class="flex items-center gap-2">
-                    <span v-if="selectedRoom.currentStep" class="text-[9px] bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">{{ selectedRoom.currentStep }}</span>
+                    <span v-if="selectedRoom.currentStep" class="text-[9px] bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded font-bold uppercase ">{{ selectedRoom.currentStep }}</span>
                     <span v-if="isTyping" class="text-[11px] text-[#00a884] font-medium">{{ typingUser }} typing...</span>
                     <span v-else class="text-[11px] text-[#667781]">online</span>
                 </div>
@@ -150,7 +150,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor"><path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" /></svg>
                   </div>
                   <div>
-                    <div class="text-[10px] font-bold text-blue-600 mb-0.5 uppercase tracking-wider">🤖 Flybeth Bot</div>
+                    <div class="text-sm font-bold text-blue-600 mb-0.5 uppercase ">🤖 Flybeth Bot</div>
                     <div class="relative px-3 py-2 rounded-lg bg-blue-50 border border-blue-100 text-[#111b21] rounded-tl-none shadow-sm">
                       <p class="text-[14px] leading-normal break-words whitespace-pre-line" :class="msg.content.length > 20 ? 'pr-16' : 'pr-10'">{{ msg.content }}</p>
                       <div class="self-end flex items-center gap-1 mt-0.5 opacity-50"><span class="text-[9px]">{{ formatTimeOnly(msg.createdAt) }}</span></div>

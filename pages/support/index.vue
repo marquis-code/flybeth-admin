@@ -3,7 +3,7 @@
     
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
       <div>
-        <h1 class="text-3xl  text-gray-900 tracking-tight">Support & Outreach</h1>
+        <h1 class="text-3xl  text-gray-900 ">Support & Outreach</h1>
         <p class="text-sm text-gray-500 font-medium mt-1">Manage user inquiries and newsletter subscriptions.</p>
       </div>
       
@@ -12,7 +12,7 @@
           v-for="t in tabs" 
           :key="t.id"
           @click="activeTab = t.id"
-          class="px-6 py-2.5 rounded-lg text-xs  uppercase tracking-widest transition-all"
+          class="px-6 py-2.5 rounded-lg text-xs  uppercase  transition-all"
           :class="activeTab === t.id ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-400 hover:text-gray-600'"
         >
           {{ t.label }}
@@ -33,10 +33,10 @@
         <table class="w-full text-left">
           <thead>
             <tr class="bg-gray-50/50">
-              <th class="px-6 py-4 text-[10px]  uppercase tracking-widest text-gray-400">Email Address</th>
-              <th class="px-6 py-4 text-[10px]  uppercase tracking-widest text-gray-400">Status</th>
-              <th class="px-6 py-4 text-[10px]  uppercase tracking-widest text-gray-400">Source</th>
-              <th class="px-6 py-4 text-[10px]  uppercase tracking-widest text-gray-400">Date Joined</th>
+              <th class="px-6 py-4 text-sm  uppercase  text-gray-400">Email Address</th>
+              <th class="px-6 py-4 text-sm  uppercase  text-gray-400">Status</th>
+              <th class="px-6 py-4 text-sm  uppercase  text-gray-400">Source</th>
+              <th class="px-6 py-4 text-sm  uppercase  text-gray-400">Date Joined</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">
@@ -46,7 +46,7 @@
               </td>
               <td class="px-6 py-4">
                 <span 
-                  class="px-3 py-1 rounded-full text-[10px]  uppercase tracking-widest"
+                  class="px-3 py-1 rounded-full text-sm  uppercase "
                   :class="sub.status === 'active' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'"
                 >
                   {{ sub.status }}
@@ -80,10 +80,10 @@
         <table class="w-full text-left">
           <thead>
             <tr class="bg-gray-50/50">
-              <th class="px-6 py-4 text-[10px]  uppercase tracking-widest text-gray-400">User</th>
-              <th class="px-6 py-4 text-[10px]  uppercase tracking-widest text-gray-400">Inquiry</th>
-              <th class="px-6 py-4 text-[10px]  uppercase tracking-widest text-gray-400">Status</th>
-              <th class="px-6 py-4 text-[10px]  uppercase tracking-widest text-gray-400">Actions</th>
+              <th class="px-6 py-4 text-sm  uppercase  text-gray-400">User</th>
+              <th class="px-6 py-4 text-sm  uppercase  text-gray-400">Inquiry</th>
+              <th class="px-6 py-4 text-sm  uppercase  text-gray-400">Status</th>
+              <th class="px-6 py-4 text-sm  uppercase  text-gray-400">Actions</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">
@@ -102,7 +102,7 @@
               </td>
               <td class="px-6 py-4">
                 <span 
-                  class="px-3 py-1 rounded-full text-[10px]  uppercase tracking-widest"
+                  class="px-3 py-1 rounded-full text-sm  uppercase "
                   :class="getStatusClass(inq.status)"
                 >
                   {{ inq.status }}
@@ -136,8 +136,8 @@
                <MessageSquare class="h-6 w-6" />
              </div>
              <div>
-               <h3 class="text-xl  text-gray-900 tracking-tight">Inquiry Details</h3>
-               <p class="text-xs font-medium text-gray-400 mt-1 uppercase tracking-widest">Received on {{ new Date(selectedInquiry.createdAt).toLocaleString() }}</p>
+               <h3 class="text-xl  text-gray-900 ">Inquiry Details</h3>
+               <p class="text-xs font-medium text-gray-400 mt-1 uppercase ">Received on {{ new Date(selectedInquiry.createdAt).toLocaleString() }}</p>
              </div>
           </div>
           <button @click="selectedInquiry = null" class="h-10 w-10 flex items-center justify-center rounded-xl bg-gray-50 text-gray-400 hover:bg-gray-100 transition-all">
@@ -148,22 +148,22 @@
         <div class="p-8 lg:p-10 space-y-8 overflow-y-auto max-h-[60vh] no-scrollbar">
           <div class="grid grid-cols-2 gap-8">
             <div class="space-y-1">
-              <p class="text-[9px]  uppercase tracking-widest text-gray-300 ml-1">From</p>
+              <p class="text-[9px]  uppercase  text-gray-300 ml-1">From</p>
               <p class="text-sm  text-gray-900">{{ selectedInquiry.name }}</p>
             </div>
             <div class="space-y-1">
-              <p class="text-[9px]  uppercase tracking-widest text-gray-300 ml-1">Email</p>
+              <p class="text-[9px]  uppercase  text-gray-300 ml-1">Email</p>
               <p class="text-sm font-bold text-primary">{{ selectedInquiry.email }}</p>
             </div>
           </div>
 
           <div class="space-y-1">
-            <p class="text-[9px]  uppercase tracking-widest text-gray-300 ml-1">Subject</p>
+            <p class="text-[9px]  uppercase  text-gray-300 ml-1">Subject</p>
             <p class="text-base  text-gray-900">{{ selectedInquiry.subject }}</p>
           </div>
 
           <div class="space-y-1">
-            <p class="text-[9px]  uppercase tracking-widest text-gray-300 ml-1">Message</p>
+            <p class="text-[9px]  uppercase  text-gray-300 ml-1">Message</p>
             <div class="p-6 rounded-3xl bg-gray-50 text-sm text-gray-600 leading-relaxed font-medium">
               {{ selectedInquiry.message }}
             </div>
@@ -172,7 +172,7 @@
 
         <div class="p-8 lg:p-10 bg-gray-50/50 flex flex-col sm:flex-row items-center justify-between gap-6">
            <div class="flex items-center gap-3">
-             <span class="text-[10px]  uppercase tracking-widest text-gray-400">Update Status</span>
+             <span class="text-sm  uppercase  text-gray-400">Update Status</span>
              <select 
                class="bg-white border border-gray-200 rounded-xl px-4 py-2 text-xs font-bold text-gray-700 outline-none focus:border-primary transition-all"
                :value="selectedInquiry.status"
@@ -186,7 +186,7 @@
            </div>
            
            <div class="flex items-center gap-4 w-full sm:w-auto">
-             <a :href="`mailto:${selectedInquiry.email}?subject=Re: ${selectedInquiry.subject}`" class="flex-1 sm:flex-initial flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-xl  text-[10px] uppercase tracking-widest hover:bg-black transition-all">
+             <a :href="`mailto:${selectedInquiry.email}?subject=Re: ${selectedInquiry.subject}`" class="flex-1 sm:flex-initial flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-xl  text-sm uppercase  hover:bg-black transition-all">
                 <Mail class="h-4 w-4" /> Reply via Email
              </a>
            </div>

@@ -11,22 +11,17 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
     const publicRoutes = ['/', '/signup', '/forgot-password', '/reset-password'];
     const isPublicRoute = publicRoutes.includes(to.path);
+    
+    // Aggressive check: if any indicator of auth exists, consider logged in
     const reallyLoggedIn = !!user.value || !!userCookie.value || isLoggedIn.value;
     
-    // Diagnostic logging for debugging redirect loops
-    if (import.meta.client) {
-        console.log(`[AuthMiddleware] ${to.path} | LoggedIn: ${reallyLoggedIn} | UserRef: ${!!user.value} | Cookie: ${!!userCookie.value}`);
-    }
-
     // Unauthenticated user trying to access private route
     if (!isPublicRoute && !reallyLoggedIn) {
-        if (import.meta.client) console.warn("[AuthMiddleware] Redirecting to login: User not authenticated");
         return navigateTo('/');
     }
     
-    // Authenticated user trying to access public route
+    // Authenticated user trying to access public route - Aggressive redirect to dashboard
     if (isPublicRoute && reallyLoggedIn) {
-        if (import.meta.client) console.info("[AuthMiddleware] Redirecting to dashboard: Already authenticated");
         return navigateTo('/dashboard');
     }
 });

@@ -11,8 +11,8 @@
           <p class="text-sm text-gray-600 leading-relaxed mb-4">Email templates use a dynamic injection system. You can use curly braces to insert system data into your subject and body lines.</p>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
              <div v-for="v in template.availableVariables" :key="v" class="flex flex-col">
-                <code class="text-[10px] font-bold text-brand-blue tracking-widest uppercase">{{ renderVariable(v) }}</code>
-                <span class="text-[10px] text-gray-400 font-medium">Auto-injected variable</span>
+                <code class="text-sm font-bold text-brand-blue  uppercase">{{ renderVariable(v) }}</code>
+                <span class="text-sm text-gray-400 font-medium">Auto-injected variable</span>
              </div>
           </div>
         </div>
@@ -21,11 +21,11 @@
     <!-- Header Section -->
     <div class="flex justify-between items-end">
       <div>
-        <NuxtLink to="/emails" class="text-sm tracking-[0.4em] text-brand-green mb-4 flex items-center group cursor-pointer">
+        <NuxtLink to="/emails" class="text-sm  text-brand-green mb-4 flex items-center group cursor-pointer">
           <ChevronLeftIcon class="h-3 w-3 mr-2 group-hover:-translate-x-1 transition-premium" />
           Back to templates
         </NuxtLink>
-        <h1 class="text-2xl text-gray-900 tracking-tighter">
+        <h1 class="text-2xl text-gray-900 er">
           {{ isNew ? 'Create New' : 'Edit' }} Template
         </h1>
       </div>
@@ -73,7 +73,7 @@
               <div class="h-6 w-11 bg-gray-200 rounded-full relative transition-premium" :class="{ 'bg-brand-green': template.isActive }">
                 <div class="absolute top-1 left-1 h-4 w-4 bg-white rounded-full transition-premium" :class="{ 'translate-x-5': template.isActive }" />
               </div>
-              <span class="ml-3 text-sm tracking-widest text-gray-900">{{ template.isActive ? 'Active' : 'Disabled' }}</span>
+              <span class="ml-3 text-sm  text-gray-900">{{ template.isActive ? 'Active' : 'Disabled' }}</span>
            </label>
         </div>
       </template>

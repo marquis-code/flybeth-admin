@@ -12,7 +12,7 @@
       <!-- Dashboard Header & Actions -->
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 tracking-tight">System overview</h1>
+          <h1 class="text-2xl font-bold text-gray-900 ">System overview</h1>
           <p class="text-gray-500 font-medium">Global mission control for Flybeth travel infrastructure</p>
         </div>
         <div class="flex gap-4">
@@ -155,48 +155,48 @@
         <div class="grid grid-cols-1 gap-6 px-2">
           <template v-if="selectedType === 'booking'">
             <div class="space-y-1">
-              <p class="text-sm font-bold text-gray-400 tracking-widest uppercase">Customer</p>
+              <p class="text-sm font-bold text-gray-400  uppercase">Customer</p>
               <p class="text-base font-semibold text-gray-900">{{ selectedItem.user?.firstName }} {{ selectedItem.user?.lastName }}</p>
               <p class="text-sm text-gray-500">{{ selectedItem.user?.email }}</p>
             </div>
             <div class="space-y-1">
-              <p class="text-sm font-bold text-gray-400 tracking-widest uppercase">Agency Source</p>
+              <p class="text-sm font-bold text-gray-400  uppercase">Agency Source</p>
               <p class="text-base font-semibold text-gray-900">{{ selectedItem.tenant?.name || 'Flybeth Direct' }}</p>
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div class="space-y-1">
-                <p class="text-sm font-bold text-gray-400 tracking-widest uppercase">Total Value</p>
+                <p class="text-sm font-bold text-gray-400  uppercase">Total Value</p>
                 <p class="text-sm font-bold text-gray-900">${{ selectedItem.totalPrice?.toLocaleString() }}</p>
               </div>
               <div class="space-y-1">
-                <p class="text-sm font-bold text-gray-400 tracking-widest uppercase">Current Status</p>
+                <p class="text-sm font-bold text-gray-400  uppercase">Current Status</p>
                 <span class="inline-block px-3 py-1 rounded-full text-sm font-bold" :class="bookingStatusClass(selectedItem.status)">
                   {{ selectedItem.status }}
                 </span>
               </div>
             </div>
             <div class="space-y-1">
-                <p class="text-sm font-bold text-gray-400 tracking-widest uppercase">Transaction Date</p>
+                <p class="text-sm font-bold text-gray-400  uppercase">Transaction Date</p>
                 <p class="text-base font-medium text-gray-700">{{ new Date(selectedItem.createdAt).toLocaleDateString(undefined, { dateStyle: 'long' }) }}</p>
             </div>
           </template>
 
           <template v-else>
             <div class="space-y-1">
-              <p class="text-sm font-bold text-gray-400 tracking-widest uppercase">Agency Name</p>
+              <p class="text-sm font-bold text-gray-400  uppercase">Agency Name</p>
               <p class="text-base font-semibold text-gray-900">{{ selectedItem.name }}</p>
             </div>
             <div class="space-y-1">
-              <p class="text-sm font-bold text-gray-400 tracking-widest uppercase">Email Address</p>
+              <p class="text-sm font-bold text-gray-400  uppercase">Email Address</p>
               <p class="text-base font-semibold text-gray-900">{{ selectedItem.email }}</p>
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div class="space-y-1">
-                <p class="text-sm font-bold text-gray-400 tracking-widest uppercase">Overall Revenue</p>
+                <p class="text-sm font-bold text-gray-400  uppercase">Overall Revenue</p>
                 <p class="text-sm font-bold text-gray-900">${{ selectedItem.revenue?.toLocaleString() }}</p>
               </div>
               <div class="space-y-1">
-                <p class="text-sm font-bold text-gray-400 tracking-widest uppercase">Booking Volume</p>
+                <p class="text-sm font-bold text-gray-400  uppercase">Booking Volume</p>
                 <p class="text-sm font-bold text-gray-900">{{ selectedItem.bookings }} entries</p>
               </div>
             </div>

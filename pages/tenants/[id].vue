@@ -8,12 +8,12 @@
         </button>
         <div>
            <div class="flex items-center space-x-3 mb-1">
-             <h1 class="text-3xl font-bold text-gray-900 tracking-tight">{{ tenant?.name }}</h1>
-             <span class="px-4 py-1 rounded-full text-sm font-bold tracking-widest uppercase" :class="statusClass(tenant?.status)">
+             <h1 class="text-3xl font-bold text-gray-900 ">{{ tenant?.name }}</h1>
+             <span class="px-4 py-1 rounded-full text-sm font-bold  uppercase" :class="statusClass(tenant?.status)">
                {{ tenant?.status?.replace('_', ' ') || 'Unknown' }}
              </span>
            </div>
-           <p class="text-gray-500 text-sm font-bold tracking-widest">Agency ID: {{ tenant?._id }}</p>
+           <p class="text-gray-500 text-sm font-bold ">Agency ID: {{ tenant?._id }}</p>
         </div>
       </div>
 
@@ -54,21 +54,21 @@
             <div class="grid md:grid-cols-2 gap-8 pt-4">
               <div class="space-y-6">
                  <div class="space-y-1">
-                    <p class="text-xs font-bold text-gray-400 tracking-widest uppercase">Registration No.</p>
+                    <p class="text-xs font-bold text-gray-400  uppercase">Registration No.</p>
                     <p class="text-base font-bold text-gray-900">{{ tenant?.businessRegistrationNumber || 'N/A' }}</p>
                  </div>
                  <div class="space-y-1">
-                    <p class="text-xs font-bold text-gray-400 tracking-widest uppercase">Country of Operation</p>
+                    <p class="text-xs font-bold text-gray-400  uppercase">Country of Operation</p>
                     <p class="text-base font-bold text-gray-900">{{ tenant?.country || 'N/A' }}</p>
                  </div>
               </div>
               <div class="space-y-6">
                  <div class="space-y-1">
-                    <p class="text-xs font-bold text-gray-400 tracking-widest uppercase">Billing / Physical Address</p>
+                    <p class="text-xs font-bold text-gray-400  uppercase">Billing / Physical Address</p>
                     <p class="text-base font-medium text-gray-900 leading-relaxed">{{ tenant?.billingAddress || 'N/A' }}</p>
                  </div>
                  <div class="space-y-1">
-                    <p class="text-xs font-bold text-gray-400 tracking-widest uppercase">Custom White-Label Domain</p>
+                    <p class="text-xs font-bold text-gray-400  uppercase">Custom White-Label Domain</p>
                     <p class="text-base font-bold text-gray-900 leading-relaxed">{{ tenant?.domain || 'Not configured' }}</p>
                  </div>
               </div>
@@ -82,7 +82,7 @@
                     <EnvelopeIcon class="h-6 w-6" />
                  </div>
                  <div>
-                    <p class="text-xs font-bold text-gray-400 tracking-widest uppercase">Primary Email</p>
+                    <p class="text-xs font-bold text-gray-400  uppercase">Primary Email</p>
                     <p class="text-base font-bold text-gray-900">{{ tenant?.contactEmail || 'N/A' }}</p>
                  </div>
               </div>
@@ -91,7 +91,7 @@
                     <PhoneIcon class="h-6 w-6" />
                  </div>
                  <div>
-                    <p class="text-xs font-bold text-gray-400 tracking-widest uppercase">Primary Phone</p>
+                    <p class="text-xs font-bold text-gray-400  uppercase">Primary Phone</p>
                     <p class="text-base font-bold text-gray-900">{{ tenant?.contactPhone || 'N/A' }}</p>
                  </div>
               </div>
@@ -100,7 +100,7 @@
                     <ChatBubbleLeftRightIcon class="h-6 w-6" />
                  </div>
                  <div>
-                    <p class="text-xs font-bold text-gray-400 tracking-widest uppercase">WhatsApp Direct</p>
+                    <p class="text-xs font-bold text-gray-400  uppercase">WhatsApp Direct</p>
                     <p class="text-base font-bold text-gray-900">{{ tenant?.whatsappNumber || 'N/A' }}</p>
                  </div>
               </div>
@@ -114,16 +114,16 @@
                 {{ tenant?.name?.[0] }}
              </div>
              <h4 class="text-xl font-bold text-gray-900 mb-1">{{ tenant?.name }}</h4>
-             <p class="text-sm font-bold text-gray-500 tracking-widest">{{ tenant?.slug }}</p>
+             <p class="text-sm font-bold text-gray-500 ">{{ tenant?.slug }}</p>
              
              <div class="mt-8 grid grid-cols-2 gap-4 border-t border-gray-100 pt-8">
                <div>
                   <p class="text-2xl  text-gray-900">{{ tenant?.totalAgents || 0 }}</p>
-                  <p class="text-xs font-bold text-gray-400 tracking-widest uppercase mt-1">Staff Bound</p>
+                  <p class="text-xs font-bold text-gray-400  uppercase mt-1">Staff Bound</p>
                </div>
                <div>
                   <p class="text-2xl  text-gray-900">{{ tenant?.totalBookings || 0 }}</p>
-                  <p class="text-xs font-bold text-gray-400 tracking-widest uppercase mt-1">Gross Bookings</p>
+                  <p class="text-xs font-bold text-gray-400  uppercase mt-1">Gross Bookings</p>
                </div>
              </div>
           </UiBaseCard>
@@ -144,7 +144,7 @@
                    </div>
                 </div>
                 <div v-else class="aspect-[4/3] rounded-2xl border-2 border-dashed border-gray-200 flex items-center justify-center text-gray-400">
-                   <p class="text-sm font-bold tracking-widest uppercase">Not uploaded</p>
+                   <p class="text-sm font-bold  uppercase">Not uploaded</p>
                 </div>
              </div>
              
@@ -158,7 +158,7 @@
                    </div>
                 </div>
                 <div v-else class="aspect-[4/3] rounded-2xl border-2 border-dashed border-gray-200 flex items-center justify-center text-gray-400">
-                   <p class="text-sm font-bold tracking-widest uppercase">Not uploaded</p>
+                   <p class="text-sm font-bold  uppercase">Not uploaded</p>
                 </div>
              </div>
           </div>
@@ -172,15 +172,15 @@
                       <DocumentIcon class="h-8 w-8" />
                    </div>
                    <div>
-                      <h5 class="text-base font-bold text-gray-900 tracking-tight">{{ tenant?.country === 'Nigeria' ? 'CAC Certificate' : (tenant?.businessDocuments?.type || 'Registration Doc') }}</h5>
-                      <p class="text-xs text-gray-500 font-bold tracking-widest uppercase mt-1">Tax/Reg ID: <span class="text-gray-900">{{ tenant?.businessDocuments?.ein || tenant?.businessRegistrationNumber || 'Not provided' }}</span></p>
+                      <h5 class="text-base font-bold text-gray-900 ">{{ tenant?.country === 'Nigeria' ? 'CAC Certificate' : (tenant?.businessDocuments?.type || 'Registration Doc') }}</h5>
+                      <p class="text-xs text-gray-500 font-bold  uppercase mt-1">Tax/Reg ID: <span class="text-gray-900">{{ tenant?.businessDocuments?.ein || tenant?.businessRegistrationNumber || 'Not provided' }}</span></p>
                    </div>
                 </div>
                 
                 <UiBaseButton v-if="tenant?.businessDocuments?.documentUrl" variant="secondary" size="md" @click="openDoc(tenant?.businessDocuments?.documentUrl)">
                    Launch Secure PDF
                 </UiBaseButton>
-                <p v-else class="text-xs font-bold text-red-400 tracking-widest uppercase bg-red-50 px-4 py-2 rounded-lg">Missing File</p>
+                <p v-else class="text-xs font-bold text-red-400  uppercase bg-red-50 px-4 py-2 rounded-lg">Missing File</p>
              </div>
              <div>
                 <p class="text-xs font-medium text-gray-500 leading-relaxed bg-gray-50 p-4 rounded-xl border border-gray-100">
@@ -199,17 +199,17 @@
            
            <div class="space-y-8 relative z-10">
               <div class="space-y-1">
-                 <p class="text-xs font-bold text-white/50 tracking-widest uppercase">Institution</p>
-                 <p class="text-xl font-bold tracking-tight">{{ tenant?.bankDetails?.bankName || 'Awaiting Setup' }}</p>
+                 <p class="text-xs font-bold text-white/50  uppercase">Institution</p>
+                 <p class="text-xl font-bold ">{{ tenant?.bankDetails?.bankName || 'Awaiting Setup' }}</p>
               </div>
               <div class="space-y-1">
-                 <p class="text-xs font-bold text-white/50 tracking-widest uppercase">Account Beneficiary</p>
-                 <p class="text-xl font-bold tracking-tight">{{ tenant?.bankDetails?.accountName || 'Awaiting Setup' }}</p>
+                 <p class="text-xs font-bold text-white/50  uppercase">Account Beneficiary</p>
+                 <p class="text-xl font-bold ">{{ tenant?.bankDetails?.accountName || 'Awaiting Setup' }}</p>
               </div>
               <div class="pt-6 border-t border-white/10 flex items-center justify-between">
                  <div>
-                   <p class="text-xs font-bold text-white/50 tracking-widest uppercase mb-2">Account Digest</p>
-                   <p class="text-3xl  tracking-[0.15em]">{{ tenant?.bankDetails?.accountNumber || '**** ****' }}</p>
+                   <p class="text-xs font-bold text-white/50  uppercase mb-2">Account Digest</p>
+                   <p class="text-3xl  ">{{ tenant?.bankDetails?.accountNumber || '**** ****' }}</p>
                  </div>
                  <div class="h-16 w-16 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md">
                    <BanknotesIcon class="h-8 w-8 text-white" />
@@ -236,7 +236,7 @@
         <UiBaseCard padding title="Agency Operational Overrides">
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 pt-4">
              <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
-                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Global Markup Ceiling</p>
+                <p class="text-xs font-bold text-gray-500 uppercase  mb-1">Global Markup Ceiling</p>
                 <div class="flex items-end space-x-2">
                   <p class="text-3xl  text-gray-900">{{ tenant?.settings?.markupPercentage ?? 0 }}</p>
                   <span class="text-black font-bold pb-1">%</span>
@@ -244,7 +244,7 @@
              </div>
              
              <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
-                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Commission Split Rate</p>
+                <p class="text-xs font-bold text-gray-500 uppercase  mb-1">Commission Split Rate</p>
                 <div class="flex items-end space-x-2">
                   <p class="text-3xl  text-gray-900">{{ tenant?.settings?.commissionPercentage ?? 0 }}</p>
                    <span class="text-black font-bold pb-1">%</span>
@@ -252,14 +252,14 @@
              </div>
              
              <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
-                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Base Currency Link</p>
+                <p class="text-xs font-bold text-gray-500 uppercase  mb-1">Base Currency Link</p>
                 <p class="text-3xl  text-gray-900">{{ tenant?.settings?.defaultCurrency || 'USD' }}</p>
              </div>
 
              <div class="p-6 bg-gray-50 rounded-2xl border border-gray-100">
-                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Subscription Class</p>
+                <p class="text-xs font-bold text-gray-500 uppercase  mb-1">Subscription Class</p>
                 <p class="text-lg font-bold text-gray-900 capitalize">{{ tenant?.subscription?.plan || 'Standard' }}</p>
-                <p class="text-xs font-medium text-green-600 mt-1 uppercase tracking-widest">Status: {{ tenant?.subscription?.status || 'Active' }}</p>
+                <p class="text-xs font-medium text-green-600 mt-1 uppercase ">Status: {{ tenant?.subscription?.status || 'Active' }}</p>
              </div>
           </div>
         </UiBaseCard>

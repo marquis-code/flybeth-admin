@@ -89,7 +89,7 @@ const getProgressColor = (type: string) => {
 
             <!-- Content -->
             <div class="flex-1 min-w-0 pt-1">
-              <h3 class="text-base font-black text-gray-900 tracking-tight leading-none mb-1">
+              <h3 class="text-base font-black text-gray-900  leading-none mb-1">
                 {{ toast.title }}
               </h3>
               <p class="text-sm font-medium text-gray-500 leading-snug">

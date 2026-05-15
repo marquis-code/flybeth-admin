@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-1">
-    <p class="text-sm font-bold text-gray-400 uppercase tracking-widest">{{ label }}</p>
+    <p class="text-sm font-bold text-gray-400 uppercase ">{{ label }}</p>
     <div class="flex items-center gap-2">
       <a v-if="link && value" :href="formatLink(value)" target="_blank" class="text-base font-semibold text-blue-600 hover:text-blue-700 hover:underline break-all">
         {{ value }}

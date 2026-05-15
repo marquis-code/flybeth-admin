@@ -2,10 +2,10 @@
   <div class="space-y-8 animate-in fade-in duration-700">
     <div class="flex items-center justify-between">
       <div>
-        <h2 class="text-3xl  text-gray-900 tracking-tight">Currency Management</h2>
-        <p class="text-gray-500 font-bold uppercase tracking-widest text-sm mt-1">Configure internal exchange rates and revenue margins</p>
+        <h2 class="text-3xl  text-gray-900 ">Currency Management</h2>
+        <p class="text-gray-500 font-bold uppercase  text-sm mt-1">Configure internal exchange rates and revenue margins</p>
       </div>
-      <button @click="openAddModal" class="px-6 py-3 bg-primary text-white rounded-2xl  uppercase tracking-widest flex items-center shadow-lg shadow-primary/20 hover:scale-105 transition-all">
+      <button @click="openAddModal" class="px-6 py-3 bg-primary text-white rounded-2xl  uppercase  flex items-center shadow-lg shadow-primary/20 hover:scale-105 transition-all">
         <PlusIcon class="h-5 w-5 mr-2" />
         Add Currency
       </button>
@@ -14,15 +14,15 @@
     <!-- Stats Overview -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-        <p class="text-gray-400 font-bold uppercase tracking-widest text-xs mb-1">Total Currencies</p>
+        <p class="text-gray-400 font-bold uppercase  text-xs mb-1">Total Currencies</p>
         <p class="text-3xl  text-gray-900">{{ currencies.length }}</p>
       </div>
       <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-        <p class="text-gray-400 font-bold uppercase tracking-widest text-xs mb-1">Active Rates</p>
+        <p class="text-gray-400 font-bold uppercase  text-xs mb-1">Active Rates</p>
         <p class="text-3xl  text-emerald-500">{{ currencies.filter(c => c.isActive).length }}</p>
       </div>
       <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-        <p class="text-gray-400 font-bold uppercase tracking-widest text-xs mb-1">Avg Margin</p>
+        <p class="text-gray-400 font-bold uppercase  text-xs mb-1">Avg Margin</p>
         <p class="text-3xl  text-primary">{{ avgMargin.toFixed(1) }}%</p>
       </div>
     </div>
@@ -32,12 +32,12 @@
       <table class="w-full text-left">
         <thead>
           <tr class="bg-gray-50 border-b border-gray-100">
-            <th class="px-8 py-6 text-xs  text-gray-400 uppercase tracking-widest">Currency</th>
-            <th class="px-8 py-6 text-xs  text-gray-400 uppercase tracking-widest">Market Rate (1 USD)</th>
-            <th class="px-8 py-6 text-xs  text-gray-400 uppercase tracking-widest">Margin %</th>
-            <th class="px-8 py-6 text-xs  text-gray-400 uppercase tracking-widest">Client Rate</th>
-            <th class="px-8 py-6 text-xs  text-gray-400 uppercase tracking-widest">Status</th>
-            <th class="px-8 py-6 text-xs  text-gray-400 uppercase tracking-widest text-right">Actions</th>
+            <th class="px-8 py-6 text-xs  text-gray-400 uppercase ">Currency</th>
+            <th class="px-8 py-6 text-xs  text-gray-400 uppercase ">Market Rate (1 USD)</th>
+            <th class="px-8 py-6 text-xs  text-gray-400 uppercase ">Margin %</th>
+            <th class="px-8 py-6 text-xs  text-gray-400 uppercase ">Client Rate</th>
+            <th class="px-8 py-6 text-xs  text-gray-400 uppercase ">Status</th>
+            <th class="px-8 py-6 text-xs  text-gray-400 uppercase  text-right">Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-50">
@@ -49,7 +49,7 @@
                 </div>
                 <div>
                   <p class="text-lg  text-gray-900 leading-tight">{{ currency.code }}</p>
-                  <p class="text-sm font-bold text-gray-400 uppercase tracking-widest">{{ currency.name }}</p>
+                  <p class="text-sm font-bold text-gray-400 uppercase ">{{ currency.name }}</p>
                 </div>
               </div>
             </td>
@@ -82,31 +82,31 @@
       <div class="p-8 space-y-6">
         <div class="grid grid-cols-2 gap-6">
           <div class="space-y-2">
-            <label class="text-xs  text-gray-400 uppercase tracking-widest ml-1">Currency Code</label>
-            <input v-model="form.code" :disabled="isEditing" placeholder="e.g. NGN" class="w-full h-14 bg-gray-50 border border-gray-100 rounded-2xl px-5  uppercase tracking-widest focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all disabled:opacity-50" />
+            <label class="text-xs  text-gray-400 uppercase  ml-1">Currency Code</label>
+            <input v-model="form.code" :disabled="isEditing" placeholder="e.g. NGN" class="w-full h-14 bg-gray-50 border border-gray-100 rounded-2xl px-5  uppercase  focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all disabled:opacity-50" />
           </div>
           <div class="space-y-2">
-            <label class="text-xs  text-gray-400 uppercase tracking-widest ml-1">Symbol</label>
+            <label class="text-xs  text-gray-400 uppercase  ml-1">Symbol</label>
             <input v-model="form.symbol" placeholder="e.g. ₦" class="w-full h-14 bg-gray-50 border border-gray-100 rounded-2xl px-5  focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
           </div>
         </div>
         <div class="space-y-2">
-          <label class="text-xs  text-gray-400 uppercase tracking-widest ml-1">Currency Name</label>
+          <label class="text-xs  text-gray-400 uppercase  ml-1">Currency Name</label>
           <input v-model="form.name" placeholder="e.g. Nigerian Naira" class="w-full h-14 bg-gray-50 border border-gray-100 rounded-2xl px-5  focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
         </div>
         <div class="grid grid-cols-2 gap-6">
           <div class="space-y-2">
-            <label class="text-xs  text-gray-400 uppercase tracking-widest ml-1">Market Rate (per 1 USD)</label>
+            <label class="text-xs  text-gray-400 uppercase  ml-1">Market Rate (per 1 USD)</label>
             <input v-model.number="form.rateToBase" type="number" step="0.0001" class="w-full h-14 bg-gray-50 border border-gray-100 rounded-2xl px-5  focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
           </div>
           <div class="space-y-2">
-            <label class="text-xs  text-gray-400 uppercase tracking-widest ml-1">Revenue Margin %</label>
+            <label class="text-xs  text-gray-400 uppercase  ml-1">Revenue Margin %</label>
             <input v-model.number="form.marginPercentage" type="number" step="0.1" class="w-full h-14 bg-gray-50 border border-gray-100 rounded-2xl px-5  focus:bg-white focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
           </div>
         </div>
         
         <div class="pt-4">
-          <button @click="saveCurrency" class="w-full h-16 bg-primary text-white rounded-[1.5rem]  uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+          <button @click="saveCurrency" class="w-full h-16 bg-primary text-white rounded-[1.5rem]  uppercase  shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
             {{ isEditing ? 'Update Configuration' : 'Create Currency' }}
           </button>
         </div>

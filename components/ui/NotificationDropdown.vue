@@ -6,7 +6,7 @@
       :class="{ 'bg-blue-50 text-blue-600 border-blue-100': isOpen }"
     >
       <BellIcon class="h-5 w-5" />
-      <span v-if="unreadCount > 0" class="absolute -top-1 -right-1 h-5 w-5 bg-red-500 ring-4 ring-white rounded-full flex items-center justify-center text-[10px]  text-white shadow-lg animate-bounce">
+      <span v-if="unreadCount > 0" class="absolute -top-1 -right-1 h-5 w-5 bg-red-500 ring-4 ring-white rounded-full flex items-center justify-center text-sm  text-white shadow-lg animate-bounce">
         {{ unreadCount }}
       </span>
     </button>
@@ -23,9 +23,9 @@
         <div class="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
           <div>
             <h3 class="text-base  text-gray-900 leading-tight">Intelligence Stream</h3>
-            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Real-time Operations Logic</p>
+            <p class="text-sm font-bold text-gray-400 uppercase  mt-0.5">Real-time Operations Logic</p>
           </div>
-          <button @click="markAllAsRead" class="text-[10px]  text-blue-600 hover:text-blue-700 uppercase tracking-widest bg-blue-50 px-3 py-1.5 rounded-lg transition-all">
+          <button @click="markAllAsRead" class="text-sm  text-blue-600 hover:text-blue-700 uppercase  bg-blue-50 px-3 py-1.5 rounded-lg transition-all">
             Dismiss All
           </button>
         </div>
@@ -65,7 +65,7 @@
         </div>
 
         <div class="p-4 bg-gray-50/50 border-t border-gray-100">
-           <NuxtLink to="/settings" class="block w-full text-center py-3 text-[11px]  text-gray-400 hover:text-gray-600 uppercase tracking-widest transition-colors">
+           <NuxtLink to="/settings" class="block w-full text-center py-3 text-[11px]  text-gray-400 hover:text-gray-600 uppercase  transition-colors">
               Configure Notification Matrices
            </NuxtLink>
         </div>

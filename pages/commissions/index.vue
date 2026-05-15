@@ -28,7 +28,7 @@
               'w-2 h-2 rounded-full mr-2',
               item.isActive ? 'bg-green-500' : 'bg-red-500'
             ]"></div>
-            <span class="text-sm   tracking-widest" :class="[
+            <span class="text-sm   " :class="[
               item.isActive ? 'text-green-600' : 'text-red-500'
             ]">
               {{ item.isActive ? 'Active' : 'Inactive' }}

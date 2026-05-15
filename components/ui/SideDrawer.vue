@@ -31,7 +31,7 @@
               <!-- Header -->
               <div class="px-8 py-7 flex items-center justify-between border-b border-gray-100 bg-white sticky top-0 z-10">
                 <div>
-                   <h2 class="text-xl font-bold text-gray-900 tracking-tight">{{ title }}</h2>
+                   <h2 class="text-xl font-bold text-gray-900 ">{{ title }}</h2>
                    <div v-if="subtitle" class="text-xs font-medium text-gray-500 mt-1">{{ subtitle }}</div>
                 </div>
                 <button @click="close" class="h-10 w-10 flex items-center justify-center hover:bg-gray-50 text-gray-400 hover:text-red-500 rounded-xl transition-premium border border-transparent hover:border-red-100">

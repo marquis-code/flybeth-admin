@@ -16,15 +16,15 @@
             <ArrowLeftIcon class="w-3.5 h-3.5 mr-1.5 group-hover:-translate-x-1 transition-transform" /> Back to agents
           </button>
           <div class="flex items-center gap-3">
-             <h1 class="text-3xl font-bold text-gray-900 tracking-tight">{{ agent.agencyName || agent.agentProfile?.agencyName || 'Independent Agent' }}</h1>
-             <span class="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-bold uppercase rounded-full tracking-wider">{{ agent.agentTier }}</span>
+             <h1 class="text-3xl font-bold text-gray-900 ">{{ agent.agencyName || agent.agentProfile?.agencyName || 'Independent Agent' }}</h1>
+             <span class="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-bold uppercase rounded-full ">{{ agent.agentTier }}</span>
           </div>
           <p class="text-sm text-gray-400 font-medium">Joined on {{ new Date(agent.createdAt).toLocaleDateString(undefined, { dateStyle: 'long' }) }} • ID: {{ agent._id }}</p>
         </div>
 
         <div class="flex items-center gap-3">
           <div class="flex flex-col items-end mr-4 hidden md:flex">
-             <span class="text-sm font-bold text-gray-400 uppercase tracking-widest">Global Status</span>
+             <span class="text-sm font-bold text-gray-400 uppercase ">Global Status</span>
              <span class="text-sm font-bold capitalize" :class="statusText">{{ agent.agentStatus }}</span>
           </div>
           <UiBaseButton variant="secondary" size="lg" @click="requestInfo">Request Info</UiBaseButton>
@@ -96,7 +96,7 @@
                  <!-- ID Card -->
                  <UiBaseCard padding>
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest">Government Issued ID</h3>
+                        <h3 class="text-sm font-bold text-gray-400 uppercase ">Government Issued ID</h3>
                         <span :class="['px-2 py-0.5 rounded text-sm font-bold uppercase', getDocStatusClass(agent.agentProfile?.idCardStatus)]">
                             {{ agent.agentProfile?.idCardStatus || 'pending' }}
                         </span>
@@ -118,7 +118,7 @@
                  <!-- Selfie -->
                  <UiBaseCard padding>
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest">Identity Selfie</h3>
+                        <h3 class="text-sm font-bold text-gray-400 uppercase ">Identity Selfie</h3>
                         <span :class="['px-2 py-0.5 rounded text-sm font-bold uppercase', getDocStatusClass(agent.agentProfile?.selfieStatus)]">
                             {{ agent.agentProfile?.selfieStatus || 'pending' }}
                         </span>
@@ -141,7 +141,7 @@
                <!-- CAC Certificate -->
                <UiBaseCard padding v-if="agent.agentProfile?.cacCertificateUrl">
                   <div class="flex items-center justify-between mb-4">
-                      <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest">Regulatory Certificates (CAC)</h3>
+                      <h3 class="text-sm font-bold text-gray-400 uppercase ">Regulatory Certificates (CAC)</h3>
                       <span :class="['px-2 py-0.5 rounded text-sm font-bold uppercase', getDocStatusClass(agent.agentProfile?.cacCertificateStatus)]">
                           {{ agent.agentProfile?.cacCertificateStatus || 'pending' }}
                       </span>
@@ -186,7 +186,7 @@
                         <CheckIcon class="h-4 w-4" />
                      </div>
                      <div>
-                        <p class="text-sm font-bold text-emerald-800 uppercase tracking-widest mb-1">Status: Verified Account</p>
+                        <p class="text-sm font-bold text-emerald-800 uppercase  mb-1">Status: Verified Account</p>
                         <p class="text-sm text-emerald-700/80 font-medium leading-relaxed">This bank account has been validated for automatic commission routing. Settlements will be processed into this account weekly.</p>
                      </div>
                   </div>
@@ -198,7 +198,7 @@
           <div class="space-y-6">
             <!-- Tier Management -->
             <UiBaseCard padding>
-              <template #header><h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest">Partnership Tier</h3></template>
+              <template #header><h3 class="text-sm font-bold text-gray-400 uppercase ">Partnership Tier</h3></template>
               <div class="space-y-4 py-2">
                  <div class="grid grid-cols-1 gap-2.5">
                       <UiBaseButton 
@@ -206,7 +206,7 @@
                         :key="tier" 
                         @click="updateTier(tier)" 
                         :variant="agent.agentTier === tier ? 'primary' : 'secondary'"
-                        class="!text-sm !capitalize !tracking-widest !py-3.5 !rounded-xl"
+                        class="!text-sm !capitalize ! !py-3.5 !rounded-xl"
                         :loading="processing[`tier-${tier}`]"
                       >
                           {{ tier }}
@@ -220,7 +220,7 @@
 
             <!-- Verification Status -->
             <UiBaseCard padding>
-              <template #header><h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest">KYC Milestones</h3></template>
+              <template #header><h3 class="text-sm font-bold text-gray-400 uppercase ">KYC Milestones</h3></template>
               <div class="space-y-4 py-2 text-wrap overflow-hidden">
                   <div class="flex flex-col gap-3">
                       <FlagItem label="ID Verification" icon="IdentificationIcon" :active="agent.agentProfile?.idCardStatus === 'approved'" />
@@ -241,11 +241,11 @@
         <div class="space-y-6">
             <div class="flex items-center gap-3 p-4 bg-red-50 rounded-2xl border border-red-100 mb-2">
                 <ExclamationCircleIcon class="h-5 w-5 text-red-600" />
-                <p class="text-sm font-bold text-red-700 uppercase tracking-widest">{{ currentDocToReject === 'global' ? 'Global Application Rejection' : 'Document Rejection' }}</p>
+                <p class="text-sm font-bold text-red-700 uppercase ">{{ currentDocToReject === 'global' ? 'Global Application Rejection' : 'Document Rejection' }}</p>
             </div>
             
             <div class="space-y-3">
-                <label class="text-sm font-bold text-gray-400 uppercase tracking-widest">Feedback for the Agent</label>
+                <label class="text-sm font-bold text-gray-400 uppercase ">Feedback for the Agent</label>
                 <textarea 
                   v-model="rejectionFeedback" 
                   rows="4" 

@@ -14,10 +14,10 @@
     >
       <!-- Logo -->
       <div class="px-7 py-6 flex items-center space-x-3 border-b border-gray-100">
-        <img src="https://agent.flybeth.com/_nuxt/logo.CJ2BWGNK.png" class="h-9 w-auto" alt="Flybeth" />
+        <img src="/logo.png" class="h-9 w-auto" alt="Flybeth" />
         <div class="flex flex-col">
-          <span class="text-lg font-bold text-gray-900 tracking-tight leading-tight">Flybeth</span>
-          <span class="text-[10px] font-semibold text-gray-400 tracking-wide">Control Panel</span>
+          <span class="text-lg font-bold text-gray-900  leading-tight">Flybeth</span>
+          <span class="text-sm font-semibold text-gray-400 ">Control Panel</span>
         </div>
         <!-- Close button for mobile -->
         <button @click="isMobileMenuOpen = false" class="lg:hidden ml-auto p-1.5 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-50">
@@ -27,7 +27,7 @@
       
       <!-- Navigation -->
       <nav class="mt-2 flex-grow px-4 py-3 space-y-0.5 overflow-y-auto custom-scrollbar">
-        <p class="px-3 pt-3 pb-2 text-[10px] font-semibold text-gray-400 tracking-wider">Main</p>
+        <p class="px-3 pt-3 pb-2 text-sm font-semibold text-gray-400 ">Main</p>
         <NuxtLink 
           v-for="item in filteredNavigation" 
           :key="item.name" 
@@ -45,9 +45,9 @@
               <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
               <div class="flex items-center gap-3 relative z-10 transition-transform group-hover:scale-105">
                  <ChatBubbleLeftRightIcon class="h-5 w-5" />
-                 <span class="text-[13px]  tracking-tight">Support Chat</span>
+                 <span class="text-[13px]  ">Support Chat</span>
               </div>
-              <div v-if="totalUnreadMessages > 0" class="bg-white text-blue-600 text-[10px]  px-2 py-0.5 rounded-full relative z-10">
+              <div v-if="totalUnreadMessages > 0" class="bg-white text-blue-600 text-sm  px-2 py-0.5 rounded-full relative z-10">
                  {{ totalUnreadMessages }}
               </div>
               <ArrowRightIcon v-else class="h-4 w-4 text-white/50 group-hover:translate-x-1 transition-transform relative z-10" />
@@ -64,7 +64,7 @@
             </div>
             <div class="min-w-0 flex-1">
               <p class="text-sm font-semibold text-gray-900 truncate">{{ user.firstName }} {{ user.lastName }}</p>
-              <p class="text-[10px] font-bold text-gray-400 tracking-widest truncate uppercase">{{ userDisplayRole }}</p>
+              <p class="text-sm font-bold text-gray-400  truncate uppercase">{{ userDisplayRole }}</p>
             </div>
           </div>
           

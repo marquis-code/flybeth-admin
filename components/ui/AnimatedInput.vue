@@ -22,7 +22,7 @@
         :readonly="readonly"
         :rows="rows"
         :class="[
-          'w-full py-3 pt-6 px-3 bg-[#1A1A1B09] border-[0.5px] border-transparent focus:outline-none focus:ring-1 focus:ring-[#033958] focus:border-[#033958] transition-all duration-300 resize-none',
+          'w-full py-3 pt-6 px-3 bg-gray-50/50 border-[0.5px] border-gray-100 focus:outline-none focus:ring-1 focus:ring-brand-blue focus:border-brand-blue transition-all duration-300 resize-none',
           roundedClasses,
           disabled ? 'opacity-50 cursor-not-allowed' : '',
           (hasError || (errorMessage && showError)) ? 'border-[0.5px] ring-red-500 border-red-500' : ''
@@ -43,7 +43,7 @@
         :readonly="readonly || type === 'date' || type === 'time' || type === 'datetime-local'"
         :autocomplete="autocomplete"
         :class="[
-          'w-full py-3 pt-6 px-3 bg-[#1A1A1B09] border-[0.5px] border-transparent focus:outline-none focus:ring-1 focus:ring-[#033958] focus:border-[#033958] transition-all duration-300',
+          'w-full py-3 pt-6 px-3 bg-gray-50/50 border-[0.5px] border-gray-100 focus:outline-none focus:ring-1 focus:ring-brand-blue focus:border-brand-blue transition-all duration-300',
           roundedClasses,
           disabled ? 'opacity-50 cursor-not-allowed' : '',
           (type === 'date' || type === 'time' || type === 'datetime-local') ? 'cursor-pointer' : '',
@@ -98,7 +98,7 @@
           class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden transform"
           @click.stop
         >
-          <div class="bg-gradient-to-br from-[#033958] to-[#055a8c] p-6 text-white">
+          <div class="bg-gradient-to-br from-brand-blue to-blue-700 p-6 text-white">
             <div class="flex items-center justify-between mb-2">
               <h3 class="text-xl font-bold">Select Date</h3>
               <button 

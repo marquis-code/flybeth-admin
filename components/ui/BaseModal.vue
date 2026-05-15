@@ -15,7 +15,7 @@
         >
           <!-- Header -->
           <div class="px-10 py-8 flex items-center justify-between border-b border-gray-50">
-            <h3 class="text-2xl font-bold text-gray-900 tracking-tight">{{ title }}</h3>
+            <h3 class="text-2xl font-bold text-gray-900 ">{{ title }}</h3>
             <button @click="close" class="p-2 hover:bg-gray-100 rounded-2xl transition-premium text-gray-500 hover:text-gray-900">
               <XMarkIcon class="h-6 w-6" />
             </button>

@@ -2,7 +2,7 @@
   <div class="relative w-full font-body" ref="selectRef">
     <label 
       v-if="label" 
-      class="text-[11px]  tracking-[0.15em] text-brand-gray  mb-2 px-1 opacity-70  block"
+      class="text-[11px]   text-brand-gray  mb-2 px-1 opacity-70  block"
     >
       {{ label }}
     </label>
@@ -18,7 +18,7 @@
           <component :is="icon" class="h-5 w-5" :class="isOpen ? 'text-white' : 'text-gray-900'" />
         </div>
         <div class="flex flex-col">
-          <span class="text-sm font-bold text-gray-900 tracking-tight">
+          <span class="text-sm font-bold text-gray-900 ">
             {{ selectedOptionLabel || placeholder }}
           </span>
         </div>

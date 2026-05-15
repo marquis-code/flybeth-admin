@@ -2,7 +2,7 @@
   <div class="space-y-10 pb-12">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
        <div class="space-y-1">
-         <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Agencies</h1>
+         <h1 class="text-2xl font-bold text-gray-900 ">Agencies</h1>
          <p class="text-gray-600 font-medium text-sm">Review and manage all travel agency partners</p>
        </div>
        <UiBaseButton variant="primary" size="lg" @click="showAddAgent = true">
@@ -77,7 +77,7 @@
     <!-- Tenants Table -->
     <div v-if="loading && tenants.length === 0" class="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-gray-100">
       <div class="h-10 w-10 border-4 border-brand-blue/10 border-t-brand-blue rounded-full animate-spin"></div>
-      <p class="mt-4 text-sm font-bold text-gray-900/40  tracking-widest">Loading agent records...</p>
+      <p class="mt-4 text-sm font-bold text-gray-900/40  ">Loading agent records...</p>
     </div>
 
     <UiBaseTable 
@@ -96,22 +96,22 @@
             {{ item.name.split(' ').map((n: any) => n[0]).join('').substring(0, 2) }}
           </div>
           <div>
-            <div class="text-sm font-bold text-gray-900 tracking-tight">{{ item.name }}</div>
-            <div class="text-sm font-bold text-gray-500  tracking-widest">{{ item.email }}</div>
+            <div class="text-sm font-bold text-gray-900 ">{{ item.name }}</div>
+            <div class="text-sm font-bold text-gray-500  ">{{ item.email }}</div>
           </div>
         </div>
       </template>
 
       <template #cell(status)="{ item }">
-        <span class="px-4 py-1.5 rounded-full text-sm font-bold  tracking-widest inline-block text-center min-w-[110px]" :class="statusClass(item.status)">
+        <span class="px-4 py-1.5 rounded-full text-sm font-bold   inline-block text-center min-w-[110px]" :class="statusClass(item.status)">
           {{ item.status }}
         </span>
       </template>
 
       <template #cell(revenue)="{ item }">
          <div class="flex flex-col">
-           <span class="text-sm font-bold text-gray-900 tracking-tighter">${{ item.revenue || '0' }}</span>
-           <span class="text-sm font-bold text-brand-gray/30  tracking-[0.1em]">{{ item.bookings || '0' }} bookings</span>
+           <span class="text-sm font-bold text-gray-900 er">${{ item.revenue || '0' }}</span>
+           <span class="text-sm font-bold text-brand-gray/30  ">{{ item.bookings || '0' }} bookings</span>
          </div>
       </template>
 
@@ -152,7 +152,7 @@
           
           <div class="bg-gray-50/50 p-6 rounded-2xl border border-dashed border-gray-200 text-center transition-colors hover:border-brand-blue/30 group cursor-pointer">
              <CloudIcon class="h-8 w-8 mx-auto text-brand-gray/20 group-hover:text-gray-900/40" />
-             <p class="text-sm font-bold text-gray-500  tracking-widest mt-2">Upload KYC documents</p>
+             <p class="text-sm font-bold text-gray-500   mt-2">Upload KYC documents</p>
           </div>
         </div>
       </div>

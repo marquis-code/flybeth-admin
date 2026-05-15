@@ -7,7 +7,7 @@
           <ArrowLeftIcon class="h-6 w-6 group-hover:-translate-x-1 transition-premium" />
         </button>
         <div>
-          <h1 class="text-3xl font-bold text-gray-900 tracking-tight leading-none capitalize">{{ isEdit ? 'Edit' : 'Create' }} campaign</h1>
+          <h1 class="text-3xl font-bold text-gray-900  leading-none capitalize">{{ isEdit ? 'Edit' : 'Create' }} campaign</h1>
           <p class="text-sm text-gray-500 mt-2 font-medium">Set up an email campaign to reach your users.</p>
         </div>
       </div>
@@ -65,7 +65,7 @@
                              <PhotoIcon class="h-6 w-6 text-brand-blue animate-pulse" />
                           </div>
                        </div>
-                       <p class="mt-4 text-sm font-bold text-brand-blue uppercase tracking-widest animate-pulse">Syncing media asset...</p>
+                       <p class="mt-4 text-sm font-bold text-brand-blue uppercase  animate-pulse">Syncing media asset...</p>
                     </div>
 
                     <img v-if="form.imageUrl && !uploading" :src="form.imageUrl" class="absolute inset-0 w-full h-full object-cover transition-premium group-hover:scale-105 shadow-none" />
@@ -104,7 +104,7 @@
         <!-- Target Selection Card -->
         <div class="bg-white border border-gray-100 rounded-[2.5rem] p-10 space-y-10 sticky top-24 shadow-none">
            <div>
-              <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Who should get this?</p>
+              <p class="text-xs font-bold text-gray-400 uppercase  mb-6">Who should get this?</p>
               
               <!-- Custom Dropdown Selector -->
               <div class="relative">
@@ -147,7 +147,7 @@
 
            <!-- Role Filters -->
            <div v-if="form.targetAudience === 'roles'" class="animate-in fade-in slide-in-from-top-2 duration-300">
-              <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Select groups</p>
+              <p class="text-xs font-bold text-gray-400 uppercase  mb-4">Select groups</p>
               <div class="flex flex-wrap gap-3">
                  <button 
                   v-for="role in roles" 
@@ -163,7 +163,7 @@
 
            <!-- User Search Selector -->
            <div v-if="form.targetAudience === 'specific'" class="animate-in fade-in slide-in-from-top-2 duration-300 space-y-5">
-              <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Select members</p>
+              <p class="text-xs font-bold text-gray-400 uppercase ">Select members</p>
               <div class="relative">
                  <input 
                    v-model="userSearchTerm" 
@@ -192,7 +192,7 @@
 
            <!-- Deployment Strategy (Dropdown) -->
            <div>
-              <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">When to send?</p>
+              <p class="text-xs font-bold text-gray-400 uppercase  mb-6">When to send?</p>
               <div class="relative">
                  <button 
                    @click="showTimingList = !showTimingList"
@@ -221,14 +221,14 @@
               </div>
               
               <div v-if="sendTiming === 'schedule'" class="mt-5 p-5 bg-gray-50 rounded-2xl border border-gray-100 animate-in fade-in zoom-in-95 duration-300 shadow-none">
-                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">Select date & time</label>
+                 <label class="text-sm font-bold text-gray-400 uppercase  mb-2 block ml-1">Select date & time</label>
                  <input v-model="form.scheduledAt" type="datetime-local" class="w-full bg-white border border-gray-100 rounded-xl py-3 px-4 font-bold text-sm text-gray-900 outline-none shadow-none" />
               </div>
            </div>
 
            <!-- Summary Section -->
            <div class="p-8 bg-gray-50 rounded-[2rem] space-y-5 border border-gray-100 shadow-none">
-              <div class="flex justify-between items-center text-xs font-bold uppercase tracking-widest">
+              <div class="flex justify-between items-center text-xs font-bold uppercase ">
                  <span class="text-gray-400">Target count</span>
                  <span class="text-brand-blue font-bold">{{ recipientCount }}</span>
               </div>

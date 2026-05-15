@@ -2,7 +2,7 @@
   <div class="space-y-10 pb-12">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
        <div class="space-y-1">
-         <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Team</h1>
+         <h1 class="text-2xl font-bold text-gray-900 ">Team</h1>
          <p class="text-gray-600 font-medium text-sm">Manage your administrators and support staff</p>
        </div>
        <div class="flex items-center gap-4">
@@ -20,7 +20,7 @@
     <!-- Quick Stats -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <UiBaseCard v-for="s in computedUserStats" :key="s.label" padding class="group transition-all duration-300">
-         <p class="text-sm font-bold text-gray-500  tracking-widest mb-1">{{ s.label }}</p>
+         <p class="text-sm font-bold text-gray-500   mb-1">{{ s.label }}</p>
          <div class="flex items-center justify-between">
            <h3 class="text-3xl font-bold text-gray-900">{{ s.value }}</h3>
            <div class="h-10 w-10 bg-brand-blue/5 rounded-xl flex items-center justify-center text-gray-900 group-hover:bg-brand-blue group-hover:text-white transition-colors">
@@ -47,14 +47,14 @@
             {{ item.name?.[0] || item.firstName?.[0] || '?' }}
           </div>
           <div class="text-left">
-             <div class="text-sm font-bold text-gray-900 tracking-tight">{{ item.name || `${item.firstName} ${item.lastName}` }}</div>
-             <div class="text-sm font-bold text-gray-500  tracking-widest">{{ item.email }}</div>
+             <div class="text-sm font-bold text-gray-900 ">{{ item.name || `${item.firstName} ${item.lastName}` }}</div>
+             <div class="text-sm font-bold text-gray-500  ">{{ item.email }}</div>
           </div>
         </div>
       </template>
 
       <template #cell(role)="{ item }">
-        <span class="text-sm font-bold text-gray-900  tracking-widest bg-brand-blue/5 px-4 py-1.5 rounded-lg border border-brand-blue/10">
+        <span class="text-sm font-bold text-gray-900   bg-brand-blue/5 px-4 py-1.5 rounded-lg border border-brand-blue/10">
           {{ item.role }}
         </span>
       </template>
@@ -62,7 +62,7 @@
       <template #cell(status)="{ item }">
          <div class="flex items-center px-4 py-1.5 rounded-xl bg-gray-50/50 border border-gray-100 w-fit">
            <div class="h-1.5 w-1.5 rounded-full mr-3" :class="(item.status === 'Active' || item.isActive) ? 'bg-brand-green' : 'bg-brand-gray/30'"></div>
-           <span class="text-sm font-bold  tracking-widest" :class="(item.status === 'Active' || item.isActive) ? 'text-brand-green' : 'text-brand-gray/50'">
+           <span class="text-sm font-bold  " :class="(item.status === 'Active' || item.isActive) ? 'text-brand-green' : 'text-brand-gray/50'">
              {{ item.status || (item.isActive ? 'Active' : 'Inactive') }}
            </span>
          </div>
@@ -101,7 +101,7 @@
           <UiAnimatedInput v-model="createForm.password" label="Temporary password" type="password" />
           <UiAnimatedInput v-model="createForm.phone" label="Phone number (optional)" type="tel" />
           <div class="space-y-2">
-            <label class="text-sm font-bold  tracking-widest text-gray-500 ml-1">System role</label>
+            <label class="text-sm font-bold   text-gray-500 ml-1">System role</label>
             <UiSelectInput
               v-model="createForm.role"
               label=""
@@ -136,7 +136,7 @@
           <UiAnimatedInput v-model="inviteForm.name" label="Full name" />
           <UiAnimatedInput v-model="inviteForm.email" label="Professional email" type="email" />
           <div class="space-y-2">
-            <label class="text-sm font-bold  tracking-widest text-gray-500 ml-1">Security role</label>
+            <label class="text-sm font-bold   text-gray-500 ml-1">Security role</label>
             <UiSelectInput
               v-model="inviteForm.role"
               label=""

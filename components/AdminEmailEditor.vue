@@ -12,7 +12,7 @@
     <div class="px-8 py-6 border-b border-gray-50 bg-gray-50/30 flex justify-between items-center">
       <div>
         <h3 class="text-xl font-bold text-gray-900">Content editor</h3>
-        <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mt-1">Design your block content below</p>
+        <p class="text-xs font-medium text-gray-400 uppercase  mt-1">Design your block content below</p>
       </div>
     </div>
 
@@ -42,7 +42,7 @@
       <!-- Variables Sidebar -->
       <div class="w-64 bg-gray-50/50 border-l border-gray-100 p-6 flex flex-col gap-6 overflow-y-auto">
         <div>
-          <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Click to add</p>
+          <p class="text-sm font-bold text-gray-400 uppercase  mb-4">Click to add</p>
           <div class="space-y-2">
             <button 
               v-for="v in (variables as string[])" 

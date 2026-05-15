@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col space-y-2">
-    <label v-if="label" class="text-sm   tracking-widest text-gray-500 ml-1">
+    <label v-if="label" class="text-sm    text-gray-500 ml-1">
       {{ label }}
     </label>
     <div class="flex items-center justify-between gap-2 md:gap-4">

@@ -7,7 +7,7 @@
           <span class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center text-orange-600">
             <ShieldExclamationIcon class="w-6 h-6" />
           </span>
-          <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Fraud Prevention Hub</h1>
+          <h1 class="text-2xl font-bold text-gray-900 ">Fraud Prevention Hub</h1>
         </div>
         <p class="text-gray-500 text-sm mt-1">Monitor high-risk bookings, blocked IPs, and account security anomalies in real-time.</p>
       </div>
@@ -25,7 +25,7 @@
         <div :class="['w-10 h-10 rounded-xl mb-4 flex items-center justify-center', stat.colorClass]">
           <component :is="stat.icon" class="w-5 h-5" />
         </div>
-        <div class="text-gray-400 text-sm font-bold  tracking-widest mb-1">{{ stat.label }}</div>
+        <div class="text-gray-400 text-sm font-bold   mb-1">{{ stat.label }}</div>
         <div class="text-2xl  text-gray-900">{{ stat.value }}</div>
         <div class="mt-2 text-base font-semibold flex items-center gap-1" :class="stat.trendColor">
           <ArrowTrendingDownIcon class="w-3 h-3" />
@@ -39,7 +39,7 @@
       <div class="p-6 border-b border-gray-50 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
         <h3 class="text-base font-bold text-gray-900 flex items-center gap-2">
           High Risk Bookings
-          <span class="px-2 py-0.5 bg-red-100 text-red-600 text-sm rounded-full   tracking-wider">Requires Action</span>
+          <span class="px-2 py-0.5 bg-red-100 text-red-600 text-sm rounded-full   ">Requires Action</span>
         </h3>
         <div class="flex gap-2 w-full md:w-auto">
           <div class="relative flex-1 md:flex-none">
@@ -54,12 +54,12 @@
         <table class="w-full text-left">
           <thead class="bg-gray-50/80">
             <tr>
-              <th class="px-6 py-4 text-sm  text-gray-400  tracking-widest">Booking / PNR</th>
-              <th class="px-6 py-4 text-sm  text-gray-400  tracking-widest">User / IP</th>
-              <th class="px-6 py-4 text-sm  text-gray-400  tracking-widest text-center">Risk Score</th>
-              <th class="px-6 py-4 text-sm  text-gray-400  tracking-widest">Fraud Signals</th>
-              <th class="px-6 py-4 text-sm  text-gray-400  tracking-widest">Amount</th>
-              <th class="px-6 py-4 text-sm  text-gray-400  tracking-widest text-right">Actions</th>
+              <th class="px-6 py-4 text-sm  text-gray-400  ">Booking / PNR</th>
+              <th class="px-6 py-4 text-sm  text-gray-400  ">User / IP</th>
+              <th class="px-6 py-4 text-sm  text-gray-400   text-center">Risk Score</th>
+              <th class="px-6 py-4 text-sm  text-gray-400  ">Fraud Signals</th>
+              <th class="px-6 py-4 text-sm  text-gray-400  ">Amount</th>
+              <th class="px-6 py-4 text-sm  text-gray-400   text-right">Actions</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">
@@ -67,7 +67,7 @@
               <td class="px-6 py-4">
                 <div class="flex flex-col">
                   <span class="font-bold text-gray-900 text-sm">{{ booking.pnr }}</span>
-                  <span class="text-sm text-gray-400 font-semibold  tracking-wider mt-0.5">{{ booking.date }}</span>
+                  <span class="text-sm text-gray-400 font-semibold   mt-0.5">{{ booking.date }}</span>
                 </div>
               </td>
               <td class="px-6 py-4">
@@ -128,7 +128,7 @@
       <div class="p-6 border-b border-gray-50">
         <h3 class="text-base font-bold text-gray-900 flex items-center gap-2">
           Recent Bot Guard Activity
-          <span class="px-2 py-0.5 bg-blue-100 text-blue-600 text-sm rounded-full   tracking-wider">Auto-blocked</span>
+          <span class="px-2 py-0.5 bg-blue-100 text-blue-600 text-sm rounded-full   ">Auto-blocked</span>
         </h3>
       </div>
       <div class="divide-y divide-gray-50">
@@ -143,7 +143,7 @@
             </div>
           </div>
           <div class="flex items-center gap-4">
-            <span class="text-red-600 bg-red-50 text-sm font-bold  tracking-wider px-2 py-1 rounded-lg">
+            <span class="text-red-600 bg-red-50 text-sm font-bold   px-2 py-1 rounded-lg">
               Auto-Flagged
             </span>
             <span class="text-sm text-gray-400 font-semibold">{{ new Date(event.lastEvent).toLocaleTimeString() }}</span>

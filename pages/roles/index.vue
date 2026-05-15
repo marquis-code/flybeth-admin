@@ -3,7 +3,7 @@
     <!-- Header Architecture -->
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 bg-white border border-gray-100 p-8 rounded-[2rem] shadow-none transition-premium">
       <div class="space-y-2">
-        <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Roles & Permissions</h1>
+        <h1 class="text-2xl font-bold text-gray-900 ">Roles & Permissions</h1>
         <p class="text-gray-500 font-medium text-sm">Create and manage what different team members can see and do on the platform.</p>
       </div>
       <div class="flex gap-4">
@@ -21,7 +21,7 @@
     <!-- Tier visualization -->
     <div v-if="loading" class="bg-white border border-gray-100 rounded-[2rem] p-12 flex flex-col items-center justify-center animate-pulse">
        <RefreshCwIcon class="h-10 w-10 text-gray-200 animate-spin mb-4" />
-       <p class="text-sm font-bold text-gray-400 uppercase tracking-widest">Updating data...</p>
+       <p class="text-sm font-bold text-gray-400 uppercase ">Updating data...</p>
     </div>
     
     <div v-else class="bg-white border border-gray-100 rounded-[2.5rem] overflow-hidden shadow-none">
@@ -29,11 +29,11 @@
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="bg-gray-50/50 border-b border-gray-100">
-              <th class="px-8 py-6 text-[10px] font-bold uppercase  text-gray-400">Role Name</th>
-              <th class="px-8 py-6 text-[10px] font-bold uppercase  text-gray-400">Description</th>
-              <th class="px-8 py-6 text-[10px] font-bold uppercase  text-gray-400">Permissions</th>
-              <th class="px-8 py-6 text-[10px] font-bold uppercase  text-gray-400">Type</th>
-              <th class="px-8 py-6 text-[10px] font-bold uppercase  text-gray-400 text-right">Actions</th>
+              <th class="px-8 py-6 text-sm font-bold uppercase  text-gray-400">Role Name</th>
+              <th class="px-8 py-6 text-sm font-bold uppercase  text-gray-400">Description</th>
+              <th class="px-8 py-6 text-sm font-bold uppercase  text-gray-400">Permissions</th>
+              <th class="px-8 py-6 text-sm font-bold uppercase  text-gray-400">Type</th>
+              <th class="px-8 py-6 text-sm font-bold uppercase  text-gray-400 text-right">Actions</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-50">
@@ -43,7 +43,7 @@
                   <div class="h-10 w-10 rounded-xl bg-brand-blue/5 flex items-center justify-center text-brand-blue group-hover:scale-110 transition-premium">
                     <ShieldCheckIcon class="h-5 w-5" />
                   </div>
-                  <span class="text-sm font-bold text-gray-900 uppercase tracking-tight">{{ role.name.replace('_', ' ') }}</span>
+                  <span class="text-sm font-bold text-gray-900 uppercase ">{{ role.name.replace('_', ' ') }}</span>
                 </div>
               </td>
               <td class="px-8 py-7 max-w-xs">
@@ -51,7 +51,7 @@
               </td>
               <td class="px-8 py-7">
                 <div class="flex items-center gap-2">
-                  <span class="px-3 py-1 rounded-lg bg-gray-100 text-[10px] font-bold text-gray-500 uppercase tracking-widest border border-gray-200/50">
+                  <span class="px-3 py-1 rounded-lg bg-gray-100 text-sm font-bold text-gray-500 uppercase  border border-gray-200/50">
                     {{ role.permissions.length }} Access Points
                   </span>
                   <div class="flex -space-x-1 overflow-hidden">
@@ -62,8 +62,8 @@
                 </div>
               </td>
               <td class="px-8 py-7">
-                <span v-if="role.isDefault" class="px-3 py-1 rounded-full bg-gray-900 text-[9px] font-bold text-white uppercase tracking-widest">System Role</span>
-                <span v-else class="px-3 py-1 rounded-full bg-emerald-50 text-[9px] font-bold text-emerald-600 uppercase tracking-widest border border-emerald-100">Custom Role</span>
+                <span v-if="role.isDefault" class="px-3 py-1 rounded-full bg-gray-900 text-[9px] font-bold text-white uppercase ">System Role</span>
+                <span v-else class="px-3 py-1 rounded-full bg-emerald-50 text-[9px] font-bold text-emerald-600 uppercase  border border-emerald-100">Custom Role</span>
               </td>
               <td class="px-8 py-7 text-right">
                 <div class="flex justify-end items-center space-x-2">
@@ -80,7 +80,7 @@
               <td colspan="5" class="px-8 py-20 text-center">
                 <div class="flex flex-col items-center justify-center space-y-3 opacity-40">
                   <SearchIcon class="h-10 w-10 text-gray-400" />
-                  <p class="text-xs font-bold uppercase tracking-widest text-gray-500">No roles found.</p>
+                  <p class="text-xs font-bold uppercase  text-gray-500">No roles found.</p>
                 </div>
               </td>
             </tr>
@@ -99,7 +99,7 @@
     >
       <div class="space-y-10 py-4">
          <div class="p-6 bg-brand-blue/5 rounded-[2rem] border border-brand-blue/10 space-y-3">
-            <h4 class="text-xs font-bold text-brand-blue uppercase tracking-widest flex items-center">
+            <h4 class="text-xs font-bold text-brand-blue uppercase  flex items-center">
                <InfoIcon class="h-4 w-4 mr-2" />
                Quick Tips
             </h4>
@@ -108,7 +108,7 @@
          
          <div class="space-y-8">
            <div class="space-y-3">
-              <label class="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Role Name</label>
+              <label class="text-xs font-bold text-gray-400 uppercase  ml-1">Role Name</label>
               <input 
                 v-model="form.name" 
                 type="text" 
@@ -119,7 +119,7 @@
            </div>
            
            <div class="space-y-3">
-              <label class="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">What this role does</label>
+              <label class="text-xs font-bold text-gray-400 uppercase  ml-1">What this role does</label>
               <textarea 
                 v-model="form.description" 
                 rows="3" 
@@ -130,14 +130,14 @@
            
            <div class="space-y-6">
              <div class="flex justify-between items-center px-1">
-                <label class="text-xs font-bold text-gray-400 uppercase tracking-widest">Assigned Permissions</label>
-                <button @click="toggleSelectAll" class="text-[10px] font-bold text-brand-blue uppercase tracking-widest hover:underline transition-premium">{{ allSelected ? 'Deselect all' : 'Select all' }}</button>
+                <label class="text-xs font-bold text-gray-400 uppercase ">Assigned Permissions</label>
+                <button @click="toggleSelectAll" class="text-sm font-bold text-brand-blue uppercase  hover:underline transition-premium">{{ allSelected ? 'Deselect all' : 'Select all' }}</button>
              </div>
              
              <div class="border border-gray-100 rounded-[1.5rem] overflow-hidden bg-white max-h-[600px] overflow-y-auto custom-scrollbar">
                 <table class="w-full text-left border-collapse">
                    <thead>
-                      <tr class="bg-gray-50 border-b border-gray-100 uppercase tracking-widest text-[9px] font-bold text-gray-400">
+                      <tr class="bg-gray-50 border-b border-gray-100 uppercase  text-[9px] font-bold text-gray-400">
                          <th class="px-6 py-4">Capability Name</th>
                          <th class="px-6 py-4">Group</th>
                          <th class="px-6 py-4 text-right">Enabled</th>
@@ -157,13 +157,13 @@
                                   <CheckIcon v-else class="h-3 w-3" />
                                </div>
                                <div>
-                                  <p class="text-xs font-bold text-gray-900 tracking-tight">{{ p.name }}</p>
-                                  <p class="text-[10px] text-gray-400 mt-0.5">{{ p.description }}</p>
+                                  <p class="text-xs font-bold text-gray-900 ">{{ p.name }}</p>
+                                  <p class="text-sm text-gray-400 mt-0.5">{{ p.description }}</p>
                                </div>
                             </div>
                          </td>
                          <td class="px-6 py-5">
-                            <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400 opacity-60">{{ p.category }}</span>
+                            <span class="text-sm font-bold uppercase  text-gray-400 opacity-60">{{ p.category }}</span>
                          </td>
                          <td class="px-6 py-5 text-right">
                             <div 

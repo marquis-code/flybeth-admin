@@ -2,7 +2,7 @@
   <div class="container mx-auto space-y-12 pb-24 text-brand-gray">
     <div class="flex justify-between items-end bg-white border border-gray-100 p-8 rounded-[2rem] shadow-none transition-premium">
       <div class="space-y-2">
-        <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Platform Settings</h1>
+        <h1 class="text-2xl font-bold text-gray-900 ">Platform Settings</h1>
         <p class="text-gray-500 font-medium text-sm">Manage commissions, regional access, and infrastructure connectors.</p>
       </div>
       <div class="flex gap-4">
@@ -30,7 +30,7 @@
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="space-y-3">
-              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block ml-1">Agency Fee (B2B)</label>
+              <label class="text-sm font-bold text-gray-400 uppercase  block ml-1">Agency Fee (B2B)</label>
               <div class="relative group">
                 <input 
                   v-model.number="config.b2bCommission"
@@ -39,11 +39,11 @@
                 />
                 <div class="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</div>
               </div>
-              <p class="text-[10px] text-gray-400 leading-relaxed px-1">Applied to bookings made by sub-agents.</p>
+              <p class="text-sm text-gray-400 leading-relaxed px-1">Applied to bookings made by sub-agents.</p>
             </div>
 
             <div class="space-y-3">
-              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block ml-1">Platform Fee (B2C)</label>
+              <label class="text-sm font-bold text-gray-400 uppercase  block ml-1">Platform Fee (B2C)</label>
               <div class="relative group">
                 <input 
                   v-model.number="config.b2cCommission"
@@ -52,11 +52,11 @@
                 />
                 <div class="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</div>
               </div>
-              <p class="text-[10px] text-gray-400 leading-relaxed px-1">Applied to direct consumer bookings.</p>
+              <p class="text-sm text-gray-400 leading-relaxed px-1">Applied to direct consumer bookings.</p>
             </div>
 
             <div class="space-y-3">
-              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block ml-1">General Extra Margin</label>
+              <label class="text-sm font-bold text-gray-400 uppercase  block ml-1">General Extra Margin</label>
               <div class="relative group">
                 <input 
                   v-model.number="config.ancillaryMargin"
@@ -65,7 +65,7 @@
                 />
                 <div class="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</div>
               </div>
-              <p class="text-[10px] text-gray-400 leading-relaxed px-1">Service markup on top of provider costs.</p>
+              <p class="text-sm text-gray-400 leading-relaxed px-1">Service markup on top of provider costs.</p>
             </div>
           </div>
         </UiBaseCard>
@@ -80,7 +80,7 @@
               <h3 class="text-xl font-bold text-gray-900">Regional Bypassing</h3>
             </div>
             <div @click="config.isWhitelistingEnabled = !config.isWhitelistingEnabled" class="flex items-center space-x-4 cursor-pointer group">
-              <span class="text-[10px] font-bold uppercase  text-gray-400 group-hover:text-gray-900 transition-premium">
+              <span class="text-sm font-bold uppercase  text-gray-400 group-hover:text-gray-900 transition-premium">
                 {{ config.isWhitelistingEnabled ? 'Restrictive Mode' : 'Global Access' }}
               </span>
               <div class="w-12 h-6 rounded-full border border-gray-100 relative transition-premium p-1" :class="config.isWhitelistingEnabled ? 'bg-brand-green' : 'bg-gray-100'">
@@ -91,7 +91,7 @@
 
           <div class="space-y-8" :class="{ 'opacity-40 grayscale pointer-events-none': !config.isWhitelistingEnabled }">
             <div class="space-y-5">
-              <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block ml-1">Operational Whitelist (States/Regions)</label>
+              <label class="text-sm font-bold text-gray-400 uppercase  block ml-1">Operational Whitelist (States/Regions)</label>
               <div class="flex flex-wrap gap-3">
                 <div 
                   v-for="state in config.whitelistedStates" 
@@ -137,19 +137,19 @@
                      <CloudIcon class="h-6 w-6" />
                   </div>
                   <div>
-                     <p class="text-base font-bold text-gray-900 tracking-tight">{{ api.displayName || api.name }}</p>
-                     <p class="text-[10px] font-bold text-gray-400 uppercase  mt-1">{{ api.name }} gateway</p>
+                     <p class="text-base font-bold text-gray-900 ">{{ api.displayName || api.name }}</p>
+                     <p class="text-sm font-bold text-gray-400 uppercase  mt-1">{{ api.name }} gateway</p>
                   </div>
                </div>
                <div class="flex items-center space-x-6">
-                  <span :class="[api.enabled ? 'text-brand-green bg-brand-green/5 border-brand-green/10' : 'text-gray-400 bg-gray-100 border-gray-200']" class="text-xs font-bold px-4 py-2 rounded-xl tracking-widest flex items-center border">
+                  <span :class="[api.enabled ? 'text-brand-green bg-brand-green/5 border-brand-green/10' : 'text-gray-400 bg-gray-100 border-gray-200']" class="text-xs font-bold px-4 py-2 rounded-xl  flex items-center border">
                      <div :class="[api.enabled ? 'bg-brand-green animate-pulse' : 'bg-gray-300']" class="h-1.5 w-1.5 rounded-full mr-2"></div>
                      {{ api.enabled ? 'Operational' : 'Secured' }}
                   </span>
                   <button 
                     @click="toggleProvider(api.name, !api.enabled)"
                     :class="[api.enabled ? 'bg-gray-900 text-white' : 'bg-white text-gray-500 border-gray-100 shadow-none']"
-                    class="h-11 px-6 flex items-center justify-center rounded-xl border transition-premium text-xs font-bold tracking-widest hover:scale-105 active:scale-95"
+                    class="h-11 px-6 flex items-center justify-center rounded-xl border transition-premium text-xs font-bold  hover:scale-105 active:scale-95"
                   >
                      {{ api.enabled ? 'Deactivate' : 'Activate' }}
                   </button>
@@ -165,14 +165,14 @@
            <h4 class="text-xs font-bold text-gray-400 uppercase ">System Status</h4>
            <div class="space-y-4">
               <div v-for="env in ['Flight Engine 4.0', 'Booking Gateway', 'Margin Resolver']" :key="env" class="flex items-center justify-between p-5 bg-white border border-gray-50 rounded-2xl shadow-none hover:border-brand-blue/20 transition-premium">
-                 <span class="text-xs font-bold text-gray-700 tracking-tight">{{ env }}</span>
+                 <span class="text-xs font-bold text-gray-700 ">{{ env }}</span>
                  <div class="flex items-center">
-                    <span class="text-[9px] font-bold text-emerald-500 uppercase mr-3 tracking-widest">Active</span>
+                    <span class="text-[9px] font-bold text-emerald-500 uppercase mr-3 ">Active</span>
                     <div class="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
                  </div>
               </div>
            </div>
-           <p class="text-[10px] text-center text-gray-400 font-medium">Platform version: 2026.04.1</p>
+           <p class="text-sm text-center text-gray-400 font-medium">Platform version: 2026.04.1</p>
         </div>
       </div>
     </div>

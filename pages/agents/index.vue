@@ -76,7 +76,7 @@
         </template>
 
         <template #cell(status)="{ item }">
-          <span class="px-3 py-1 rounded-full text-sm font-bold uppercase tracking-wider" :class="getStatusBadgeClass(item.agentStatus)">
+          <span class="px-3 py-1 rounded-full text-sm font-bold uppercase " :class="getStatusBadgeClass(item.agentStatus)">
             {{ item.agentStatus }}
           </span>
         </template>

@@ -1,9 +1,8 @@
 export default defineNuxtConfig({
-  ssr: false,
+  ssr: true,
   compatibilityDate: '2025-07-15',
-  srcDir: '.',
 
-    nitro: {
+  nitro: {
     prerender: {
       routes: ['/', '/404.html'],  // Changed: Added '/' to generate index.html
       ignore: ['/dynamic-routes', '/api'],
@@ -26,14 +25,13 @@ export default defineNuxtConfig({
     }
   },
   devtools: { enabled: true },
-    postcss: {
-    plugins: {
-      "postcss-import": {},
-      "tailwindcss/nesting": {},
-      tailwindcss: {},
-      autoprefixer: {},
+  components: [
+    {
+      path: '~/components/ui',
+      pathPrefix: false,
     },
-  },
+    '~/components',
+  ],
 
     devServer: {
     port: 3004,
@@ -50,5 +48,5 @@ export default defineNuxtConfig({
     preload: true,
   },
   modules: ['@nuxtjs/tailwindcss', "@nuxtjs/google-fonts", "@nuxtjs/robots"],
-  css: ['~/assets/css/main.css', '/assets/font/stylesheet.css'],
+  css: ['~/assets/css/main.css', '~/assets/font/stylesheet.css'],
 })

@@ -12,7 +12,7 @@
        
        <div class="relative z-10">
          <div class="flex items-center space-x-3 group cursor-pointer bg-white/5 backdrop-blur-md p-4 rounded-2xl w-fit border border-white/10 shadow-2xl">
-            <img src="@/assets/img/logo.png" class="h-10 w-auto" alt="Flybeth Logo" />
+            <img src="/logo.png" class="h-10 w-auto" alt="Flybeth Logo" />
          </div>
        </div>
 
@@ -27,7 +27,7 @@
          </p>
        </div>
 
-        <div class="relative z-10 flex items-center space-x-8 text-white/40 text-sm font-bold  tracking-widest">
+        <div class="relative z-10 flex items-center space-x-8 text-white/40 text-sm font-bold  ">
            <span>© 2026 Flybeth global</span>
            <span class="h-1 w-1 rounded-full bg-white/20"></span>
            <span>Enterprise portal</span>
@@ -35,10 +35,10 @@
     </div>
 
     <!-- Right: Authentication Form -->
-    <div class="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-12 relative z-10">
-      <div class="w-full max-w-md space-y-10">
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-12 relative z-10 bg-gray-50 lg:bg-white">
+      <div class="w-full max-w-md space-y-10 bg-white p-8 lg:p-0 rounded-3xl shadow-xl lg:shadow-none border border-gray-100 lg:border-none">
         <div class="lg:hidden flex items-center space-x-3 mb-8">
-     <img src="@/assets/img/logo.png" class="h-10 w-auto" alt="Flybeth Logo" />
+     <img src="/logo.png" class="h-10 w-auto" alt="Flybeth Logo" />
         </div>
 
         <div v-if="!showOtp">
@@ -47,7 +47,7 @@
         </div>
 
         <div v-else>
-          <img src="@/assets/img/logo.png" class="h-10 w-auto mb-6" alt="Flybeth Logo" />
+          <img src="/logo.png" class="h-10 w-auto mb-6" alt="Flybeth Logo" />
           <h1 class="text-4xl font-bold text-gray-900 leading-tight mb-3">Verify login</h1>
           <p class="text-gray-600 font-medium text-sm">Enter the code sent to your email.</p>
         </div>
@@ -142,9 +142,9 @@
         </p>
 
         <div class="pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-           <p class="text-sm font-bold text-brand-gray/30  tracking-widest">Flybeth system</p>
+           <p class="text-sm font-bold text-brand-gray/30  ">Flybeth system</p>
            <div class="flex items-center space-x-2">
-              <span class="text-sm font-bold text-gray-500  tracking-widest">Global platform</span>
+              <span class="text-sm font-bold text-gray-500  ">Global platform</span>
            </div>
         </div>
       </div>
