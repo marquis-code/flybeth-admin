@@ -12,17 +12,17 @@
       <!-- Dashboard Header & Actions -->
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 ">System overview</h1>
-          <p class="text-gray-500 font-medium">Global mission control for Flybeth travel infrastructure</p>
+          <h1 class="text-2xl font-bold text-gray-900 ">Dashboard Overview</h1>
+          <p class="text-gray-500 font-medium">A quick glance at your business performance</p>
         </div>
-        <div class="flex gap-4">
-          <UiBaseButton variant="outline" @click="handleDownloadLedger" :loading="downloading" class="shadow-none">
+        <div class="flex items-center gap-3">
+          <UiBaseButton variant="outline" @click="showDownloadModal = true" class="shadow-none">
             <CloudArrowDownIcon class="h-4 w-4 mr-2" />
-            Download ledger
+            Download
           </UiBaseButton>
           <UiBaseButton variant="primary" @click="handleSettlement" :loading="settling" class="bg-gray-900 text-white shadow-none min-w-[180px]">
             <SparklesIcon class="h-4 w-4 mr-2" />
-            Initiate settlement
+            Withdraw Funds
           </UiBaseButton>
         </div>
       </div>
@@ -32,17 +32,27 @@
           v-for="stat in computedStats" 
           :key="stat.name" 
           padding 
-          class="group transition-all duration-300 hover:shadow-md"
+          class="group transition-all duration-300 hover:shadow-none"
         >
           <div class="flex items-center space-x-4">
             <div class="p-3 rounded-xl" :class="stat.bgClass">
               <component :is="stat.icon" class="h-5 w-5" :class="stat.iconClass" />
             </div>
-            <div>
-              <p class="text-base font-medium text-gray-400 mb-1">{{ stat.name }}</p>
-              <div class="flex items-baseline space-x-2">
-                <h3 class="text-2xl font-bold text-gray-900 leading-none">{{ stat.value }}</h3>
-                <span v-if="stat.trend" class="text-base font-semibold" :class="stat.trendClass">{{ stat.trend }}</span>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm md:text-base font-medium text-gray-400 mb-1 truncate">{{ stat.name }}</p>
+              <div class="flex flex-col gap-1.5">
+                <template v-if="Array.isArray(stat.value)">
+                  <div v-for="(val, idx) in stat.value" :key="idx" class="flex items-baseline flex-wrap gap-x-2 gap-y-1">
+                    <h3 class="text-xl font-bold text-gray-900 leading-none">{{ val }}</h3>
+                    <span v-if="idx === 0 && stat.trend" class="text-sm font-semibold whitespace-nowrap" :class="stat.trendClass">{{ stat.trend }}</span>
+                  </div>
+                </template>
+                <template v-else>
+                  <div class="flex items-baseline flex-wrap gap-x-2 gap-y-1">
+                    <h3 class="text-xl font-bold text-gray-900 leading-none">{{ stat.value }}</h3>
+                    <span v-if="stat.trend" class="text-sm font-semibold whitespace-nowrap" :class="stat.trendClass">{{ stat.trend }}</span>
+                  </div>
+                </template>
               </div>
             </div>
           </div>
@@ -55,10 +65,10 @@
         <div class="space-y-5">
           <div class="flex items-end justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-gray-900">Top performing partners</h3>
-              <p class="text-sm text-gray-400 mt-0.5">Best performing agency partners by revenue</p>
+              <h3 class="text-lg font-semibold text-gray-900">Top Agencies</h3>
+              <p class="text-sm text-gray-400 mt-0.5">Agencies generating the most revenue</p>
             </div>
-            <UiBaseButton variant="secondary" size="md" @click="navigateTo('/tenants')">
+            <UiBaseButton variant="secondary" size="md" @click="navigateTo('/dashboard/tenants')">
               View all
               <ArrowRightIcon class="h-4 w-4 ml-2" />
             </UiBaseButton>
@@ -67,12 +77,12 @@
           <UiBaseTable 
             :columns="agentColumns" 
             :items="topAgents"
-            empty-title="No partners found"
-            empty-description="Your partner network activity will appear here."
+            empty-title="No agencies found"
+            empty-description="Your network activity will appear here."
           >
             <template #cell(name)="{ item }">
               <div class="flex items-center space-x-3">
-                <div class="h-8 w-8 rounded bg-gray-50 border border-gray-100 flex items-center justify-center font-bold text-gray-400 text-sm">
+                <div class="h-8 w-8 rounded bg-gray-50 border border-gray-200 flex items-center justify-center font-bold text-gray-400 text-sm">
                   {{ item.name?.[0] || 'A' }}
                 </div>
                 <div class="text-base font-medium text-gray-900">{{ item.name }}</div>
@@ -96,10 +106,10 @@
         <div class="space-y-5">
           <div class="flex items-end justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-gray-900">Recent bookings</h3>
-              <p class="text-sm text-gray-400 mt-0.5">Latest transactions across the platform</p>
+              <h3 class="text-lg font-semibold text-gray-900">Recent Bookings</h3>
+              <p class="text-sm text-gray-400 mt-0.5">Latest customer bookings across the platform</p>
             </div>
-            <UiBaseButton variant="secondary" size="md" @click="navigateTo('/bookings')">
+            <UiBaseButton variant="secondary" size="md" @click="navigateTo('/dashboard/bookings')">
               All bookings
               <ArrowRightIcon class="h-4 w-4 ml-2" />
             </UiBaseButton>
@@ -111,10 +121,10 @@
             empty-title="No recent activity"
           >
             <template #cell(user)="{ item }">
-              <div class="text-base font-medium text-gray-900">{{ item.user?.firstName }} {{ item.user?.lastName }}</div>
+              <div class="text-base font-medium text-gray-900 capitalize">{{ item.contactDetails?.name || `${item.user?.firstName || ''} ${item.user?.lastName || ''}`.trim() || 'Guest' }}</div>
             </template>
             <template #cell(amount)="{ item }">
-              <span class="text-sm font-bold text-gray-900">${{ item.totalPrice || '0' }}</span>
+              <span class="text-sm font-bold text-gray-900 uppercase">{{ item.pricing?.currency || 'USD' }} {{ item.pricing?.totalAmount?.toLocaleString() || '0' }}</span>
             </template>
             <template #cell(status)="{ item }">
               <span class="px-2.5 py-0.5 rounded-full text-sm font-bold" :class="bookingStatusClass(item.status)">
@@ -142,11 +152,11 @@
       <div v-if="selectedItem" class="space-y-8">
         <!-- Overview Header -->
         <div class="flex items-center space-x-4 p-6 bg-gray-50 rounded-2xl">
-          <div class="h-14 w-14 rounded-xl bg-white border border-gray-100 flex items-center justify-center shadow-sm">
+          <div class="h-14 w-14 rounded-xl bg-white border border-gray-200 flex items-center justify-center shadow-none">
             <component :is="selectedType === 'booking' ? TicketIcon : BuildingOfficeIcon" class="h-7 w-7 text-blue-600" />
           </div>
           <div>
-            <h4 class="text-lg font-bold text-gray-900">{{ selectedType === 'booking' ? 'Transaction Details' : 'Partner Profile' }}</h4>
+            <h4 class="text-lg font-bold text-gray-900">{{ selectedType === 'booking' ? 'Booking Details' : 'Agency Profile' }}</h4>
             <p class="text-sm text-gray-400 font-medium">Ref: {{ selectedItem._id }}</p>
           </div>
         </div>
@@ -156,8 +166,8 @@
           <template v-if="selectedType === 'booking'">
             <div class="space-y-1">
               <p class="text-sm font-bold text-gray-400  uppercase">Customer</p>
-              <p class="text-base font-semibold text-gray-900">{{ selectedItem.user?.firstName }} {{ selectedItem.user?.lastName }}</p>
-              <p class="text-sm text-gray-500">{{ selectedItem.user?.email }}</p>
+              <p class="text-base font-semibold text-gray-900 capitalize">{{ selectedItem.contactDetails?.name || `${selectedItem.user?.firstName || ''} ${selectedItem.user?.lastName || ''}`.trim() || 'Guest' }}</p>
+              <p class="text-sm text-gray-500">{{ selectedItem.contactDetails?.email || selectedItem.user?.email || 'N/A' }}</p>
             </div>
             <div class="space-y-1">
               <p class="text-sm font-bold text-gray-400  uppercase">Agency Source</p>
@@ -166,7 +176,7 @@
             <div class="grid grid-cols-2 gap-4">
               <div class="space-y-1">
                 <p class="text-sm font-bold text-gray-400  uppercase">Total Value</p>
-                <p class="text-sm font-bold text-gray-900">${{ selectedItem.totalPrice?.toLocaleString() }}</p>
+                <p class="text-sm font-bold text-gray-900 uppercase">{{ selectedItem.pricing?.currency || 'USD' }} {{ selectedItem.pricing?.totalAmount?.toLocaleString() || '0' }}</p>
               </div>
               <div class="space-y-1">
                 <p class="text-sm font-bold text-gray-400  uppercase">Current Status</p>
@@ -176,7 +186,7 @@
               </div>
             </div>
             <div class="space-y-1">
-                <p class="text-sm font-bold text-gray-400  uppercase">Transaction Date</p>
+                <p class="text-sm font-bold text-gray-400  uppercase">Booking Date</p>
                 <p class="text-base font-medium text-gray-700">{{ new Date(selectedItem.createdAt).toLocaleDateString(undefined, { dateStyle: 'long' }) }}</p>
             </div>
           </template>
@@ -211,11 +221,78 @@
             block 
             @click="navigateTo(selectedType === 'booking' ? '/bookings' : `/tenants/${selectedItem?._id}`)"
           >
-            Go to full module
+            View Full Details
           </UiBaseButton>
         </div>
       </template>
     </UiSideDrawer>
+
+    <!-- Download Ledger Modal -->
+    <Teleport to="body" v-if="mounted">
+      <Transition
+        enter-active-class="transition ease-out duration-300"
+        enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        enter-to-class="opacity-100 translate-y-0 sm:scale-100"
+        leave-active-class="transition ease-in duration-200"
+        leave-from-class="opacity-100 translate-y-0 sm:scale-100"
+        leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+      >
+        <div v-if="showDownloadModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md" @click.self="showDownloadModal = false">
+          <div class="bg-white rounded-[2.5rem] border border-white/20 w-full max-w-lg shadow-none shadow-slate-900/20" @click.stop>
+            <div class="px-10 py-8 flex items-center justify-between border-b border-gray-100 rounded-t-[2.5rem]">
+              <h3 class="text-2xl font-bold text-gray-900">Download Ledger</h3>
+              <button @click="showDownloadModal = false" class="p-2 hover:bg-gray-100 rounded-2xl transition-all text-gray-400 hover:text-gray-900">
+                <XMarkIcon class="h-6 w-6" />
+              </button>
+            </div>
+            
+            <div class="px-10 py-8 space-y-8">
+              <div>
+                <p class="text-[15px] text-gray-500 font-medium mb-3">Please select the date range to download the ledger for.</p>
+                <div class="relative z-[110]">
+                  <UiDateRangePicker v-model="ledgerDateRange" />
+                </div>
+              </div>
+
+              <div class="space-y-4">
+                <label class="block text-sm font-bold text-gray-900">Export Format</label>
+                <div class="flex gap-6">
+                  <label class="flex items-center gap-3 cursor-pointer group">
+                    <div class="relative flex items-center justify-center">
+                      <input type="radio" v-model="downloadFormat" value="csv" class="peer sr-only">
+                      <div class="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:border-gray-900 peer-checked:bg-gray-900 transition-all"></div>
+                      <div class="absolute w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+                    </div>
+                    <span class="text-[15px] font-semibold text-gray-600 group-hover:text-gray-900 transition-colors">CSV (.csv)</span>
+                  </label>
+                  <label class="flex items-center gap-3 cursor-pointer group">
+                    <div class="relative flex items-center justify-center">
+                      <input type="radio" v-model="downloadFormat" value="excel" class="peer sr-only">
+                      <div class="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:border-gray-900 peer-checked:bg-gray-900 transition-all"></div>
+                      <div class="absolute w-2 h-2 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+                    </div>
+                    <span class="text-[15px] font-semibold text-gray-600 group-hover:text-gray-900 transition-colors">Excel (.xlsx)</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-10 py-8 bg-gray-50/50 flex justify-end space-x-3 rounded-b-[2.5rem]">
+              <UiBaseButton variant="outline" @click="showDownloadModal = false" class="shadow-none border-gray-200">Cancel</UiBaseButton>
+              <UiBaseButton 
+                variant="primary" 
+                @click="handleDownloadLedger" 
+                :loading="downloading" 
+                :disabled="!ledgerDateRange"
+                class="bg-gray-900 text-white shadow-none px-8"
+              >
+                Submit
+              </UiBaseButton>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
@@ -245,12 +322,24 @@ const { confirm } = useConfirmation()
 
 const downloading = ref(false)
 const settling = ref(false)
+const showDownloadModal = ref(false)
+const downloadFormat = ref('csv')
+const ledgerDateRange = ref<{ start: string, end: string } | null>(null)
 
 const handleDownloadLedger = async () => {
+    if (!ledgerDateRange.value) {
+        showToast({ title: 'Error', message: 'Please select a date range first.', toastType: 'error' })
+        return
+    }
     downloading.value = true
     try {
-        await downloadRevenueLedger()
+        await downloadRevenueLedger({
+            startDate: ledgerDateRange.value.start,
+            endDate: ledgerDateRange.value.end,
+            format: downloadFormat.value
+        })
         showToast({ title: 'Success', message: 'Ledger exported successfully.', toastType: 'success' })
+        showDownloadModal.value = false
     } finally {
         downloading.value = false
     }
@@ -293,7 +382,10 @@ const drawerTitle = computed(() => {
   return selectedType.value === 'booking' ? 'Booking Insight' : 'Partner insight'
 })
 
+const mounted = ref(false)
+
 onMounted(() => {
+  mounted.value = true
   fetchDashboard()
 })
 
@@ -302,13 +394,14 @@ const computedStats = computed(() => {
   const overview = d?.overview
   const analytics = d?.analytics
   
-  const totalRev = d?.revenue?.byCurrency?.reduce((acc: number, cur: any) => acc + cur.totalAmount, 0) || 0
-  const primaryCurrency = d?.revenue?.byCurrency?.[0]?._id || 'USD'
+  const revenueValues = d?.revenue?.byCurrency?.length 
+    ? d.revenue.byCurrency.map((c: any) => `${c._id} ${c.totalAmount.toLocaleString()}`)
+    : ['USD 0']
 
   return [
     { 
       name: 'Total revenue', 
-      value: `${primaryCurrency} ${totalRev.toLocaleString()}`, 
+      value: revenueValues, 
       trend: analytics?.successRate ? `${analytics.successRate} success` : null, 
       trendClass: 'text-emerald-600', 
       icon: BanknotesIcon, 
@@ -346,7 +439,7 @@ const computedStats = computed(() => {
 })
 
 const topAgents = computed(() => dashboardData.value?.revenue?.topPartners || [])
-const recentBookings = computed(() => dashboardData.value?.recentBookings || [])
+const recentBookings = computed(() => (dashboardData.value?.recentBookings || []).slice(0, 5))
 
 const agentColumns = [
   { key: 'name', label: 'Agency' },

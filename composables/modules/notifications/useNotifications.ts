@@ -94,6 +94,30 @@ export const useNotifications = () => {
         }
     };
 
+    const deleteTemplate = async (id: string) => {
+        loading.value = true;
+        try {
+            const res = await notificationApiFactory.deleteTemplate(id);
+            if (res.status === 200 || res.status === 204) {
+                showToast({
+                    title: "Success",
+                    message: "Template deleted successfully",
+                    toastType: "success",
+                });
+                return true;
+            }
+        } catch (error: any) {
+            showToast({
+                title: "Error",
+                message: error.response?.data?.message || "Failed to delete template",
+                toastType: "error",
+            });
+            return false;
+        } finally {
+            loading.value = false;
+        }
+    };
+
     return {
         loading,
         seeding,
@@ -102,6 +126,7 @@ export const useNotifications = () => {
         fetchTemplates,
         fetchTemplateById,
         seedTemplates,
-        saveTemplate
+        saveTemplate,
+        deleteTemplate
     };
 };

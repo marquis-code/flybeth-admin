@@ -10,8 +10,8 @@
     <!-- Trigger -->
     <div 
       @click="togglePicker"
-      class="flex items-center justify-between gap-4 p-5 bg-white rounded-[1.5rem] border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] cursor-pointer hover:border-brand-blue/30 hover:shadow-lg transition-all duration-500 group"
-      :class="{ 'ring-4 ring-brand-blue/5 border-brand-blue shadow-xl': isOpen }"
+      class="flex items-center justify-between gap-4 p-5 bg-white rounded-[1.5rem] border border-gray-200 shadow-none cursor-pointer hover:border-brand-blue/30 hover:shadow-none transition-all duration-500 group"
+      :class="{ 'ring-4 ring-brand-blue/5 border-brand-blue shadow-none': isOpen }"
     >
       <div class="flex items-center gap-4">
         <div class="p-2.5 border border-brand-blue/10 rounded-xl bg-brand-blue/5 group-hover:bg-brand-blue group-hover:text-white transition-all duration-500">
@@ -39,7 +39,7 @@
     <Transition name="time-pop">
       <div 
         v-if="isOpen"
-        class="absolute z-[110] mt-3 w-full bg-white rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(13,29,173,0.15)] border border-gray-50 p-8 transform origin-top"
+        class="absolute z-[110] mt-3 w-full bg-white rounded-[2.5rem] shadow-none border border-gray-200 p-8 transform origin-top"
       >
         <!-- Quick Options -->
         <h4 class="text-sm  text-brand-gray/50   mb-4 px-2">Quick Select</h4>
@@ -48,7 +48,7 @@
             v-for="quick in quickTimes" 
             :key="quick"
             @click="selectTime(quick)"
-            class="py-3 px-4 rounded-2xl border border-gray-50 bg-gray-50/50 text-sm  text-gray-900 hover:bg-brand-blue hover:text-white hover:shadow-lg transition-all duration-300"
+            class="py-3 px-4 rounded-2xl border border-gray-200 bg-gray-50/50 text-sm  text-gray-900 hover:bg-brand-blue hover:text-white hover:shadow-none transition-all duration-300"
           >
             {{ quick }}
           </button>
@@ -71,7 +71,7 @@
         <!-- Done Button -->
         <button 
           @click="isOpen = false"
-          class="w-full mt-6 py-3 bg-brand-green text-white text-sm  rounded-full hover:bg-brand-green/90 transition-all shadow-lg  "
+          class="w-full mt-6 py-3 bg-brand-green text-white text-sm  rounded-full hover:bg-brand-green/90 transition-all shadow-none  "
         >
           Close
         </button>

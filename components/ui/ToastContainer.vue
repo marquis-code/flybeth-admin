@@ -27,7 +27,7 @@ const getTypeClasses = (type: string) => {
     case 'error': return 'border-rose-100 shadow-rose-500/10'
     case 'warning': return 'border-amber-100 shadow-amber-500/10'
     case 'info': return 'border-sky-100 shadow-sky-500/10'
-    default: return 'border-gray-100 shadow-gray-500/10'
+    default: return 'border-gray-200 shadow-gray-500/10'
   }
 }
 
@@ -68,7 +68,7 @@ const getProgressColor = (type: string) => {
       <div 
         v-for="toast in toasts" 
         :key="toast.id"
-        class="pointer-events-auto w-full max-w-[380px] overflow-hidden rounded-3xl border bg-white/95 backdrop-blur-xl shadow-2xl transition-all duration-300"
+        class="pointer-events-auto w-full max-w-[380px] overflow-hidden rounded-3xl border bg-white/95 backdrop-blur-xl shadow-none transition-all duration-300"
         :class="getTypeClasses(toast.toastType)"
       >
         <div class="relative p-5 pr-10">
@@ -132,8 +132,8 @@ const getProgressColor = (type: string) => {
   to { width: 0%; }
 }
 
-.shadow-2xl {
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.1);
+.shadow-none {
+  box-shadow-none: 0 25px 60px -15px rgba(0, 0, 0, 0.1);
 }
 
 .v-move {

@@ -7,6 +7,9 @@ export const authApiFactory = {
     register(payload: any) {
         return GATEWAY_ENDPOINT.post("/auth/register", payload);
     },
+    acceptInvitation(payload: any) {
+        return GATEWAY_ENDPOINT.post("/auth/accept-invite", payload);
+    },
     refreshToken(payload: any) {
         return GATEWAY_ENDPOINT.post("/auth/refresh", payload); // Note: Backend uses jwt-refresh guard
     },

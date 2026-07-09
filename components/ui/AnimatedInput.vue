@@ -22,7 +22,7 @@
         :readonly="readonly"
         :rows="rows"
         :class="[
-          'w-full py-3 pt-6 px-3 bg-gray-50/50 border-[0.5px] border-gray-100 focus:outline-none focus:ring-1 focus:ring-brand-blue focus:border-brand-blue transition-all duration-300 resize-none',
+          'w-full py-3 pt-6 px-3 bg-gray-50/50 border-[0.5px] border-gray-300 focus:outline-none focus:ring-1 focus:ring-brand-blue focus:border-brand-blue transition-all duration-300 resize-none',
           roundedClasses,
           disabled ? 'opacity-50 cursor-not-allowed' : '',
           (hasError || (errorMessage && showError)) ? 'border-[0.5px] ring-red-500 border-red-500' : ''
@@ -43,7 +43,7 @@
         :readonly="readonly || type === 'date' || type === 'time' || type === 'datetime-local'"
         :autocomplete="autocomplete"
         :class="[
-          'w-full py-3 pt-6 px-3 bg-gray-50/50 border-[0.5px] border-gray-100 focus:outline-none focus:ring-1 focus:ring-brand-blue focus:border-brand-blue transition-all duration-300',
+          'w-full py-3 pt-6 px-3 bg-gray-50/50 border-[0.5px] border-gray-300 focus:outline-none focus:ring-1 focus:ring-brand-blue focus:border-brand-blue transition-all duration-300',
           roundedClasses,
           disabled ? 'opacity-50 cursor-not-allowed' : '',
           (type === 'date' || type === 'time' || type === 'datetime-local') ? 'cursor-pointer' : '',
@@ -95,7 +95,7 @@
         @click="closeDatePicker"
       >
         <div 
-          class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden transform"
+          class="bg-white rounded-3xl shadow-none w-full max-w-md overflow-hidden transform"
           @click.stop
         >
           <div class="bg-gradient-to-br from-brand-blue to-blue-700 p-6 text-white">
@@ -132,7 +132,7 @@
                 <select 
                   v-model="currentMonth" 
                   @click.stop
-                  class="px-4 py-2.5 bg-gray-50 hover:bg-gray-100 border-2 border-transparent hover:border-[#033958] rounded-xl font-bold focus:outline-none focus:border-[#033958] transition-all"
+                  class="px-4 py-2.5 bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-[#033958] rounded-xl font-bold focus:outline-none focus:border-[#033958] transition-all"
                 >
                   <option v-for="(m, i) in months" :key="i" :value="i">{{ m }}</option>
                 </select>
@@ -140,7 +140,7 @@
                 <select 
                   v-model="currentYear" 
                   @click.stop
-                  class="px-4 py-2.5 bg-gray-50 hover:bg-gray-100 border-2 border-transparent hover:border-[#033958] rounded-xl font-bold focus:outline-none focus:border-[#033958] transition-all"
+                  class="px-4 py-2.5 bg-gray-50 hover:bg-gray-100 border-2 border-gray-200 hover:border-[#033958] rounded-xl font-bold focus:outline-none focus:border-[#033958] transition-all"
                 >
                   <option v-for="y in yearRange" :key="y" :value="y">{{ y }}</option>
                 </select>
@@ -203,7 +203,7 @@
         @click="closeTimePicker"
       >
         <div 
-          class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden transform"
+          class="bg-white rounded-3xl shadow-none w-full max-w-sm overflow-hidden transform"
           @click.stop
         >
           <div class="bg-gradient-to-br from-[#033958] to-[#055a8c] p-6 text-white">
@@ -280,7 +280,7 @@
                 :class="[
                   'flex-1 px-6 py-4 text-lg font-bold rounded-2xl transition-all transform',
                   selectedPeriod === 'AM' 
-                    ? 'bg-[#033958] text-white shadow-lg scale-105' 
+                    ? 'bg-[#033958] text-white shadow-none scale-105' 
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 ]"
               >
@@ -292,7 +292,7 @@
                 :class="[
                   'flex-1 px-6 py-4 text-lg font-bold rounded-2xl transition-all transform',
                   selectedPeriod === 'PM' 
-                    ? 'bg-[#033958] text-white shadow-lg scale-105' 
+                    ? 'bg-[#033958] text-white shadow-none scale-105' 
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 ]"
               >
@@ -320,7 +320,7 @@
               <button 
                 type="button" 
                 @click.stop="confirmTimeValue"
-                class="px-6 py-2.5 text-sm text-white bg-[#033958] hover:bg-[#022f42] rounded-xl font-bold shadow-lg hover:shadow-xl transition-all"
+                class="px-6 py-2.5 text-sm text-white bg-[#033958] hover:bg-[#022f42] rounded-xl font-bold shadow-none hover:shadow-none transition-all"
               >
                 Confirm
               </button>
@@ -338,7 +338,7 @@
         @click="closeDateTimePicker"
       >
         <div 
-          class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl my-8 overflow-hidden transform"
+          class="bg-white rounded-3xl shadow-none w-full max-w-4xl my-8 overflow-hidden transform"
           @click.stop
         >
           <div class="bg-gradient-to-br from-[#033958] to-[#055a8c] p-6 text-white">
@@ -372,10 +372,10 @@
                   </svg>
                 </button>
                 <div class="flex gap-2">
-                  <select v-model="currentMonth" @click.stop class="px-3 py-2 bg-gray-50 border-2 border-transparent hover:border-[#033958] rounded-xl font-bold text-sm">
+                  <select v-model="currentMonth" @click.stop class="px-3 py-2 bg-gray-50 border-2 border-gray-200 hover:border-[#033958] rounded-xl font-bold text-sm">
                     <option v-for="(m, i) in months" :key="i" :value="i">{{ m.slice(0,3) }}</option>
                   </select>
-                  <select v-model="currentYear" @click.stop class="px-3 py-2 bg-gray-50 border-2 border-transparent hover:border-[#033958] rounded-xl font-bold text-sm">
+                  <select v-model="currentYear" @click.stop class="px-3 py-2 bg-gray-50 border-2 border-gray-200 hover:border-[#033958] rounded-xl font-bold text-sm">
                     <option v-for="y in yearRange" :key="y" :value="y">{{ y }}</option>
                   </select>
                 </div>
@@ -458,14 +458,14 @@
                 <button 
                   type="button" 
                   @click.stop="setPeriod('AM')"
-                  :class="['flex-1 px-4 py-6 text-base font-bold rounded-xl transition-all', selectedPeriod === 'AM' ? 'bg-[#033958] text-white shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200']"
+                  :class="['flex-1 px-4 py-6 text-base font-bold rounded-xl transition-all', selectedPeriod === 'AM' ? 'bg-[#033958] text-white shadow-none' : 'bg-gray-100 text-gray-600 hover:bg-gray-200']"
                 >
                   AM
                 </button>
                 <button 
                   type="button" 
                   @click.stop="setPeriod('PM')"
-                  :class="['flex-1 px-4 py-6 text-base font-bold rounded-xl transition-all', selectedPeriod === 'PM' ? 'bg-[#033958] text-white shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200']"
+                  :class="['flex-1 px-4 py-6 text-base font-bold rounded-xl transition-all', selectedPeriod === 'PM' ? 'bg-[#033958] text-white shadow-none' : 'bg-gray-100 text-gray-600 hover:bg-gray-200']"
                 >
                   PM
                 </button>
@@ -492,7 +492,7 @@
               <button 
                 type="button" 
                 @click.stop="confirmDTValue"
-                class="px-6 py-2.5 text-sm text-white bg-[#033958] hover:bg-[#022f42] rounded-xl font-bold shadow-lg transition-all"
+                class="px-6 py-2.5 text-sm text-white bg-[#033958] hover:bg-[#022f42] rounded-xl font-bold shadow-none transition-all"
               >
                 Confirm
               </button>
@@ -672,7 +672,7 @@ function getDayClass(day: CalendarDay) {
     'aspect-square p-2 text-base font-semibold rounded-xl transition-all relative',
     day.isCurrentMonth ? 'hover:bg-gray-100 hover:scale-105 cursor-pointer' : 'text-gray-500 opacity-40 cursor-not-allowed',
     day.isToday && !day.isSelected ? 'bg-blue-50 text-[#033958] ring-2 ring-[#033958] ring-inset font-bold' : '',
-    day.isSelected ? 'bg-[#033958] text-white shadow-lg scale-105' : ''
+    day.isSelected ? 'bg-[#033958] text-white shadow-none scale-105' : ''
   ]
 }
 
@@ -681,7 +681,7 @@ function getDTDayClass(day: CalendarDay) {
     'aspect-square p-2 text-base font-medium rounded-lg transition-all',
     day.isCurrentMonth ? 'hover:bg-gray-100 cursor-pointer' : 'text-gray-500 opacity-30 cursor-not-allowed',
     day.isToday && !day.isSelected ? 'border-2 border-[#033958] text-[#033958] font-bold' : '',
-    day.isSelected ? 'bg-[#033958] text-white shadow-md' : ''
+    day.isSelected ? 'bg-[#033958] text-white shadow-none' : ''
   ]
 }
 

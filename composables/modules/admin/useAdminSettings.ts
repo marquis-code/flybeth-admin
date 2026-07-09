@@ -18,7 +18,8 @@ export const useAdminSettings = () => {
         ancillaryPrices: {
             bags: 0,
             seats: 0,
-            insurance: 0
+            insurance: 0,
+            vipSupport: 15
         }
     });
 

@@ -4,6 +4,9 @@ export const chatApiFactory = {
   getRooms(params: any) {
     return GATEWAY_ENDPOINT_WITH_AUTH.get('/chat/all', { params });
   },
+  getSupportRooms(params: any) {
+    return GATEWAY_ENDPOINT_WITH_AUTH.get('/chat/support', { params });
+  },
   createRoom(participantId: string) {
     return GATEWAY_ENDPOINT_WITH_AUTH.post('/chat/rooms', { participantId });
   },
@@ -12,5 +15,8 @@ export const chatApiFactory = {
   },
   createGroup(data: any) {
     return GATEWAY_ENDPOINT_WITH_AUTH.post('/chat/rooms/group', data);
+  },
+  resolveSupportRoom(roomId: string) {
+    return GATEWAY_ENDPOINT_WITH_AUTH.post(`/chat/support/rooms/${roomId}/resolve`);
   }
 };

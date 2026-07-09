@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/50 border border-gray-100/50">
+  <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50/50 border border-gray-200/50">
     <div class="flex items-center gap-3">
       <div :class="['p-1.5 rounded-lg', active ? 'bg-emerald-50' : 'bg-gray-100']">
         <component :is="iconComponent" class="h-4 w-4" :class="active ? 'text-emerald-500' : 'text-gray-400'" />

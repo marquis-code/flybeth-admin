@@ -21,6 +21,20 @@ export const useChat = () => {
         }
     };
 
+    const fetchSupportRooms = async (params: any = { page: 1, limit: 50 }) => {
+        loadingRooms.value = true;
+        try {
+            const res = await chatApiFactory.getSupportRooms(params);
+            rooms.value = res.data?.data || [];
+            return res;
+        } catch (err) {
+            console.error('Fetch support rooms failed', err);
+            throw err;
+        } finally {
+            loadingRooms.value = false;
+        }
+    };
+
     const fetchMessages = async (roomId: string, params: any = { page: 1, limit: 50 }) => {
         loadingMessages.value = true;
         try {
@@ -56,14 +70,26 @@ export const useChat = () => {
         }
     };
 
+    const resolveSupportRoom = async (roomId: string) => {
+        try {
+            const res = await chatApiFactory.resolveSupportRoom(roomId);
+            return res.data;
+        } catch (err) {
+            console.error('Resolve support room failed', err);
+            throw err;
+        }
+    };
+
     return {
         loadingRooms,
         loadingMessages,
         rooms,
         messages,
         fetchRooms,
+        fetchSupportRooms,
         fetchMessages,
         createRoom,
-        createGroup
+        createGroup,
+        resolveSupportRoom
     };
 };

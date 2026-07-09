@@ -9,70 +9,67 @@
 
     <!-- Sidebar -->
     <aside 
-      class="fixed inset-y-0 left-0 w-[272px] bg-white flex-shrink-0 flex flex-col z-[70] transition-transform duration-300 transform lg:relative lg:translate-x-0 border-r border-gray-100"
+      class="fixed inset-y-0 left-0 w-[272px] bg-white flex-shrink-0 flex flex-col z-[70] transition-transform duration-300 transform lg:relative lg:translate-x-0 border-r border-gray-200"
       :class="isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
     >
       <!-- Logo -->
-      <div class="px-7 py-6 flex items-center space-x-3 border-b border-gray-100">
+      <div class="px-8 py-8 flex items-center justify-between">
         <img src="/logo.png" class="h-9 w-auto" alt="Flybeth" />
-        <div class="flex flex-col">
-          <span class="text-lg font-bold text-gray-900  leading-tight">Flybeth</span>
-          <span class="text-sm font-semibold text-gray-400 ">Control Panel</span>
-        </div>
         <!-- Close button for mobile -->
-        <button @click="isMobileMenuOpen = false" class="lg:hidden ml-auto p-1.5 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-50">
-          <XMarkIcon class="h-5 w-5" />
+        <button @click="isMobileMenuOpen = false" class="lg:hidden p-2 text-gray-400 hover:text-gray-900 rounded-xl hover:bg-gray-100 transition-colors">
+          <XMarkIcon class="h-6 w-6" />
         </button>
       </div>
       
       <!-- Navigation -->
       <nav class="mt-2 flex-grow px-4 py-3 space-y-0.5 overflow-y-auto custom-scrollbar">
-        <p class="px-3 pt-3 pb-2 text-sm font-semibold text-gray-400 ">Main</p>
+        <p class="px-4 pt-2 pb-3 text-xs font-bold text-gray-400 uppercase tracking-wider">Main Menu</p>
         <NuxtLink 
           v-for="item in filteredNavigation" 
           :key="item.name" 
           :to="item.href"
-          class="flex items-center px-3 py-2.5 text-[13px] font-medium rounded-lg transition-all duration-200 group"
-          :class="[isActive(item.href) ? 'bg-blue-50 text-blue-700' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50']"
+          class="flex items-center px-4 py-3.5 text-sm font-semibold rounded-xl transition-all duration-200 group mb-1"
+          :class="[isActive(item.href) ? 'bg-gray-900 text-white' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50']"
           @click="isMobileMenuOpen = false"
         >
-          <component :is="item.icon" class="h-[18px] w-[18px] mr-3 flex-shrink-0 transition-colors" :class="isActive(item.href) ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600'" />
+          <component :is="item.icon" class="h-[20px] w-[20px] mr-3.5 flex-shrink-0 transition-colors" :class="isActive(item.href) ? 'text-white' : 'text-gray-400 group-hover:text-gray-700'" />
           {{ item.name }}
-          <div v-if="isActive(item.href)" class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-600" />
+          <div v-if="isActive(item.href)" class="ml-auto w-1.5 h-1.5 rounded-full bg-white opacity-80" />
         </NuxtLink>
-        <div class="mt-4 px-3">
-           <NuxtLink to="/chat" class="flex items-center justify-between w-full p-4 bg-blue-600 rounded-2xl text-white shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all group overflow-hidden relative">
-              <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-              <div class="flex items-center gap-3 relative z-10 transition-transform group-hover:scale-105">
-                 <ChatBubbleLeftRightIcon class="h-5 w-5" />
-                 <span class="text-[13px]  ">Support Chat</span>
+        <div class="mt-6 px-1">
+           <NuxtLink to="/dashboard/support" class="flex items-center justify-between w-full p-4 bg-white border border-gray-200 rounded-2xl text-gray-700 hover:border-gray-300 hover:bg-gray-50 transition-all group">
+              <div class="flex items-center gap-3">
+                 <div class="h-8 w-8 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-500 group-hover:text-gray-900 transition-colors">
+                   <ChatBubbleLeftRightIcon class="h-[18px] w-[18px]" />
+                 </div>
+                 <span class="text-sm font-bold">Support Chat</span>
               </div>
-              <div v-if="totalUnreadMessages > 0" class="bg-white text-blue-600 text-sm  px-2 py-0.5 rounded-full relative z-10">
+              <div v-if="totalUnreadMessages > 0" class="bg-red-500 text-white text-[11px] font-bold px-2 py-0.5 rounded-full">
                  {{ totalUnreadMessages }}
               </div>
-              <ArrowRightIcon v-else class="h-4 w-4 text-white/50 group-hover:translate-x-1 transition-transform relative z-10" />
+              <ArrowRightIcon v-else class="h-4 w-4 text-gray-400 group-hover:text-gray-900 transition-colors" />
            </NuxtLink>
         </div>
       </nav>
 
       <!-- User Section -->
-      <div class="p-4 border-t border-gray-100">
+      <div class="p-6 border-t border-gray-200 bg-gray-50/30">
         <template v-if="user">
-          <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-50">
-            <div class="h-9 w-9 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">
+          <div class="flex items-center space-x-3">
+            <div class="h-10 w-10 rounded-[0.8rem] bg-gray-900 text-white flex items-center justify-center text-sm font-bold shadow-none">
               {{ user.firstName?.[0] }}{{ user.lastName?.[0] }}
             </div>
             <div class="min-w-0 flex-1">
-              <p class="text-sm font-semibold text-gray-900 truncate">{{ user.firstName }} {{ user.lastName }}</p>
-              <p class="text-sm font-bold text-gray-400  truncate uppercase">{{ userDisplayRole }}</p>
+              <p class="text-[15px] font-bold text-gray-900 truncate">{{ user.firstName }} {{ user.lastName }}</p>
+              <p class="text-[11px] font-bold text-gray-400 truncate uppercase tracking-widest mt-0.5">{{ userDisplayRole }}</p>
             </div>
           </div>
           
           <button 
             @click="showLogoutModal = true" 
-            class="mt-3 flex items-center justify-center space-x-2 w-full py-2.5 text-xs font-medium text-gray-400 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50 border border-gray-100 hover:border-red-100"
+            class="mt-5 flex items-center justify-center space-x-2 w-full py-3 text-[13px] font-bold text-gray-600 hover:text-red-600 transition-all rounded-xl hover:bg-red-50 border border-gray-200 hover:border-red-200 bg-white"
           >
-            <ArrowLeftOnRectangleIcon class="h-4 w-4" />
+            <ArrowLeftOnRectangleIcon class="h-[18px] w-[18px]" />
             <span>Sign out</span>
           </button>
         </template>
@@ -82,7 +79,7 @@
     <!-- Main Content -->
     <div class="flex-grow flex flex-col min-w-0 h-screen overflow-hidden">
       <!-- Top header -->
-      <header class="bg-white border-b border-gray-100 h-16 flex items-center justify-between px-6 md:px-8 sticky top-0 z-50">
+      <header class="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6 md:px-8 sticky top-0 z-50">
         <div class="flex items-center space-x-3">
            <button @click="isMobileMenuOpen = true" class="lg:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-50 rounded-lg">
              <Bars3CenterLeftIcon class="h-5 w-5" />
@@ -91,14 +88,14 @@
         </div>
         
         <div class="flex items-center space-x-3">
-          <div class="hidden lg:flex items-center bg-gray-50 border border-gray-100 rounded-lg px-3 py-2 transition-all group focus-within:border-blue-200 focus-within:bg-white min-w-[280px]">
+          <div class="hidden lg:flex items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 transition-all group focus-within:border-blue-200 focus-within:bg-white min-w-[280px]">
             <MagnifyingGlassIcon class="h-4 w-4 text-gray-400 mr-2 group-focus-within:text-blue-500" />
             <input type="text" placeholder="Quick search..." class="bg-transparent border-none text-sm focus:outline-none w-full placeholder:text-gray-400 text-gray-700">
           </div>
           
           <UiNotificationDropdown />
 
-          <button class="h-9 w-9 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-50 hover:text-gray-600 transition-colors border border-gray-100">
+          <button class="h-9 w-9 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-50 hover:text-gray-600 transition-colors border border-gray-200">
             <Cog6ToothIcon class="h-[18px] w-[18px]" />
           </button>
         </div>
@@ -130,7 +127,7 @@
             leave-from-class="opacity-100 scale-100"
             leave-to-class="opacity-0 scale-95"
           >
-            <div v-if="showLogoutModal" class="relative bg-white rounded-2xl w-full max-w-sm p-8 shadow-xl text-center space-y-5">
+            <div v-if="showLogoutModal" class="relative bg-white rounded-2xl w-full max-w-sm p-8 shadow-none text-center space-y-5">
               <div class="w-14 h-14 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto">
                 <ArrowLeftOnRectangleIcon class="h-7 w-7" />
               </div>
@@ -174,7 +171,8 @@ import {
   ShieldExclamationIcon,
   ChatBubbleLeftRightIcon,
   ArrowRightIcon,
-  CurrencyDollarIcon
+  CurrencyDollarIcon,
+  GiftIcon
 } from '@heroicons/vue/24/outline'
 import { useRealtime } from '@/composables/core/useRealtime'
 
@@ -194,19 +192,19 @@ onMounted(() => {
 
 const navigation = [
   { name: 'Overview', href: '/dashboard', icon: HomeIcon, permission: 'view_dashboard' },
-  { name: 'Agents', href: '/agents', icon: UsersIcon, permission: 'manage_agents' },
-  { name: 'Agencies', href: '/tenants', icon: TenantIcon, permission: 'manage_tenants' },
-  { name: 'Team', href: '/users', icon: UsersIcon, permission: 'manage_team' },
-  { name: 'Bookings', href: '/bookings', icon: TicketIcon, permission: 'view_bookings' },
-  { name: 'Revenue', href: '/revenue', icon: RevenueIcon, permission: 'audit_revenue' },
-  { name: 'Files', href: '/storage', icon: FolderIcon, permission: 'manage_storage' },
-  { name: 'Templates', href: '/emails', icon: EnvelopeIcon, permission: 'manage_emails' },
-  { name: 'Campaigns', href: '/campaigns', icon: EnvelopeIcon, permission: 'manage_campaigns' },
-  { name: 'Support Desk', href: '/support', icon: ChatBubbleLeftRightIcon, permission: 'manage_support' },
-  { name: 'Security', href: '/fraud', icon: ShieldExclamationIcon, permission: 'manage_fraud' },
-  { name: 'Permissions', href: '/roles', icon: RolesIcon, permission: 'manage_roles' },
-  { name: 'Currency & Pricing', href: '/pricing', icon: CurrencyDollarIcon, permission: 'manage_settings' },
-  { name: 'Settings', href: '/settings', icon: Cog6ToothIcon, permission: 'manage_settings' },
+  { name: 'Agents', href: '/dashboard/agents', icon: UsersIcon, permission: 'manage_agents' },
+  { name: 'Agencies', href: '/dashboard/tenants', icon: TenantIcon, permission: 'manage_tenants' },
+  { name: 'Team', href: '/dashboard/users', icon: UsersIcon, permission: 'manage_team' },
+  { name: 'Bookings', href: '/dashboard/bookings', icon: TicketIcon, permission: 'view_bookings' },
+  { name: 'Revenue', href: '/dashboard/revenue', icon: RevenueIcon, permission: 'audit_revenue' },
+  { name: 'Files', href: '/dashboard/storage', icon: FolderIcon, permission: 'manage_storage' },
+  { name: 'Templates', href: '/dashboard/emails', icon: EnvelopeIcon, permission: 'manage_emails' },
+  { name: 'Campaigns', href: '/dashboard/campaigns', icon: EnvelopeIcon, permission: 'manage_campaigns' },
+  { name: 'Support Desk', href: '/dashboard/support', icon: ChatBubbleLeftRightIcon, permission: 'manage_support' },
+  { name: 'Security', href: '/dashboard/fraud', icon: ShieldExclamationIcon, permission: 'manage_fraud' },
+  { name: 'Packages', href: '/dashboard/packages', icon: GiftIcon, permission: 'manage_packages' },
+  { name: 'Roles & Permissions', href: '/dashboard/roles', icon: RolesIcon, permission: 'manage_roles' },
+  { name: 'Settings', href: '/dashboard/settings', icon: Cog6ToothIcon, permission: 'manage_settings' },
 ]
 
 const { logout, user } = useAuth()

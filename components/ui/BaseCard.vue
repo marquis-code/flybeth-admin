@@ -1,7 +1,10 @@
 <template>
   <div 
-    class="bg-white rounded-3xl border border-gray-100/80 overflow-hidden hover:border-brand-blue/20 transition-premium"
-    :class="[padding ? 'p-8' : '']"
+    class="bg-white rounded-3xl border border-gray-200/80 transition-premium"
+    :class="[
+      padding ? 'p-8' : '',
+      overflowVisible ? '' : 'overflow-hidden hover:border-brand-blue/20'
+    ]"
   >
     <div v-if="$slots.header || title" class="mb-6 flex items-center justify-between">
       <slot name="header">
@@ -11,7 +14,7 @@
     
     <slot />
 
-    <div v-if="$slots.footer" class="mt-8 pt-6 border-t border-gray-50">
+    <div v-if="$slots.footer" class="mt-8 pt-6 border-t border-gray-200">
       <slot name="footer" />
     </div>
   </div>
@@ -21,5 +24,6 @@
 defineProps<{
   title?: string
   padding?: boolean
+  overflowVisible?: boolean
 }>()
 </script>

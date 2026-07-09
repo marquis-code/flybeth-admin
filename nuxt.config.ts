@@ -25,13 +25,7 @@ export default defineNuxtConfig({
     }
   },
   devtools: { enabled: true },
-  components: [
-    {
-      path: '~/components/ui',
-      pathPrefix: false,
-    },
-    '~/components',
-  ],
+
 
     devServer: {
     port: 3004,

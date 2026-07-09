@@ -4,7 +4,7 @@
     <div 
       v-for="(block, index) in localBlocks" 
       :key="block.id"
-      class="relative p-6 bg-white border border-gray-100 rounded-2xl shadow-sm hover:border-brand-blue/20 hover:shadow-md transition-all group"
+      class="relative p-6 bg-white border border-gray-200 rounded-2xl shadow-none hover:border-brand-blue/20 hover:shadow-none transition-all group"
     >
       <!-- Drag & Action Handles -->
       <div class="absolute right-4 top-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
@@ -12,7 +12,7 @@
           @click.prevent="moveBlock(index, -1)" 
           :disabled="index === 0"
           title="Move Up"
-          class="p-1.5 bg-gray-50 text-gray-500 rounded-lg hover:bg-white hover:text-gray-900 disabled:opacity-30 disabled:hover:text-gray-500 shadow-sm border border-gray-100"
+          class="p-1.5 bg-gray-50 text-gray-500 rounded-lg hover:bg-white hover:text-gray-900 disabled:opacity-30 disabled:hover:text-gray-500 shadow-none border border-gray-200"
         >
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg>
         </button>
@@ -20,21 +20,21 @@
           @click.prevent="moveBlock(index, 1)" 
           :disabled="index === localBlocks.length - 1"
           title="Move Down"
-          class="p-1.5 bg-gray-50 text-gray-500 rounded-lg hover:bg-white hover:text-gray-900 disabled:opacity-30 disabled:hover:text-gray-500 shadow-sm border border-gray-100"
+          class="p-1.5 bg-gray-50 text-gray-500 rounded-lg hover:bg-white hover:text-gray-900 disabled:opacity-30 disabled:hover:text-gray-500 shadow-none border border-gray-200"
         >
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
         </button>
         <button 
           @click.prevent="removeBlock(block.id)"
           title="Delete Block"
-          class="p-1.5 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors shadow-sm ml-2"
+          class="p-1.5 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors shadow-none ml-2"
         >
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
         </button>
       </div>
 
       <!-- Type Badge -->
-      <div class="absolute -left-3 -top-3 bg-brand-blue text-white text-sm    px-3 py-1 rounded-full shadow-sm shadow-brand-blue/20">
+      <div class="absolute -left-3 -top-3 bg-brand-blue text-white text-sm    px-3 py-1 rounded-full shadow-none shadow-brand-blue/20">
         {{ block.type }} Block
       </div>
 
@@ -52,7 +52,7 @@
         <div v-if="block.url" class="relative rounded-xl overflow-hidden group/img">
           <img :src="block.url" class="w-full max-w-2xl mx-auto rounded-xl object-contain" />
           <div class="absolute inset-0 bg-black/50 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
-             <button @click.prevent="block.url = ''" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg text-sm shadow-xl transition-colors">
+             <button @click.prevent="block.url = ''" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg text-sm shadow-none transition-colors">
                Replace Image
              </button>
           </div>
@@ -68,11 +68,11 @@
     <!-- Add Block Handlers -->
     <div class="flex items-center gap-4 py-6 border-t border-dashed border-gray-200 mt-6">
       <span class="text-sm    text-gray-500">Add New</span>
-      <button @click.prevent="addBlock('text')" class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-bold text-gray-700 hover:border-brand-blue hover:text-gray-900 transition-colors shadow-sm">
+      <button @click.prevent="addBlock('text')" class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-bold text-gray-700 hover:border-brand-blue hover:text-gray-900 transition-colors shadow-none">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
         Text Block
       </button>
-      <button @click.prevent="addBlock('image')" class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-bold text-gray-700 hover:border-brand-blue hover:text-gray-900 transition-colors shadow-sm">
+      <button @click.prevent="addBlock('image')" class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-bold text-gray-700 hover:border-brand-blue hover:text-gray-900 transition-colors shadow-none">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
         Image Block
       </button>
@@ -80,7 +80,7 @@
 
     <!-- Hidden native file input for capturing block images -->
     <input type="file" ref="fileInput" class="hidden" accept="image/*" @change="handleFileUpload" />
-    <div v-if="uploading" class="fixed bottom-10 right-10 bg-gray-900 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center font-bold text-sm z-50">
+    <div v-if="uploading" class="fixed bottom-10 right-10 bg-gray-900 text-white px-6 py-3 rounded-xl shadow-none flex items-center font-bold text-sm z-50">
       <div class="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
       Uploading image payload...
     </div>

@@ -83,14 +83,18 @@ export const useAdmin = () => {
         }
     };
 
-    const downloadRevenueLedger = async () => {
+    const downloadRevenueLedger = async (params?: { startDate: string, endDate: string, format?: string }) => {
         try {
-            const res = await adminApiFactory.downloadLedger();
-            const blob = new Blob([res.data], { type: 'text/csv' });
+            const res = await adminApiFactory.downloadLedger(params);
+            const contentType = params?.format === 'excel' 
+                ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+                : 'text/csv';
+            const extension = params?.format === 'excel' ? 'xlsx' : 'csv';
+            const blob = new Blob([res.data], { type: contentType });
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `flybeth-ledger-${new Date().toISOString().split('T')[0]}.csv`);
+            link.setAttribute('download', `flybeth-ledger-${new Date().toISOString().split('T')[0]}.${extension}`);
             document.body.appendChild(link);
             link.click();
             link.remove();

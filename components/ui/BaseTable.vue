@@ -1,23 +1,34 @@
 <template>
   <div>
-    <div class="overflow-x-auto custom-scrollbar -mx-4 md:mx-0">
-      <div class="inline-block min-w-full align-middle p-4 md:p-0">
-        <div class="overflow-hidden border border-gray-100 rounded-[2rem] bg-white shadow-sm">
-          <table class="min-w-full divide-y divide-gray-50">
+    <div class="relative w-full max-w-full group">
+      <button
+        v-if="canScrollLeft"
+        @click.stop.prevent="doScrollLeft"
+        class="absolute left-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center z-50 text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors"
+        type="button"
+        aria-label="Scroll to left end"
+      >
+        <ChevronLeftIcon class="h-4 w-4" />
+      </button>
+
+      <div ref="scrollContainer" @scroll="checkScroll" class="overflow-x-auto custom-scrollbar -mx-4 md:mx-0">
+        <div class="inline-block min-w-full align-middle p-4 md:p-0">
+          <div class="overflow-hidden border border-gray-200 rounded-none bg-white shadow-none">
+            <table class="min-w-full divide-y divide-gray-200 border-collapse">
             <thead class="bg-gray-50/50">
               <tr>
                 <th 
                   v-for="column in columns" 
                   :key="column.key"
                   scope="col" 
-                  class="px-6 py-5 text-left text-sm  text-gray-500  "
+                  class="px-6 py-5 text-left text-sm font-bold text-gray-500"
                   :class="column.class"
                 >
                   {{ column.label }}
                 </th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-gray-50 bg-white">
+            <tbody class="divide-y divide-gray-200 bg-white">
               <!-- Loading skeleton -->
               <template v-if="loading">
                 <tr v-for="i in (meta?.limit || 10)" :key="'skeleton-' + i" class="animate-pulse">
@@ -54,6 +65,17 @@
         </div>
       </div>
     </div>
+    
+      <button
+        v-if="canScrollRight"
+        @click.stop.prevent="doScrollRight"
+        class="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-full bg-white shadow-md border border-gray-200 flex items-center justify-center z-50 text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors"
+        type="button"
+        aria-label="Scroll to right end"
+      >
+        <ChevronRightIcon class="h-4 w-4" />
+      </button>
+  </div>
 
     <!-- Pagination Bar -->
     <div v-if="meta && meta.totalPages > 1" class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 px-2">
@@ -74,7 +96,7 @@
         <button
           @click="goToPage(meta.page - 1)"
           :disabled="!meta.hasPrevPage"
-          class="h-9 w-9 flex items-center justify-center rounded-xl border border-gray-100 bg-white text-gray-400 transition-all hover:bg-gray-50 hover:text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed"
+          class="h-9 w-9 flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-400 transition-all hover:bg-gray-50 hover:text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <ChevronLeftIcon class="h-4 w-4" />
         </button>
@@ -83,7 +105,7 @@
         <button
           v-if="visiblePages[0] > 1"
           @click="goToPage(1)"
-          class="h-9 w-9 flex items-center justify-center rounded-xl text-base font-semibold transition-all border border-gray-100 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+          class="h-9 w-9 flex items-center justify-center rounded-xl text-base font-semibold transition-all border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700"
         >
           1
         </button>
@@ -97,8 +119,8 @@
           :class="[
             'h-9 min-w-[36px] px-2 flex items-center justify-center rounded-xl text-base font-semibold transition-all border',
             pageNum === meta.page
-              ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-600/20'
-              : 'bg-white text-gray-500 border-gray-100 hover:bg-gray-50 hover:text-gray-700'
+              ? 'bg-blue-600 text-white border-blue-600 shadow-none shadow-blue-600/20'
+              : 'bg-white text-gray-500 border-gray-200 hover:bg-gray-50 hover:text-gray-700'
           ]"
         >
           {{ pageNum }}
@@ -109,7 +131,7 @@
         <button
           v-if="visiblePages[visiblePages.length - 1] < meta.totalPages"
           @click="goToPage(meta.totalPages)"
-          class="h-9 w-9 flex items-center justify-center rounded-xl text-base font-semibold transition-all border border-gray-100 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+          class="h-9 w-9 flex items-center justify-center rounded-xl text-base font-semibold transition-all border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700"
         >
           {{ meta.totalPages }}
         </button>
@@ -118,7 +140,7 @@
         <button
           @click="goToPage(meta.page + 1)"
           :disabled="!meta.hasNextPage"
-          class="h-9 w-9 flex items-center justify-center rounded-xl border border-gray-100 bg-white text-gray-400 transition-all hover:bg-gray-50 hover:text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed"
+          class="h-9 w-9 flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-400 transition-all hover:bg-gray-50 hover:text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <ChevronRightIcon class="h-4 w-4" />
         </button>
@@ -130,7 +152,7 @@
         <select 
           :value="meta.limit" 
           @change="$emit('update:limit', Number(($event.target as HTMLSelectElement).value))"
-          class="h-9 px-2 bg-white border border-gray-100 rounded-xl text-base font-semibold text-gray-600 outline-none focus:border-blue-600 cursor-pointer"
+          class="h-9 px-2 bg-white border border-gray-200 rounded-xl text-base font-semibold text-gray-600 outline-none focus:border-blue-600 cursor-pointer"
         >
           <option v-for="opt in pageSizeOptions" :key="opt" :value="opt">{{ opt }}</option>
         </select>
@@ -147,7 +169,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/outline'
 
 interface Column {
@@ -177,6 +199,48 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits(['page-change', 'update:limit'])
+
+const scrollContainer = ref<HTMLElement | null>(null)
+const canScrollLeft = ref(false)
+const canScrollRight = ref(false)
+
+const checkScroll = () => {
+  if (scrollContainer.value) {
+    const { scrollLeft, scrollWidth, clientWidth } = scrollContainer.value
+    canScrollLeft.value = scrollLeft > 0
+    canScrollRight.value = Math.ceil(scrollLeft + clientWidth) < scrollWidth
+  }
+}
+
+let observer: ResizeObserver | null = null
+
+onMounted(() => {
+  checkScroll()
+  window.addEventListener('resize', checkScroll)
+  observer = new ResizeObserver(() => checkScroll())
+  if (scrollContainer.value) {
+    observer.observe(scrollContainer.value)
+  }
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScroll)
+  if (observer) {
+    observer.disconnect()
+  }
+})
+
+const doScrollLeft = () => {
+  if (scrollContainer.value) {
+    scrollContainer.value.scrollTo({ left: 0, behavior: 'smooth' })
+  }
+}
+
+const doScrollRight = () => {
+  if (scrollContainer.value) {
+    scrollContainer.value.scrollTo({ left: scrollContainer.value.scrollWidth, behavior: 'smooth' })
+  }
+}
 
 const pageSizes = computed(() => props.pageSizeOptions || [10, 20, 50, 100])
 

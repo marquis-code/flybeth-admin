@@ -22,6 +22,10 @@ export default defineNuxtRouteMiddleware((to, from) => {
     
     // Authenticated user trying to access public route - Aggressive redirect to dashboard
     if (isPublicRoute && reallyLoggedIn) {
+        // Bypass redirect if user is trying to accept an invitation
+        if (to.path === '/signup' && to.query.token) {
+            return;
+        }
         return navigateTo('/dashboard');
     }
 });

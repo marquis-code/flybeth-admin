@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --port 3004",
+    "dev": "nuxt dev --port 3006",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -12,11 +12,15 @@
   "dependencies": {
     "@heroicons/vue": "^2.2.0",
     "axios": "^1.13.6",
+    "flatpickr": "^4.6.13",
     "lucide-vue-next": "^1.0.0",
     "nuxt": "^4.3.1",
     "socket.io-client": "^4.8.3",
     "vue": "^3.5.28",
-    "vue-router": "^4.6.4"
+    "vue-flatpickr-component": "^12.0.0",
+    "vue-router": "^4.6.4",
+    "vue3-emoji-picker": "^1.1.8",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@nuxtjs/google-fonts": "^3.2.0",

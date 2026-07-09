@@ -43,17 +43,23 @@ export const adminApiFactory = {
     resetSystemConfig() {
         return GATEWAY_ENDPOINT_WITH_AUTH.post("/system-config/reset");
     },
-    downloadLedger() {
-        return GATEWAY_ENDPOINT_WITH_AUTH.get("/admin/revenue/ledger", { responseType: 'blob' });
+    downloadLedger(params?: any) {
+        return GATEWAY_ENDPOINT_WITH_AUTH.get("/admin/revenue/ledger", { params, responseType: 'blob' });
     },
     initiateSettlement() {
         return GATEWAY_ENDPOINT_WITH_AUTH.post("/admin/revenue/settle");
     },
     inviteUser(data: any) {
-        return GATEWAY_ENDPOINT_WITH_AUTH.post("/admin/users/invite", data);
+        return GATEWAY_ENDPOINT_WITH_AUTH.post("/admin/invite", data);
     },
     createBooking(data: any) {
         return GATEWAY_ENDPOINT_WITH_AUTH.post("/admin/bookings", data);
+    },
+    cancelBooking(id: string) {
+        return GATEWAY_ENDPOINT_WITH_AUTH.patch(`/bookings/${id}/cancel`);
+    },
+    payBooking(id: string) {
+        return GATEWAY_ENDPOINT_WITH_AUTH.post(`/bookings/${id}/pay`);
     },
     getUser(id: string) {
         return GATEWAY_ENDPOINT_WITH_AUTH.get(`/users/${id}`);
@@ -69,6 +75,15 @@ export const adminApiFactory = {
     },
     verifyInvitation(token: string) {
         return GATEWAY_ENDPOINT.get(`/admin/invitations/verify/${token}`);
+    },
+    getInvitations() {
+        return GATEWAY_ENDPOINT_WITH_AUTH.get("/admin/invitations");
+    },
+    resendInvitation(id: string) {
+        return GATEWAY_ENDPOINT_WITH_AUTH.post(`/admin/invitations/${id}/resend`);
+    },
+    cancelInvitation(id: string) {
+        return GATEWAY_ENDPOINT_WITH_AUTH.delete(`/admin/invitations/${id}`);
     },
     deleteUser(id: string) {
         return GATEWAY_ENDPOINT_WITH_AUTH.delete(`/admin/users/${id}`);

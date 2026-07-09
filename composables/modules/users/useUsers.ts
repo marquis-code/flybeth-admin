@@ -3,6 +3,7 @@ import { adminApiFactory } from "@/api_factory/modules/admin";
 
 // Keep users state global to this composable to prevent redundant fetching and sync issues across modals
 const sharedUsers = ref<any[]>([]);
+const sharedInvitations = ref<any[]>([]);
 const sharedMeta = ref<any>(null);
 const sharedLoading = ref(false);
 
@@ -147,6 +148,61 @@ export const useUsers = () => {
         }
     };
 
+    const fetchInvitations = async () => {
+        sharedLoading.value = true;
+        loading.value = true;
+        try {
+            const res = await adminApiFactory.getInvitations();
+            // The response is usually { data: { success: true, data: [...] } }
+            // Or if interceptor strips it: { success: true, data: [...] }
+            const root = res.data;
+            let extracted = [];
+            
+            if (root?.data && Array.isArray(root.data)) {
+                extracted = root.data;
+            } else if (Array.isArray(root)) {
+                extracted = root;
+            } else if (root?.data?.data && Array.isArray(root.data.data)) {
+                extracted = root.data.data;
+            }
+
+            sharedInvitations.value = extracted;
+            return res;
+        } catch (error: any) {
+            console.error('Failed to fetch invitations:', error);
+            throw error;
+        } finally {
+            sharedLoading.value = false;
+            loading.value = false;
+        }
+    };
+
+    const resendInvitation = async (id: string) => {
+        loading.value = true;
+        try {
+            const res = await adminApiFactory.resendInvitation(id);
+            return res;
+        } catch (error: any) {
+            console.error(error);
+            throw error;
+        } finally {
+            loading.value = false;
+        }
+    };
+
+    const cancelInvitation = async (id: string) => {
+        loading.value = true;
+        try {
+            const res = await adminApiFactory.cancelInvitation(id);
+            return res;
+        } catch (error: any) {
+            console.error(error);
+            throw error;
+        } finally {
+            loading.value = false;
+        }
+    };
+
     const updateKycStatus = async (id: string, data: any) => {
         loading.value = true;
         try {
@@ -163,6 +219,7 @@ export const useUsers = () => {
     return {
         loading: sharedLoading,
         users: sharedUsers,
+        invitations: sharedInvitations,
         meta: sharedMeta,
         fetchUsers,
         fetchUser,
@@ -172,6 +229,9 @@ export const useUsers = () => {
         createAdminUser,
         verifyInvitation,
         inviteUser,
-        deleteUser
+        deleteUser,
+        fetchInvitations,
+        resendInvitation,
+        cancelInvitation
     };
 };

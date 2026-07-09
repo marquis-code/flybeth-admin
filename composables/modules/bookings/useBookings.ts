@@ -45,11 +45,41 @@ export const useBookings = () => {
         }
     };
 
+    const cancelBooking = async (id: string) => {
+        loading.value = true;
+        try {
+            const res = await adminApiFactory.cancelBooking(id);
+            if (res.status === 200 || res.status === 201) {
+                return res;
+            }
+        } catch (error: any) {
+            console.error(error);
+        } finally {
+            loading.value = false;
+        }
+    };
+
+    const payBooking = async (id: string) => {
+        loading.value = true;
+        try {
+            const res = await adminApiFactory.payBooking(id);
+            if (res.status === 200 || res.status === 201) {
+                return res;
+            }
+        } catch (error: any) {
+            console.error(error);
+        } finally {
+            loading.value = false;
+        }
+    };
+
     return {
         loading,
         bookings,
         meta,
         fetchBookings,
-        createBooking
+        createBooking,
+        cancelBooking,
+        payBooking
     };
 };

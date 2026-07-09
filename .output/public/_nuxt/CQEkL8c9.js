@@ -1,1 +1,0 @@
-import{m as n}from"./mTrDytEa.js";const e=n([]),m=()=>{const a=t=>{const s=Math.random().toString(36).substring(2,9),r={...t,id:s};e.value.push(r);const u=t.duration||5e3;setTimeout(()=>{o(s)},u),console.log(`[TOAST][${t.toastType.toUpperCase()}] ${t.title}: ${t.message}`)},o=t=>{e.value=e.value.filter(s=>s.id!==t)};return{toasts:e,showToast:a,removeToast:o}};export{m as u};

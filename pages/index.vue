@@ -11,7 +11,7 @@
        <div class="absolute inset-0 bg-slate-900/60 pointer-events-none"></div>
        
        <div class="relative z-10">
-         <div class="flex items-center space-x-3 group cursor-pointer bg-white/5 backdrop-blur-md p-4 rounded-2xl w-fit border border-white/10 shadow-2xl">
+         <div class="flex items-center space-x-3 group cursor-pointer bg-white/5 backdrop-blur-md p-4 rounded-2xl w-fit border border-white/10 shadow-none">
             <img src="/logo.png" class="h-10 w-auto" alt="Flybeth Logo" />
          </div>
        </div>
@@ -36,7 +36,7 @@
 
     <!-- Right: Authentication Form -->
     <div class="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-12 relative z-10 bg-gray-50 lg:bg-white">
-      <div class="w-full max-w-md space-y-10 bg-white p-8 lg:p-0 rounded-3xl shadow-xl lg:shadow-none border border-gray-100 lg:border-none">
+      <div class="w-full max-w-md space-y-10 bg-white p-8 lg:p-0 rounded-3xl shadow-none lg:shadow-none border border-gray-200 lg:border-none">
         <div class="lg:hidden flex items-center space-x-3 mb-8">
      <img src="/logo.png" class="h-10 w-auto" alt="Flybeth Logo" />
         </div>
@@ -140,13 +140,6 @@
           Don't have an account? 
           <NuxtLink to="/signup" class="text-gray-900 font-bold hover:underline">Sign up</NuxtLink>
         </p>
-
-        <div class="pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-           <p class="text-sm font-bold text-brand-gray/30  ">Flybeth system</p>
-           <div class="flex items-center space-x-2">
-              <span class="text-sm font-bold text-gray-500  ">Global platform</span>
-           </div>
-        </div>
       </div>
     </div>
   </div>
@@ -155,11 +148,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useAuth } from '@/composables/modules/auth/useAuth'
-import { 
-  EnvelopeIcon, 
-  LockClosedIcon,
-  PaperAirplaneIcon
-} from '@heroicons/vue/24/outline'
+
 
 definePageMeta({
   layout: false

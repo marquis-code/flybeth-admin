@@ -10,7 +10,7 @@
        <div class="absolute inset-0 bg-slate-900/60 pointer-events-none"></div>
        
        <div class="relative z-10">
-         <div class="flex items-center space-x-3 group cursor-pointer bg-white/5 backdrop-blur-md p-4 rounded-2xl w-fit border border-white/10 shadow-2xl">
+         <div class="flex items-center space-x-3 group cursor-pointer bg-white/5 backdrop-blur-md p-4 rounded-2xl w-fit border border-white/10 shadow-none">
             <img src="@/assets/img/logo.png" class="h-10 w-auto" alt="Flybeth Logo" />
          </div>
        </div>
@@ -35,7 +35,7 @@
 
     <!-- Right: Signup Form -->
     <div class="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-12 relative z-10 bg-gray-50 lg:bg-white">
-      <div class="w-full max-w-md space-y-10 bg-white p-8 lg:p-0 rounded-3xl shadow-xl lg:shadow-none border border-gray-100 lg:border-none">
+      <div class="w-full max-w-md space-y-10 bg-white p-8 lg:p-0 rounded-3xl shadow-none lg:shadow-none border border-gray-200 lg:border-none">
         <div class="lg:hidden flex items-center space-x-3 mb-8">
           <img src="/logo.png" class="h-10 w-auto" alt="Flybeth Logo" />
         </div>
@@ -135,13 +135,6 @@
               Back to registration
             </button>
         </form>
-
-        <div class="pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-           <p class="text-sm font-bold text-brand-gray/30  ">Flybeth system</p>
-           <div class="flex items-center space-x-2">
-              <span class="text-sm font-bold text-gray-500  ">Join us</span>
-           </div>
-        </div>
       </div>
     </div>
   </div>
@@ -173,7 +166,7 @@ const form = ref({
 const showOtp = ref(false)
 const otp = ref('')
 
-const { register, verifyOtp, loading: authLoading } = useAuth()
+const { register, acceptInvitation, verifyOtp, loading: authLoading } = useAuth()
 const { verifyInvitation, loading: inviteLoading } = useUsers()
 const { showToast } = useCustomToast()
 
@@ -183,13 +176,21 @@ onMounted(async () => {
   if (invitationToken.value) {
     try {
       const res = await verifyInvitation(invitationToken.value)
-      if (res && res.data) {
-        const { email, role } = res.data
+      const payload = res?.data?.data || res?.data
+      if (payload && payload.email) {
+        const { email, role } = payload
         form.value.email = email
         form.value.role = role
+        
+        // Safely format role
+        let displayRole = 'team member'
+        if (typeof role === 'string') {
+          displayRole = role.replace(/_/g, ' ')
+        }
+
         showToast({
           title: "Invitation Verified",
-          message: `Welcome! You are joining as a ${role.replace('_', ' ')}.`,
+          message: `Welcome! You are joining as a ${displayRole}.`,
           toastType: "success"
         })
       }
@@ -211,7 +212,15 @@ onMounted(async () => {
 const handleSignup = async () => {
   const signupData = { ...form.value }
 
-  const res = await register(signupData)
+  let res;
+  if (invitationToken.value) {
+    // Remove role from the payload for security; the backend will determine it from the token
+    delete signupData.role;
+    res = await acceptInvitation(signupData)
+  } else {
+    res = await register(signupData)
+  }
+
   if (res) {
     showOtp.value = true
   }

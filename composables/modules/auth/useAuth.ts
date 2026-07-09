@@ -79,6 +79,31 @@ export const useAuth = () => {
         }
     };
 
+    const acceptInvitation = async (payload: any) => {
+        loading.value = true;
+        try {
+            const res = await authApiFactory.acceptInvitation(payload);
+            if (res.status === 200 || res.status === 201) {
+                const responseData = res.data.data || res.data;
+                showToast({
+                    title: "Success",
+                    message: "Registration successful. Please verify your email.",
+                    toastType: "success",
+                });
+                return res;
+            }
+        } catch (error: any) {
+            showToast({
+                title: "Registration Failed",
+                message: Array.isArray(error.response?.data?.message) ? error.response?.data?.message[0] : (error.response?.data?.message || "Failed to accept invitation"),
+                toastType: "error",
+            });
+            console.error(error);
+        } finally {
+            loading.value = false;
+        }
+    };
+
     const verifyOtp = async (payload: any) => {
         loading.value = true;
         try {
@@ -196,6 +221,7 @@ export const useAuth = () => {
         passwordLoading,
         login,
         register,
+        acceptInvitation,
         verifyOtp,
         resendOtp,
         forgotPassword,

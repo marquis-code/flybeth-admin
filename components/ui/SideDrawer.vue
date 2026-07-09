@@ -19,35 +19,34 @@
           leave-from-class="translate-x-0"
           leave-to-class="translate-x-full"
         >
-          <div v-if="show" class="absolute inset-y-0 right-0 max-w-full flex">
+          <div v-if="show" class="absolute inset-y-0 right-0 max-w-full flex p-4">
             <div 
-              :class="[
-                size === 'full' ? 'w-screen' : 
-                size === 'wide' ? 'w-screen max-w-4xl' : 
-                'w-screen max-w-2xl'
-              ]"
-              class="bg-white shadow-[0_0_50px_rgba(0,0,0,0.1)] flex flex-col border-l border-gray-100 transition-premium overflow-hidden"
+              :style="{
+                width: size === 'full' ? '700px' : 
+                       size === 'wide' ? '500px' : '400px'
+              }"
+              class="bg-white shadow-none flex flex-col border border-gray-200 rounded-2xl transition-premium overflow-hidden"
             >
               <!-- Header -->
-              <div class="px-8 py-7 flex items-center justify-between border-b border-gray-100 bg-white sticky top-0 z-10">
+              <div class="px-5 py-5 flex items-center justify-between border-b border-gray-200 bg-white sticky top-0 z-10 rounded-t-2xl">
                 <div>
-                   <h2 class="text-xl font-bold text-gray-900 ">{{ title }}</h2>
+                   <h2 class="text-lg font-bold text-gray-900">{{ title }}</h2>
                    <div v-if="subtitle" class="text-xs font-medium text-gray-500 mt-1">{{ subtitle }}</div>
                 </div>
-                <button @click="close" class="h-10 w-10 flex items-center justify-center hover:bg-gray-50 text-gray-400 hover:text-red-500 rounded-xl transition-premium border border-transparent hover:border-red-100">
+                <button @click="close" class="h-10 w-10 flex items-center justify-center hover:bg-gray-50 text-gray-400 hover:text-red-500 rounded-xl transition-premium border border-gray-200 hover:border-red-100">
                   <XIcon class="h-5 w-5" />
                 </button>
               </div>
 
               <!-- Content container with custom scrollbar -->
               <div class="flex-1 overflow-y-auto custom-scrollbar bg-white">
-                 <div class="px-10 py-10">
+                 <div class="px-6 py-6">
                    <slot />
                  </div>
               </div>
 
               <!-- Footer -->
-              <div v-if="$slots.footer" class="px-10 py-8 border-t border-gray-100 bg-gray-50/50 backdrop-blur-sm">
+              <div v-if="$slots.footer" class="px-6 py-5 border-t border-gray-200 bg-gray-50/50 backdrop-blur-sm rounded-b-2xl">
                 <slot name="footer" />
               </div>
             </div>

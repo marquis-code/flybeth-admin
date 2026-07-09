@@ -2,11 +2,11 @@
   <div class="relative">
     <button 
       @click="isOpen = !isOpen"
-      class="h-10 w-10 flex items-center justify-center rounded-xl text-gray-400 hover:bg-gray-50 hover:text-blue-600 transition-all relative border border-gray-100 shadow-sm"
+      class="h-10 w-10 flex items-center justify-center rounded-xl text-gray-400 hover:bg-gray-50 hover:text-blue-600 transition-all relative border border-gray-200 shadow-none"
       :class="{ 'bg-blue-50 text-blue-600 border-blue-100': isOpen }"
     >
       <BellIcon class="h-5 w-5" />
-      <span v-if="unreadCount > 0" class="absolute -top-1 -right-1 h-5 w-5 bg-red-500 ring-4 ring-white rounded-full flex items-center justify-center text-sm  text-white shadow-lg animate-bounce">
+      <span v-if="unreadCount > 0" class="absolute -top-1 -right-1 h-5 w-5 bg-red-500 ring-4 ring-white rounded-full flex items-center justify-center text-sm  text-white shadow-none animate-bounce">
         {{ unreadCount }}
       </span>
     </button>
@@ -19,8 +19,8 @@
       leave-from-class="opacity-100 scale-100 translate-y-0"
       leave-to-class="opacity-0 scale-95 translate-y-2"
     >
-      <div v-if="isOpen" class="absolute right-0 mt-3 w-[420px] bg-white rounded-[2rem] shadow-2xl border border-gray-100 z-[100] overflow-hidden origin-top-right">
-        <div class="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+      <div v-if="isOpen" class="absolute right-0 mt-3 w-[420px] bg-white rounded-[2rem] shadow-none border border-gray-200 z-[100] overflow-hidden origin-top-right">
+        <div class="p-6 border-b border-gray-200 flex items-center justify-between bg-gray-50/50">
           <div>
             <h3 class="text-base  text-gray-900 leading-tight">Intelligence Stream</h3>
             <p class="text-sm font-bold text-gray-400 uppercase  mt-0.5">Real-time Operations Logic</p>
@@ -49,7 +49,7 @@
               <div v-if="!n.isRead" class="absolute left-0 top-0 bottom-0 w-1 bg-blue-500 rounded-r-full" />
               
               <div class="flex gap-4">
-                <div class="h-10 w-10 rounded-xl flex-shrink-0 flex items-center justify-center border shadow-sm" :class="getTypeClass(n.type)">
+                <div class="h-10 w-10 rounded-xl flex-shrink-0 flex items-center justify-center border shadow-none" :class="getTypeClass(n.type)">
                    <component :is="getTypeIcon(n.type)" class="h-5 w-5" />
                 </div>
                 <div class="flex-1 min-w-0">
@@ -64,8 +64,8 @@
           </div>
         </div>
 
-        <div class="p-4 bg-gray-50/50 border-t border-gray-100">
-           <NuxtLink to="/settings" class="block w-full text-center py-3 text-[11px]  text-gray-400 hover:text-gray-600 uppercase  transition-colors">
+        <div class="p-4 bg-gray-50/50 border-t border-gray-200">
+           <NuxtLink to="/dashboard/settings" class="block w-full text-center py-3 text-[11px]  text-gray-400 hover:text-gray-600 uppercase  transition-colors">
               Configure Notification Matrices
            </NuxtLink>
         </div>
@@ -135,7 +135,7 @@ const getTypeClass = (type: string) => {
     case 'booking_confirmed': return 'bg-green-50 text-green-600 border-green-100'
     case 'payment_success': return 'bg-blue-50 text-blue-600 border-blue-100'
     case 'payment_failed': return 'bg-red-50 text-red-600 border-red-100'
-    default: return 'bg-gray-50 text-gray-500 border-gray-100'
+    default: return 'bg-gray-50 text-gray-500 border-gray-200'
   }
 }
 

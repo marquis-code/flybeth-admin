@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center justify-center p-12 text-center bg-white/50 backdrop-blur-sm rounded-[2rem] border border-dashed border-gray-200">
-    <div class="h-20 w-20 rounded-3xl bg-gray-50 flex items-center justify-center mb-6 shadow-inner">
+    <div class="h-20 w-20 rounded-3xl bg-gray-50 flex items-center justify-center mb-6 shadow-none">
       <slot name="icon">
         <InboxIcon class="h-10 w-10 text-brand-gray/20" />
       </slot>

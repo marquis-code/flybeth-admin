@@ -10,8 +10,8 @@
     <!-- Trigger -->
     <div 
       @click="toggleDropdown"
-      class="flex items-center justify-between gap-4 p-5 bg-white rounded-[1.5rem] border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] cursor-pointer hover:border-brand-blue/30 hover:shadow-lg transition-all duration-500 group"
-      :class="{ 'ring-4 ring-brand-blue/5 border-brand-blue shadow-xl': isOpen }"
+      class="flex items-center justify-between gap-4 p-5 bg-white rounded-[1.5rem] border border-gray-200 shadow-none cursor-pointer hover:border-brand-blue/30 hover:shadow-none transition-all duration-500 group"
+      :class="{ 'ring-4 ring-brand-blue/5 border-brand-blue shadow-none': isOpen }"
     >
       <div class="flex items-center gap-4">
         <div v-if="icon" class="p-2.5 border border-brand-blue/10 rounded-xl bg-brand-blue/5 group-hover:bg-brand-blue group-hover:text-white transition-all duration-500">
@@ -37,7 +37,7 @@
     <Transition name="select-pop">
       <div 
         v-if="isOpen"
-        class="absolute z-[200] mt-3 w-full bg-white rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(13,29,173,0.15)] border border-gray-50 p-4 transform origin-top overflow-hidden"
+        class="absolute z-[200] mt-3 w-full bg-white rounded-[2rem] shadow-none border border-gray-200 p-4 transform origin-top overflow-hidden"
       >
         <div class="max-h-[300px] overflow-y-auto custom-scrollbar">
           <div 
@@ -55,7 +55,7 @@
             </span>
             <div 
               v-if="modelValue === option.value"
-              class="w-2.5 h-2.5 rounded-full bg-brand-green shadow-[0_0_10px_rgba(50,180,4,0.5)]"
+              class="w-2.5 h-2.5 rounded-full bg-brand-green shadow-none"
             ></div>
           </div>
         </div>
