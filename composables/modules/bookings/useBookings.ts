@@ -1,10 +1,12 @@
 import { ref } from "vue";
 import { adminApiFactory } from "@/api_factory/modules/admin";
+import { useCustomToast } from "@/composables/core/useCustomToast";
 
 export const useBookings = () => {
     const loading = ref(false);
     const bookings = ref<any[]>([]);
     const meta = ref<any>(null);
+    const { showToast } = useCustomToast();
 
     const fetchBookings = async (params?: any) => {
         loading.value = true;
@@ -36,10 +38,26 @@ export const useBookings = () => {
         try {
             const res = await adminApiFactory.createBooking(payload);
             if (res.status === 200 || res.status === 201) {
+                // Success feedback is raised by the caller (the page owns the
+                // modal + reload), so we only return the response here.
                 return res;
             }
+            showToast({
+                title: "Booking not created",
+                message: "The server returned an unexpected response. The record was not saved.",
+                toastType: "error",
+            });
         } catch (error: any) {
+            // Never swallow: surface the backend/network message to the admin.
             console.error(error);
+            showToast({
+                title: "Booking not created",
+                message:
+                    error?.response?.data?.message ||
+                    error?.message ||
+                    "Failed to create the booking record. Please try again.",
+                toastType: "error",
+            });
         } finally {
             loading.value = false;
         }

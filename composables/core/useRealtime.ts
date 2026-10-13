@@ -23,10 +23,20 @@ export const useRealtime = () => {
 
     const token = getCookie('accessToken') || (typeof window !== 'undefined' ? localStorage.getItem('accessToken') : '');
     
-    // Connect to the unified 'chat' namespace
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-    // Ensure we don't have trailing slashes
-    const socketUrl = `${baseUrl.replace(/\/+$/, '')}/chat`;
+    // Unified 'chat' namespace on the main backend (see
+    // backend/src/modules/chat/chat.gateway.ts → namespace: "chat").
+    // Uses the SAME env var as `api_factory/axios.config.ts` (VITE_BASE_URL /
+    // NUXT_PUBLIC_API_BASE) instead of the orphaned `VITE_API_URL`.
+    const configuredBase =
+      import.meta.env.VITE_BASE_URL ||
+      import.meta.env.NUXT_PUBLIC_API_BASE ||
+      'http://localhost:3000';
+    // Strip a trailing slash and any `/api/v1` REST global prefix — the socket
+    // namespace is mounted at the origin, not under the REST prefix.
+    const socketOrigin = String(configuredBase)
+      .replace(/\/+$/, '')
+      .replace(/\/api\/v1$/, '');
+    const socketUrl = `${socketOrigin}/chat`;
     
     console.log(`Connecting to WebSocket at: ${socketUrl}`);
 

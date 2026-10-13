@@ -12,8 +12,7 @@ export const packagesApi = {
     },
     update(id: string, data: any) {
         return GATEWAY_ENDPOINT.post(`/packages/${id}`, data);
-    },
-    delete(id: string) {
-        return GATEWAY_ENDPOINT.delete(`/packages/${id}`);
     }
+    // NOTE: a `delete(id)` helper was removed here — the main backend exposes
+    // no `DELETE /packages/:id` route and no admin page called it (dead code).
 };

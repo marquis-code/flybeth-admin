@@ -2,10 +2,19 @@ import axios, { type AxiosResponse, type InternalAxiosRequestConfig } from "axio
 import { useUser } from "@/composables/modules/auth/user";
 import { useCustomToast } from '@/composables/core/useCustomToast'
 
-const rawBaseUrl = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
-const BASE_URL = rawBaseUrl.endsWith("/api/v1") 
-  ? rawBaseUrl 
-  : `${rawBaseUrl.replace(/\/+$/, '')}/api/v1`;
+// Resolve the backend ORIGIN once. `apiBase` is fed by VITE_BASE_URL /
+// NUXT_PUBLIC_API_BASE at build time (see nuxt.config.ts). The main backend's
+// global prefix is `api/v1`, so any suffix already present is stripped and the
+// prefix is appended exactly once here — the same convention used by
+// `composables/useApi.ts`, which also appends `/api/v1` itself.
+const configuredBase =
+  import.meta.env.VITE_BASE_URL ||
+  import.meta.env.NUXT_PUBLIC_API_BASE ||
+  "http://localhost:3000";
+const rawBaseUrl = String(configuredBase)
+  .replace(/\/+$/, "")
+  .replace(/\/api\/v1$/, "");
+const BASE_URL = `${rawBaseUrl}/api/v1`;
 
 // Standard instance for public requests
 export const GATEWAY_ENDPOINT = axios.create({
@@ -184,7 +193,10 @@ const createResponseInterceptor = (instance: ReturnType<typeof axios.create>) =>
             }
 
             // ── All other errors ─────────────────────────────────────────
-            if (typeof window !== 'undefined') {
+            // Callers may opt out of the generic toast (opt-in via the
+            // `_skipErrorToast` request flag) so they can surface a specific,
+            // actionable message instead of a duplicated generic one.
+            if (typeof window !== 'undefined' && !(originalRequest as any)?._skipErrorToast) {
                 const { showToast } = useCustomToast();
                 const message = err.response.data?.message || "An unexpected error occurred";
                 console.error(`[AxiosInterceptor] ${status} Error:`, err.response.data);

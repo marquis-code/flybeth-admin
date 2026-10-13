@@ -26,9 +26,21 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: true },
 
+  runtimeConfig: {
+    public: {
+      // Backend ORIGIN only. The main backend's global prefix is `api/v1`, and
+      // both `api_factory/axios.config.ts` and `composables/useApi.ts` append it
+      // exactly once. Do NOT include `/api/v1` here (a trailing one is stripped
+      // defensively by both consumers).
+      apiBase: process.env.VITE_BASE_URL || process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3000',
+      // Read by `composables/useMapboxGeolocation.ts` (reverse geocoding).
+      mapboxAccessToken: process.env.NUXT_PUBLIC_MAPBOX_ACCESS_TOKEN,
+    },
+  },
 
     devServer: {
-    port: 3004,
+    // Must match the --port in package.json's dev script (3006).
+    port: 3006,
     host: 'localhost'
   },
 

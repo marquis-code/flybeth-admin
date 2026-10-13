@@ -22,7 +22,13 @@ const AUTH_FLOW_PATTERN = /\/auth\/(login|verify-otp|register|resend-otp|forgot-
 
 export const useApi = () => {
     const config = useRuntimeConfig()
-    const baseUrl = (config.public.apiBase || 'http://localhost:3000') + '/api/v1'
+    // `apiBase` is the backend ORIGIN (env: VITE_BASE_URL / NUXT_PUBLIC_API_BASE).
+    // The main backend's global prefix is `api/v1`; strip any suffix already
+    // present and append it exactly once so we never request
+    // `/api/v1/api/v1`. Same convention as `api_factory/axios.config.ts`.
+    const configuredBase = (config.public.apiBase as string) || 'http://localhost:3000'
+    const apiOrigin = configuredBase.replace(/\/+$/, '').replace(/\/api\/v1$/, '')
+    const baseUrl = `${apiOrigin}/api/v1`
     const { showToast } = useCustomToast()
 
     const getToken = (): string | null => {

@@ -293,6 +293,7 @@ import {
   TicketIcon
 } from '@heroicons/vue/24/outline'
 import { useConfirmation } from '@/composables/core/useConfirmation'
+import { useCustomToast } from '@/composables/core/useCustomToast'
 import * as XLSX from 'xlsx'
 
 definePageMeta({
@@ -301,6 +302,7 @@ definePageMeta({
 
 const { bookings, loading, fetchBookings, meta, createBooking, cancelBooking, payBooking } = useBookings()
 const { confirm } = useConfirmation()
+const { showToast } = useCustomToast()
 
 const showNewBooking = ref(false)
 const showDetailsDrawer = ref(false)
@@ -567,7 +569,14 @@ const handleCreateBooking = async () => {
   if (!confirmed) return
 
   const res = await createBooking(newBooking.value)
-  if (res) {
+  // Only close the modal on a real 2xx response — `createBooking` shows a
+  // specific error toast and returns undefined on any failure.
+  if (res?.status === 200 || res?.status === 201) {
+    showToast({
+      title: 'Booking recorded',
+      message: 'The manual record was added to the ledger.',
+      toastType: 'success',
+    })
     showNewBooking.value = false
     newBooking.value = { customer: '', email: '', type: 'Flight', date: '', amount: '' }
     await loadBookings()

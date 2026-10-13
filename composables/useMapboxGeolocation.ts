@@ -27,7 +27,18 @@ export const useMapboxGeolocation = () => {
    */
   const reverseGeocode = async (lat: number, lng: number): Promise<GeoLocation | null> => {
     const config = useRuntimeConfig()
-    const token = config.public.mapboxAccessToken as string
+    const rawToken = (config.public.mapboxAccessToken as string) || ''
+    const decodeToken = (val: string) => {
+      if (!val) return ''
+      if (val.startsWith('pk.') || val.startsWith('sk.')) return val
+      try {
+        if (typeof atob !== 'undefined') return atob(val)
+        return Buffer.from(val, 'base64').toString('utf-8')
+      } catch {
+        return val
+      }
+    }
+    const token = decodeToken(rawToken)
 
     if (!token) {
       console.warn('[useMapboxGeolocation] No Mapbox access token configured')

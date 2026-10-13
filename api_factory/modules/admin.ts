@@ -53,7 +53,10 @@ export const adminApiFactory = {
         return GATEWAY_ENDPOINT_WITH_AUTH.post("/admin/invite", data);
     },
     createBooking(data: any) {
-        return GATEWAY_ENDPOINT_WITH_AUTH.post("/admin/bookings", data);
+        // `_skipErrorToast` suppresses the generic interceptor toast so
+        // `useBookings.createBooking` can surface one specific, actionable
+        // message instead of two competing toasts.
+        return GATEWAY_ENDPOINT_WITH_AUTH.post("/admin/bookings", data, { _skipErrorToast: true } as any);
     },
     cancelBooking(id: string) {
         return GATEWAY_ENDPOINT_WITH_AUTH.patch(`/bookings/${id}/cancel`);
