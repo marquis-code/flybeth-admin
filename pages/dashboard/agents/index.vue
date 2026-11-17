@@ -34,15 +34,23 @@
             class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 outline-none transition-all font-medium text-sm"
           >
         </div>
-        <div class="flex gap-4">
-          <select v-model="statusFilter" class="px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none font-medium text-sm text-gray-600 focus:border-blue-600">
-            <option value="">All statuses</option>
-            <option v-for="status in agentStatuses" :key="status" :value="status">{{ status }}</option>
-          </select>
-          <select v-model="tierFilter" class="px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none font-medium text-sm text-gray-600 focus:border-blue-600">
-            <option value="">All tiers</option>
-            <option v-for="tier in agentTiers" :key="tier" :value="tier">{{ tier }}</option>
-          </select>
+        <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+          <div class="w-full sm:w-48">
+            <UiSelectInput 
+              v-model="statusFilter"
+              label="Status"
+              :options="statusOptions"
+              class="w-full"
+            />
+          </div>
+          <div class="w-full sm:w-48">
+            <UiSelectInput 
+              v-model="tierFilter"
+              label="Tier"
+              :options="tierOptions"
+              class="w-full"
+            />
+          </div>
         </div>
       </div>
     </UiBaseCard>
@@ -131,6 +139,16 @@ const currentLimit = ref(20)
 
 const agentStatuses = ['pending', 'under_review', 'approved', 'rejected', 'suspended']
 const agentTiers = ['basic', 'verified', 'premium']
+
+const statusOptions = computed(() => [
+  { label: 'All statuses', value: '' },
+  ...agentStatuses.map(s => ({ label: s.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase()), value: s }))
+])
+
+const tierOptions = computed(() => [
+  { label: 'All tiers', value: '' },
+  ...agentTiers.map(t => ({ label: t.replace(/\b\w/g, c => c.toUpperCase()), value: t }))
+])
 
 const columns = [
   { label: 'Agency', key: 'agency' },

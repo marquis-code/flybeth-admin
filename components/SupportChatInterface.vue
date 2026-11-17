@@ -303,10 +303,32 @@
              <div class="bg-white rounded-xl shadow-2xl w-[90%] max-w-sm p-6">
                 <h3 class="text-xl font-bold text-[#111b21] mb-2">Transfer Chat</h3>
                 <p class="text-sm text-[#54656f] mb-4">Select the department you want to route this chat to.</p>
-                <select v-model="transferDepartment" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00a884] focus:border-[#00a884] text-[#3b4a54] mb-6">
-                   <option disabled value="">Choose department...</option>
-                   <option v-for="dept in departments" :key="dept.slug" :value="dept.slug">{{ dept.name }}</option>
-                </select>
+                <div class="relative mb-6">
+                   <button 
+                     type="button" 
+                     @click="showDeptDropdown = !showDeptDropdown"
+                     class="w-full p-3 border border-gray-300 rounded-xl flex items-center justify-between text-left text-sm font-semibold text-[#3b4a54] bg-gray-50 hover:bg-white transition-colors"
+                   >
+                     <span>{{ departments.find((d: any) => d.slug === transferDepartment)?.name || 'Choose department...' }}</span>
+                     <ChevronDownIcon class="h-4 w-4 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': showDeptDropdown }" />
+                   </button>
+                   <div 
+                     v-if="showDeptDropdown"
+                     class="absolute left-0 top-full mt-1.5 w-full bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden py-1 max-h-48 overflow-y-auto"
+                   >
+                     <button 
+                       v-for="dept in departments" 
+                       :key="dept.slug" 
+                       type="button"
+                       @click="transferDepartment = dept.slug; showDeptDropdown = false"
+                       class="w-full px-4 py-2 text-left text-sm font-medium transition-colors flex items-center justify-between hover:bg-gray-50"
+                       :class="transferDepartment === dept.slug ? 'bg-emerald-50 text-[#00a884] font-bold' : 'text-gray-700'"
+                     >
+                       <span>{{ dept.name }}</span>
+                       <CheckIcon v-if="transferDepartment === dept.slug" class="h-4 w-4 text-[#00a884]" />
+                     </button>
+                   </div>
+                </div>
                 <div class="flex justify-end gap-3">
                    <button @click="showTransferModal = false" class="px-4 py-2 text-[#54656f] font-medium hover:bg-gray-100 rounded-lg">Cancel</button>
                    <button @click="transferChat" :disabled="!transferDepartment" class="px-4 py-2 bg-[#00a884] text-white font-medium hover:bg-[#008f6f] rounded-lg disabled:opacity-50">Transfer</button>
@@ -412,7 +434,7 @@ import {
   PlusIcon, MagnifyingGlassIcon, ChatBubbleBottomCenterTextIcon, ChatBubbleLeftRightIcon,
   EllipsisVerticalIcon, PaperClipIcon, FaceSmileIcon, PaperAirplaneIcon, CheckIcon,
   UserIcon, MicrophoneIcon as MicroPhoneIcon, ArrowLeftIcon, UsersIcon, PhotoIcon,
-  ChevronRightIcon, XMarkIcon, ArrowUturnLeftIcon, ArrowsPointingOutIcon, ArrowsPointingInIcon
+  ChevronRightIcon, ChevronDownIcon, XMarkIcon, ArrowUturnLeftIcon, ArrowsPointingOutIcon, ArrowsPointingInIcon
 } from '@heroicons/vue/24/outline'
 import { useAuth } from '@/composables/modules/auth/useAuth'
 import { useRealtime } from '@/composables/core/useRealtime'
@@ -434,6 +456,7 @@ const {
 } = useChat()
 
 const selectedRoom = ref<any>(null)
+const showDeptDropdown = ref(false)
 const searchQuery = ref('')
 const userSearchQuery = ref('')
 const newMessage = ref('')

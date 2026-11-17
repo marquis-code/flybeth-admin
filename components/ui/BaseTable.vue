@@ -147,15 +147,34 @@
       </div>
 
       <!-- Per-page selector -->
-      <div class="flex items-center gap-2">
+      <div class="relative flex items-center gap-2">
         <span class="text-sm text-gray-400 font-medium">Per page</span>
-        <select 
-          :value="meta.limit" 
-          @change="$emit('update:limit', Number(($event.target as HTMLSelectElement).value))"
-          class="h-9 px-2 bg-white border border-gray-200 rounded-xl text-base font-semibold text-gray-600 outline-none focus:border-blue-600 cursor-pointer"
-        >
-          <option v-for="opt in pageSizeOptions" :key="opt" :value="opt">{{ opt }}</option>
-        </select>
+        <div class="relative">
+          <button 
+            type="button" 
+            @click="showPerPageDropdown = !showPerPageDropdown"
+            class="h-9 px-3 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 flex items-center gap-2 hover:bg-gray-50 focus:border-blue-600 transition-colors shadow-none"
+          >
+            <span>{{ meta.limit }}</span>
+            <ChevronDownIcon class="h-3.5 w-3.5 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': showPerPageDropdown }" />
+          </button>
+          <div 
+            v-if="showPerPageDropdown" 
+            class="absolute right-0 bottom-full mb-1.5 w-24 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden py-1"
+          >
+            <button 
+              v-for="opt in pageSizeOptions" 
+              :key="opt" 
+              type="button"
+              @click="$emit('update:limit', opt); showPerPageDropdown = false"
+              class="w-full px-3 py-1.5 text-left text-sm font-semibold transition-colors flex items-center justify-between"
+              :class="meta.limit === opt ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'"
+            >
+              <span>{{ opt }}</span>
+              <CheckIcon v-if="meta.limit === opt" class="h-3.5 w-3.5 text-blue-600" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -170,7 +189,9 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted } from 'vue'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/outline'
+import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon, CheckIcon } from '@heroicons/vue/24/outline'
+
+const showPerPageDropdown = ref(false)
 
 interface Column {
   key: string

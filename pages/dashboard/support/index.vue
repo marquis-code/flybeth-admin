@@ -177,17 +177,33 @@
 
         <div class="p-8 lg:p-10 bg-gray-50/50 flex flex-col sm:flex-row items-center justify-between gap-6">
            <div class="flex items-center gap-3">
-             <span class="text-sm  uppercase  text-gray-400">Update Status</span>
-             <select 
-               class="bg-white border border-gray-200 rounded-xl px-4 py-2 text-xs font-bold text-gray-700 outline-none focus:border-primary transition-all"
-               :value="selectedInquiry.status"
-               @change="(e: any) => updateStatus(selectedInquiry._id, e.target.value)"
-             >
-               <option value="new">New</option>
-               <option value="read">Read</option>
-               <option value="replied">Replied</option>
-               <option value="archived">Archived</option>
-             </select>
+             <span class="text-sm uppercase text-gray-400 font-semibold">Update Status</span>
+             <div class="relative">
+               <button 
+                 type="button" 
+                 @click="showStatusMenu = !showStatusMenu"
+                 class="bg-white border border-gray-200 rounded-xl px-4 py-2 text-xs font-bold text-gray-700 flex items-center gap-2 hover:bg-gray-50 focus:border-primary transition-all shadow-none capitalize"
+               >
+                 <span>{{ selectedInquiry.status }}</span>
+                 <ChevronDown class="h-3.5 w-3.5 text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': showStatusMenu }" />
+               </button>
+               <div 
+                 v-if="showStatusMenu" 
+                 class="absolute left-0 bottom-full mb-1.5 w-32 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden py-1"
+               >
+                 <button 
+                   v-for="st in ['new', 'read', 'replied', 'archived']" 
+                   :key="st" 
+                   type="button"
+                   @click="updateStatus(selectedInquiry._id, st); selectedInquiry.status = st; showStatusMenu = false"
+                   class="w-full px-3 py-1.5 text-left text-xs font-bold transition-colors flex items-center justify-between capitalize"
+                   :class="selectedInquiry.status === st ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'"
+                 >
+                   <span>{{ st }}</span>
+                   <Check v-if="selectedInquiry.status === st" class="h-3 w-3 text-primary" />
+                 </button>
+               </div>
+             </div>
            </div>
            
            <div class="flex items-center gap-4 w-full sm:w-auto">
@@ -204,8 +220,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { RefreshCcw, Eye, CheckCircle2, MessageSquare, X, Mail } from 'lucide-vue-next'
+import { RefreshCcw, Eye, CheckCircle2, MessageSquare, X, Mail, ChevronDown, Check } from 'lucide-vue-next'
 import { useManageSupport } from '@/composables/modules/support/useManageSupport'
+
+const showStatusMenu = ref(false)
 
 const activeTab = ref('live_chats')
 const selectedInquiry = ref<any>(null)

@@ -133,13 +133,12 @@
               
               <div class="space-y-5">
                 <div>
-                  <label class="block text-sm font-bold text-gray-700 mb-1">Package Type <span class="text-red-500">*</span></label>
-                  <select v-model="form.packageType" class="block w-full rounded-xl border border-gray-200 focus:border-brand-blue focus:ring-brand-blue sm:text-sm p-3.5 bg-gray-50/50">
-                    <option value="hotel+flight">Hotel + Flight</option>
-                    <option value="hotel+flight+car">Hotel + Flight + Car</option>
-                    <option value="flight+car">Flight + Car</option>
-                    <option value="hotel+car">Hotel + Car</option>
-                  </select>
+                  <UiSelectInput
+                    v-model="form.packageType"
+                    label="Package Type *"
+                    :options="packageTypeOptions"
+                    class="w-full"
+                  />
                 </div>
 
                 <div class="grid grid-cols-2 gap-5">
@@ -259,6 +258,13 @@ import UiLocationPicker from '@/components/ui/LocationPicker.vue'
 definePageMeta({
   layout: 'admin'
 })
+
+const packageTypeOptions = [
+  { label: 'Hotel + Flight', value: 'hotel+flight' },
+  { label: 'Hotel + Flight + Car', value: 'hotel+flight+car' },
+  { label: 'Flight + Car', value: 'flight+car' },
+  { label: 'Hotel + Car', value: 'hotel+car' },
+]
 
 const { showToast } = useCustomToast()
 

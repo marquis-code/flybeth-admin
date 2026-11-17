@@ -252,19 +252,12 @@
 
         <!-- Category -->
         <div class="space-y-1.5">
-          <label class="text-base font-medium text-gray-700">Category <span class="text-gray-400">(optional)</span></label>
-          <select 
+          <UiSelectInput 
             v-model="uploadForm.category" 
-            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-300 outline-none appearance-none cursor-pointer"
-          >
-            <option value="">Select a category</option>
-            <option value="Branding">Branding</option>
-            <option value="Documents">Documents</option>
-            <option value="Compliance">Compliance</option>
-            <option value="Marketing">Marketing</option>
-            <option value="Templates">Templates</option>
-            <option value="Other">Other</option>
-          </select>
+            label="Category (optional)"
+            :options="storageCategoryOptions"
+            class="w-full"
+          />
         </div>
 
         <!-- Folder -->
@@ -368,6 +361,16 @@ const mappedFiles = computed(() => {
     }
   })
 })
+
+const storageCategoryOptions = [
+  { label: 'Select a category', value: '' },
+  { label: 'Branding', value: 'Branding' },
+  { label: 'Documents', value: 'Documents' },
+  { label: 'Compliance', value: 'Compliance' },
+  { label: 'Marketing', value: 'Marketing' },
+  { label: 'Templates', value: 'Templates' },
+  { label: 'Other', value: 'Other' },
+]
 
 const categories = computed(() => ['All', ...new Set(mappedFiles.value.map(f => f.category))])
 
