@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white flex font-sans text-gray-800 overflow-hidden">
+  <div class="h-screen w-full bg-white flex font-sans text-gray-800 overflow-hidden">
     <!-- Mobile Sidebar Overlay -->
     <div 
       v-if="isMobileMenuOpen" 
@@ -9,7 +9,7 @@
 
     <!-- Sidebar -->
     <aside 
-      class="fixed inset-y-0 left-0 w-[272px] bg-white flex-shrink-0 flex flex-col z-[70] transition-transform duration-300 transform lg:relative lg:translate-x-0 border-r border-gray-200"
+      class="fixed inset-y-0 left-0 w-[272px] h-screen bg-white flex-shrink-0 flex flex-col z-[70] transition-transform duration-300 border-r border-gray-200"
       :class="isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
     >
       <!-- Logo -->
@@ -77,9 +77,9 @@
     </aside>
 
     <!-- Main Content -->
-    <div class="flex-grow flex flex-col min-w-0 h-screen overflow-hidden">
+    <div class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden lg:ml-[272px] w-full">
       <!-- Top header -->
-      <header class="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6 md:px-8 sticky top-0 z-50">
+      <header class="bg-white border-b border-gray-200 h-16 flex-shrink-0 flex items-center justify-between px-6 md:px-8 sticky top-0 z-30">
         <div class="flex items-center space-x-3">
            <button @click="isMobileMenuOpen = true" class="lg:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-50 rounded-lg">
              <Bars3CenterLeftIcon class="h-5 w-5" />
