@@ -32,7 +32,7 @@ export default defineNuxtConfig({
       // both `api_factory/axios.config.ts` and `composables/useApi.ts` append it
       // exactly once. Do NOT include `/api/v1` here (a trailing one is stripped
       // defensively by both consumers).
-      apiBase: process.env.VITE_BASE_URL || process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3000',
+      apiBase: process.env.VITE_BASE_URL || process.env.NUXT_PUBLIC_API_BASE || 'https://api.flybeth.com',
       // Read by `composables/useMapboxGeolocation.ts` (reverse geocoding).
       mapboxAccessToken: process.env.NUXT_PUBLIC_MAPBOX_ACCESS_TOKEN,
     },

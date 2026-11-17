@@ -7,14 +7,19 @@ import { useCustomToast } from '@/composables/core/useCustomToast'
 // global prefix is `api/v1`, so any suffix already present is stripped and the
 // prefix is appended exactly once here — the same convention used by
 // `composables/useApi.ts`, which also appends `/api/v1` itself.
-const configuredBase =
-  import.meta.env.VITE_BASE_URL ||
-  import.meta.env.NUXT_PUBLIC_API_BASE ||
-  "http://localhost:3000";
-const rawBaseUrl = String(configuredBase)
-  .replace(/\/+$/, "")
-  .replace(/\/api\/v1$/, "");
-const BASE_URL = `${rawBaseUrl}/api/v1`;
+export const getBaseUrl = (): string => {
+  const configuredBase =
+    (typeof window !== "undefined" && (window as any).__NUXT__?.config?.public?.apiBase) ||
+    import.meta.env.VITE_BASE_URL ||
+    import.meta.env.NUXT_PUBLIC_API_BASE ||
+    "https://api.flybeth.com";
+  const rawBaseUrl = String(configuredBase)
+    .replace(/\/+$/, "")
+    .replace(/\/api\/v1$/, "");
+  return `${rawBaseUrl}/api/v1`;
+};
+
+const BASE_URL = getBaseUrl();
 
 // Standard instance for public requests
 export const GATEWAY_ENDPOINT = axios.create({
@@ -66,6 +71,7 @@ const AUTH_FLOW_PATTERN = /\/auth\/(login|verify-otp|register|resend-otp|forgot-
 
 // ─── Request Interceptor (shared) ─────────────────────────────────────────
 const requestInterceptor = (config: InternalAxiosRequestConfig) => {
+    config.baseURL = getBaseUrl();
     const token = getCookie('accessToken');
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -130,7 +136,7 @@ const createResponseInterceptor = (instance: ReturnType<typeof axios.create>) =>
 
                     // Call the refresh endpoint
                     const refreshResponse = await axios.post(
-                        `${BASE_URL}/auth/refresh`,
+                        `${getBaseUrl()}/auth/refresh`,
                         body,
                         {
                             withCredentials: true,

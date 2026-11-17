@@ -26,7 +26,7 @@ export const useApi = () => {
     // The main backend's global prefix is `api/v1`; strip any suffix already
     // present and append it exactly once so we never request
     // `/api/v1/api/v1`. Same convention as `api_factory/axios.config.ts`.
-    const configuredBase = (config.public.apiBase as string) || 'http://localhost:3000'
+    const configuredBase = (config.public.apiBase as string) || 'https://api.flybeth.com'
     const apiOrigin = configuredBase.replace(/\/+$/, '').replace(/\/api\/v1$/, '')
     const baseUrl = `${apiOrigin}/api/v1`
     const { showToast } = useCustomToast()

@@ -28,9 +28,10 @@ export const useRealtime = () => {
     // Uses the SAME env var as `api_factory/axios.config.ts` (VITE_BASE_URL /
     // NUXT_PUBLIC_API_BASE) instead of the orphaned `VITE_API_URL`.
     const configuredBase =
+      (typeof window !== 'undefined' && (window as any).__NUXT__?.config?.public?.apiBase) ||
       import.meta.env.VITE_BASE_URL ||
       import.meta.env.NUXT_PUBLIC_API_BASE ||
-      'http://localhost:3000';
+      'https://api.flybeth.com';
     // Strip a trailing slash and any `/api/v1` REST global prefix — the socket
     // namespace is mounted at the origin, not under the REST prefix.
     const socketOrigin = String(configuredBase)
