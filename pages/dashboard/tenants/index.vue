@@ -21,8 +21,8 @@
         label="Search partners"
       />
     </div>
-    <div class="flex items-center space-x-6 w-full lg:w-auto" style="overflow: visible; position: relative; z-index: 50;">
-      <div class="flex-grow min-w-[200px]" style="position: relative; z-index: 50;">
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto" style="overflow: visible; position: relative; z-index: 50;">
+      <div class="flex-grow w-full sm:w-auto sm:min-w-[200px]" style="position: relative; z-index: 50;">
         <UiSelectInput
           v-model="statusFilter"
           label="Verification status"
@@ -32,7 +32,7 @@
           attach="body"
         />
       </div>
-      <div class="flex-grow min-w-[180px]" style="position: relative; z-index: 50;">
+      <div class="flex-grow w-full sm:w-auto sm:min-w-[180px]" style="position: relative; z-index: 50;">
         <UiSelectInput
           v-model="sortBy"
           label="Recently active"

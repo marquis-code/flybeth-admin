@@ -1,16 +1,16 @@
 <template>
   <div class="container mx-auto space-y-12 pb-24 text-brand-gray">
-    <div class="flex justify-between items-end bg-white border border-gray-200 p-8 rounded-[2rem] shadow-none transition-premium">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-6 bg-white border border-gray-200 p-5 sm:p-8 rounded-2xl sm:rounded-[2rem] shadow-none transition-premium">
       <div class="space-y-2">
-        <h1 class="text-2xl font-bold text-gray-900 ">Platform Settings</h1>
-        <p class="text-gray-500 font-medium text-sm">Manage commissions, regional access, and infrastructure connectors.</p>
+        <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Platform Settings</h1>
+        <p class="text-gray-500 font-medium text-xs sm:text-sm">Manage commissions, regional access, and infrastructure connectors.</p>
       </div>
-      <div class="flex gap-4">
-        <UiBaseButton variant="outline" @click="fetchConfig" :loading="loading">
+      <div class="flex flex-wrap gap-3 w-full sm:w-auto">
+        <UiBaseButton variant="outline" @click="fetchConfig" :loading="loading" class="flex-1 sm:flex-none">
           <RefreshCwIcon class="h-4 w-4 mr-2" />
           Refresh
         </UiBaseButton>
-        <UiBaseButton variant="primary" class="bg-gray-900 text-white min-w-[160px] shadow-none" @click="saveConfig" :loading="saving">
+        <UiBaseButton variant="primary" class="bg-gray-900 text-white flex-1 sm:flex-none sm:min-w-[160px] shadow-none" @click="saveConfig" :loading="saving">
           <SaveIcon class="h-4 w-4 mr-2" />
           Save Changes
         </UiBaseButton>

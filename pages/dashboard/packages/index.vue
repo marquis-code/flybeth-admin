@@ -21,8 +21,8 @@
         <p class="mt-4 text-sm font-bold text-gray-900/40">Loading packages...</p>
       </div>
       
-      <div v-else>
-        <table class="w-full text-left text-sm text-gray-500">
+      <div v-else class="overflow-x-auto custom-scrollbar w-full">
+        <table class="min-w-[650px] w-full text-left text-sm text-gray-500">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
               <th scope="col" class="px-6 py-3">Package Name</th>

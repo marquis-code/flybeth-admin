@@ -5,12 +5,12 @@
          <h1 class="text-2xl font-bold text-gray-900 ">Team</h1>
          <p class="text-gray-600 font-medium text-sm">Manage your administrators and support staff</p>
        </div>
-       <div class="flex items-center gap-4">
-         <UiBaseButton variant="secondary" size="lg" @click="showCreateDrawer = true">
+       <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+         <UiBaseButton variant="secondary" size="lg" @click="showCreateDrawer = true" class="w-full sm:w-auto">
            <PlusCircleIcon class="h-5 w-5 mr-3" />
            Create admin user
          </UiBaseButton>
-         <UiBaseButton variant="primary" size="lg" @click="showInviteDrawer = true">
+         <UiBaseButton variant="primary" size="lg" @click="showInviteDrawer = true" class="w-full sm:w-auto">
            <UserPlusIcon class="h-5 w-5 mr-3" />
            Invite team member
          </UiBaseButton>

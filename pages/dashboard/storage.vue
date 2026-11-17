@@ -55,10 +55,10 @@
     </div>
 
     <!-- Files Table -->
-    <UiBaseCard class="!rounded-none">
+    <UiBaseCard class="!rounded-xl overflow-hidden w-full max-w-full">
       <div class="p-1 min-w-full inline-block align-middle">
-        <div class="overflow-hidden">
-          <table class="min-w-full divide-y divide-gray-100">
+        <div class="overflow-x-auto custom-scrollbar w-full">
+          <table class="min-w-[750px] w-full divide-y divide-gray-100">
             <thead>
               <tr class="bg-gray-50/50">
                 <th scope="col" class="px-6 py-3.5 text-left text-base font-medium text-gray-400">Preview</th>

@@ -10,17 +10,17 @@
 
     <template v-else>
       <!-- Dashboard Header & Actions -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 ">Dashboard Overview</h1>
-          <p class="text-gray-500 font-medium">A quick glance at your business performance</p>
+          <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Dashboard Overview</h1>
+          <p class="text-sm sm:text-base text-gray-500 font-medium">A quick glance at your business performance</p>
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 flex-wrap">
           <UiBaseButton variant="outline" @click="showDownloadModal = true" class="shadow-none">
             <CloudArrowDownIcon class="h-4 w-4 mr-2" />
             Download
           </UiBaseButton>
-          <UiBaseButton variant="primary" @click="handleSettlement" :loading="settling" class="bg-gray-900 text-white shadow-none min-w-[180px]">
+          <UiBaseButton variant="primary" @click="handleSettlement" :loading="settling" class="bg-gray-900 text-white shadow-none w-full sm:w-auto sm:min-w-[180px]">
             <SparklesIcon class="h-4 w-4 mr-2" />
             Withdraw Funds
           </UiBaseButton>

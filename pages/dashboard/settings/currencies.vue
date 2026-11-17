@@ -28,8 +28,8 @@
     </div>
 
     <!-- Currency Table -->
-    <div class="bg-white rounded-none border border-gray-200 overflow-hidden shadow-none">
-      <table class="w-full text-left">
+    <div class="bg-white rounded-xl border border-gray-200 overflow-x-auto custom-scrollbar shadow-none w-full">
+      <table class="min-w-[650px] w-full text-left">
         <thead>
           <tr class="bg-gray-50 border-b border-gray-200">
             <th class="px-8 py-6 text-xs  text-gray-400 uppercase ">Currency</th>

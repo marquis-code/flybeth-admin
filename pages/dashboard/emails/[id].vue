@@ -19,24 +19,24 @@
       </div>
     </div>
     <!-- Header Section -->
-    <div class="flex justify-between items-end">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-6">
       <div>
-        <NuxtLink to="/dashboard/emails" class="text-sm  text-brand-green mb-4 flex items-center group cursor-pointer">
+        <NuxtLink to="/dashboard/emails" class="text-sm text-brand-green mb-4 flex items-center group cursor-pointer">
           <ChevronLeftIcon class="h-3 w-3 mr-2 group-hover:-translate-x-1 transition-premium" />
           Back to templates
         </NuxtLink>
-        <h1 class="text-2xl text-gray-900 er">
+        <h1 class="text-2xl text-gray-900 font-bold">
           {{ isNew ? 'Create New' : 'Edit' }} Template
         </h1>
       </div>
-      <div class="flex gap-4">
-        <UiBaseButton variant="secondary" @click="showPreviewModal = true" class="h-14 font-bold border-gray-200">
-           <EyeIcon class="h-5 w-5 mr-2" />
+      <div class="flex flex-wrap gap-2 sm:gap-4 w-full sm:w-auto">
+        <UiBaseButton variant="secondary" @click="showPreviewModal = true" class="h-11 sm:h-14 font-bold border-gray-200 flex-1 sm:flex-none">
+           <EyeIcon class="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
            Preview
         </UiBaseButton>
-        <UiBaseButton v-if="!isNew" variant="danger" @click="handleDelete" :loading="deleting" class="!bg-red-500 !text-white hover:!bg-red-600 !border-red-500 h-14 font-bold">Delete</UiBaseButton>
-        <UiBaseButton variant="secondary" @click="navigateTo('/dashboard/emails')" class="h-14 font-bold">Cancel</UiBaseButton>
-        <UiBaseButton variant="primary" @click="handleSave" :loading="saving" class="h-14 font-bold min-w-[180px] bg-gray-900 text-white shadow-none">
+        <UiBaseButton v-if="!isNew" variant="danger" @click="handleDelete" :loading="deleting" class="!bg-red-500 !text-white hover:!bg-red-600 !border-red-500 h-11 sm:h-14 font-bold flex-1 sm:flex-none">Delete</UiBaseButton>
+        <UiBaseButton variant="secondary" @click="navigateTo('/dashboard/emails')" class="h-11 sm:h-14 font-bold flex-1 sm:flex-none">Cancel</UiBaseButton>
+        <UiBaseButton variant="primary" @click="handleSave" :loading="saving" class="h-11 sm:h-14 font-bold w-full sm:w-auto sm:min-w-[180px] bg-gray-900 text-white shadow-none">
           <CloudArrowUpIcon class="h-4 w-4 mr-2" />
           {{ isNew ? 'Create Protocol' : 'Update Template' }}
         </UiBaseButton>

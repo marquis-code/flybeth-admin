@@ -11,9 +11,9 @@
         <ChevronLeftIcon class="h-4 w-4" />
       </button>
 
-      <div ref="scrollContainer" @scroll="checkScroll" class="overflow-x-auto custom-scrollbar -mx-4 md:mx-0">
-        <div class="inline-block min-w-full align-middle p-4 md:p-0">
-          <div class="overflow-hidden border border-gray-200 rounded-none bg-white shadow-none">
+      <div ref="scrollContainer" @scroll="checkScroll" class="overflow-x-auto custom-scrollbar w-full">
+        <div class="inline-block min-w-full align-middle">
+          <div class="overflow-hidden border border-gray-200 rounded-xl bg-white shadow-none">
             <table class="min-w-full divide-y divide-gray-200 border-collapse">
             <thead class="bg-gray-50/50">
               <tr>
@@ -91,7 +91,7 @@
       </div>
 
       <!-- Pagination controls -->
-      <div class="flex items-center gap-1.5">
+      <div class="flex items-center gap-1.5 flex-wrap justify-center">
         <!-- Prev -->
         <button
           @click="goToPage(meta.page - 1)"

@@ -34,8 +34,8 @@
         </button>
       </div>
       
-      <div class="overflow-x-auto">
-        <table class="w-full text-left">
+      <div class="overflow-x-auto custom-scrollbar w-full">
+        <table class="w-full min-w-[650px] text-left">
           <thead>
             <tr class="bg-gray-50/50">
               <th class="px-6 py-4 text-sm  uppercase  text-gray-400">Email Address</th>
@@ -81,8 +81,8 @@
         </button>
       </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full text-left">
+      <div class="overflow-x-auto custom-scrollbar w-full">
+        <table class="w-full min-w-[650px] text-left">
           <thead>
             <tr class="bg-gray-50/50">
               <th class="px-6 py-4 text-sm  uppercase  text-gray-400">User</th>

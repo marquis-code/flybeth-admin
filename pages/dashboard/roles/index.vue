@@ -1,17 +1,17 @@
 <template>
   <div class="space-y-10 pb-24 text-brand-gray/80 font-medium container mx-auto">
     <!-- Header Architecture -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 bg-white border border-gray-200 p-8 rounded-[2rem] shadow-none transition-premium">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-6 bg-white border border-gray-200 p-5 sm:p-8 rounded-2xl sm:rounded-[2rem] shadow-none transition-premium">
       <div class="space-y-2">
-        <h1 class="text-2xl font-bold text-gray-900 ">Roles & Permissions</h1>
-        <p class="text-gray-500 font-medium text-sm">Create and manage what different team members can see and do on the platform.</p>
+        <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Roles & Permissions</h1>
+        <p class="text-gray-500 font-medium text-xs sm:text-sm">Create and manage what different team members can see and do on the platform.</p>
       </div>
-      <div class="flex gap-4">
-        <UiBaseButton variant="outline" @click="fetchData" :loading="loading">
+      <div class="flex flex-wrap gap-3 w-full sm:w-auto">
+        <UiBaseButton variant="outline" @click="fetchData" :loading="loading" class="flex-1 sm:flex-none">
            <RefreshCwIcon class="h-4 w-4 mr-2" />
            Sync list
         </UiBaseButton>
-        <UiBaseButton variant="primary" size="lg" @click="openCreateModal" class="bg-gray-900 text-white min-w-[200px] shadow-none">
+        <UiBaseButton variant="primary" size="lg" @click="openCreateModal" class="bg-gray-900 text-white flex-1 sm:flex-none sm:min-w-[200px] shadow-none">
           <PlusIcon class="h-5 w-5 mr-3" />
           Create New Role
         </UiBaseButton>
@@ -25,8 +25,8 @@
     </div>
     
     <div v-else class="bg-white border border-gray-200 rounded-[2rem] overflow-hidden shadow-sm">
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
+      <div class="overflow-x-auto custom-scrollbar w-full">
+        <table class="w-full min-w-[750px] text-left border-collapse">
           <thead>
             <tr class="bg-gray-50/80 border-b border-gray-100">
               <th class="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-gray-400">Role Name</th>
@@ -186,8 +186,8 @@
                 <button @click="toggleSelectAll" class="text-sm font-bold text-brand-blue uppercase  hover:underline transition-premium">{{ allSelected ? 'Deselect all' : 'Select all' }}</button>
              </div>
              
-             <div class="border border-gray-200 rounded-none overflow-hidden bg-white max-h-[600px] overflow-y-auto custom-scrollbar">
-                <table class="w-full text-left border-collapse">
+             <div class="border border-gray-200 rounded-xl overflow-x-auto custom-scrollbar bg-white max-h-[600px] overflow-y-auto">
+                <table class="w-full min-w-[380px] text-left border-collapse">
                    <thead>
                       <tr class="bg-gray-50 border-b border-gray-200 uppercase  text-[9px] font-bold text-gray-400">
                          <th class="px-6 py-4">Capability Name</th>

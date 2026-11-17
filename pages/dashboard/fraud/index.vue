@@ -50,8 +50,8 @@
         </div>
       </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full text-left">
+      <div class="overflow-x-auto custom-scrollbar w-full">
+        <table class="w-full min-w-[700px] text-left">
           <thead class="bg-gray-50/80">
             <tr>
               <th class="px-6 py-4 text-sm  text-gray-400  ">Booking / PNR</th>

@@ -6,7 +6,7 @@
          <h1 class="text-2xl font-bold text-gray-900">Booking Records</h1>
          <p class="text-gray-600 font-medium text-sm">Monitor and oversee all travel transactions across the global network</p>
        </div>
-       <div class="flex items-center gap-3">
+       <div class="flex items-center gap-3 flex-wrap">
          <div class="relative group">
            <UiBaseButton variant="outline" size="md">
              <ArrowDownTrayIcon class="h-4 w-4 mr-2" />
@@ -48,8 +48,8 @@
           />
         </div>
         
-        <div class="flex flex-wrap items-center gap-6 w-full lg:w-auto">
-          <div v-for="filter in filters" :key="filter.label" class="flex-grow min-w-[140px]">
+        <div class="flex flex-wrap items-center gap-4 w-full lg:w-auto">
+          <div v-for="filter in filters" :key="filter.label" class="flex-grow min-w-0 sm:min-w-[140px]">
             <UiSelectInput
               v-model="selectedFilters[filter.key]"
               :label="filter.label"
@@ -57,7 +57,7 @@
               class="w-full"
             />
           </div>
-          <div class="flex-grow min-w-[200px]">
+          <div class="flex-grow min-w-0 sm:min-w-[200px]">
             <UiCustomDatePicker label="Select Date Range" v-model="selectedDate" mode="range" popoverPosition="right-0" />
           </div>
         </div>

@@ -1,24 +1,24 @@
 <template>
   <div class="space-y-10 max-w-7xl mx-auto pb-20">
     <!-- Action Header -->
-    <div class="flex justify-between items-center bg-white border border-gray-200 p-8 rounded-3xl transition-premium shadow-none">
-      <div class="flex items-center space-x-6">
-        <button @click="navigateTo('/dashboard/campaigns')" class="h-14 w-14 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-400 hover:bg-brand-blue hover:text-white transition-premium group shadow-none">
-          <ArrowLeftIcon class="h-6 w-6 group-hover:-translate-x-1 transition-premium" />
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 bg-white border border-gray-200 p-5 sm:p-8 rounded-2xl sm:rounded-3xl transition-premium shadow-none">
+      <div class="flex items-center space-x-4 sm:space-x-6">
+        <button @click="navigateTo('/dashboard/campaigns')" class="h-11 w-11 sm:h-14 sm:w-14 bg-gray-50 rounded-xl sm:rounded-2xl flex items-center justify-center text-gray-400 hover:bg-brand-blue hover:text-white transition-premium group shadow-none flex-shrink-0">
+          <ArrowLeftIcon class="h-5 w-5 sm:h-6 sm:w-6 group-hover:-translate-x-1 transition-premium" />
         </button>
         <div>
-          <h1 class="text-3xl font-bold text-gray-900  leading-none capitalize">{{ isEdit ? 'Edit' : 'Create' }} campaign</h1>
-          <p class="text-sm text-gray-500 mt-2 font-medium">Set up an email campaign to reach your users.</p>
+          <h1 class="text-xl sm:text-3xl font-bold text-gray-900 leading-none capitalize">{{ isEdit ? 'Edit' : 'Create' }} campaign</h1>
+          <p class="text-xs sm:text-sm text-gray-500 mt-2 font-medium">Set up an email campaign to reach your users.</p>
         </div>
       </div>
-      <div class="flex gap-4">
-        <UiBaseButton variant="secondary" @click="showPreviewModal = true" class="h-14 font-bold">
-           <EyeIcon class="h-5 w-5 mr-2" />
+      <div class="flex flex-wrap gap-3 w-full lg:w-auto">
+        <UiBaseButton variant="secondary" @click="showPreviewModal = true" class="h-11 sm:h-14 font-bold flex-1 sm:flex-none">
+           <EyeIcon class="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
            Preview
         </UiBaseButton>
-        <UiBaseButton variant="secondary" @click="navigateTo('/dashboard/campaigns')" class="h-14 font-bold">Cancel</UiBaseButton>
-        <UiBaseButton variant="primary" @click="saveCampaign" :loading="saving" class="bg-gray-900 text-white min-w-[180px] h-14 text-base font-bold shadow-none">
-           <CloudArrowUpIcon class="h-5 w-5 mr-3" />
+        <UiBaseButton variant="secondary" @click="navigateTo('/dashboard/campaigns')" class="h-11 sm:h-14 font-bold flex-1 sm:flex-none">Cancel</UiBaseButton>
+        <UiBaseButton variant="primary" @click="saveCampaign" :loading="saving" class="bg-gray-900 text-white w-full sm:w-auto sm:min-w-[180px] h-11 sm:h-14 text-sm sm:text-base font-bold shadow-none">
+           <CloudArrowUpIcon class="h-4 w-4 sm:h-5 sm:w-5 mr-3" />
            {{ buttonLabel }}
         </UiBaseButton>
       </div>
@@ -28,7 +28,7 @@
       <!-- Main Configuration Column -->
       <div class="lg:col-span-2 space-y-10">
         <!-- Section 1: Basic Information -->
-        <div class="bg-white border border-gray-200 rounded-[2.5rem] p-12 space-y-12 shadow-none">
+        <div class="bg-white border border-gray-200 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-12 space-y-8 sm:space-y-12 shadow-none">
            <div class="flex items-center space-x-3 mb-2">
               <div class="h-2.5 w-2.5 rounded-full bg-brand-blue"></div>
               <h3 class="text-lg font-bold text-gray-900">1. Basic information</h3>
@@ -91,7 +91,7 @@
         </div>
 
         <!-- Section 2: Email Content -->
-        <div class="bg-white border border-gray-200 rounded-[2.5rem] p-12 space-y-12 shadow-none">
+        <div class="bg-white border border-gray-200 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-12 space-y-8 sm:space-y-12 shadow-none">
            <div class="flex items-center space-x-3 mb-2">
               <div class="h-2.5 w-2.5 rounded-full bg-brand-green"></div>
               <h3 class="text-lg font-bold text-gray-900">2. Email content</h3>
@@ -106,7 +106,7 @@
       <!-- Control Sidebar -->
       <div class="space-y-10">
         <!-- Target Selection Card -->
-        <div class="bg-white border border-gray-200 rounded-[2.5rem] p-10 space-y-10 sticky top-24 shadow-none">
+        <div class="bg-white border border-gray-200 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-10 space-y-8 sm:space-y-10 sticky top-24 shadow-none">
            <div>
               <p class="text-xs font-bold text-gray-400 uppercase  mb-6">Who should get this?</p>
               

@@ -16,23 +16,23 @@
           <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CiAgPHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Ik0wIDEwaDQwTTAgMjBoNDBNMCAzMGg0ME0xMCAwVjQwTTIwIDBWNDBNMzAgMFY0MCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+')] opacity-30"></div>
         </div>
         
-        <div class="px-8 pb-8">
+        <div class="px-4 sm:px-8 pb-6 sm:pb-8">
           <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 -mt-12 relative z-10">
             <!-- Avatar & Identity -->
-            <div class="flex items-end gap-6">
-              <div class="h-28 w-28 rounded-none border-4 border-white bg-gray-50 flex items-center justify-center text-4xl font-black text-blue-600 shadow-md">
+            <div class="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-6">
+              <div class="h-24 w-24 sm:h-28 sm:w-28 rounded-xl border-4 border-white bg-gray-50 flex items-center justify-center text-3xl sm:text-4xl font-black text-blue-600 shadow-md flex-shrink-0">
                 {{ agent.firstName?.charAt(0) || '' }}{{ agent.lastName?.charAt(0) || '' }}
               </div>
-              <div class="space-y-1 mb-2">
+              <div class="space-y-1 mb-2 min-w-0">
                 <button @click="navigateTo('/dashboard/agents')" class="flex items-center text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors mb-2 group uppercase tracking-wider">
                   <ArrowLeftIcon class="w-4 h-4 mr-1.5 group-hover:-translate-x-1 transition-transform" /> Directory
                 </button>
-                <div class="flex items-center gap-3">
-                   <h1 class="text-3xl font-bold text-gray-900 tracking-tight">{{ agent.firstName }} {{ agent.lastName }}</h1>
-                   <span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider rounded-none border border-blue-100">{{ agent.agentTier }}</span>
-                   <span class="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-none border" :class="agent.isVerified ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-gray-50 text-gray-500 border-gray-200'">{{ agent.isVerified ? 'Verified' : 'Unverified' }}</span>
+                <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+                   <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">{{ agent.firstName }} {{ agent.lastName }}</h1>
+                   <span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider rounded border border-blue-100">{{ agent.agentTier }}</span>
+                   <span class="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded border" :class="agent.isVerified ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-gray-50 text-gray-500 border-gray-200'">{{ agent.isVerified ? 'Verified' : 'Unverified' }}</span>
                 </div>
-                <p class="text-sm text-gray-500 font-medium flex items-center gap-2">
+                <p class="text-xs sm:text-sm text-gray-500 font-medium flex items-center gap-2 flex-wrap">
                   <EnvelopeIcon class="w-4 h-4" /> {{ agent.email }} 
                   <span class="text-gray-300">•</span>
                   Ref: {{ agent._id }}
@@ -41,7 +41,7 @@
             </div>
 
             <!-- Global Actions -->
-            <div class="flex items-center gap-3 mb-2">
+            <div class="flex flex-wrap items-center gap-3 mb-2">
               <div class="flex flex-col items-end mr-6 hidden lg:flex">
                  <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Platform Status</span>
                  <span class="text-sm font-bold uppercase tracking-wide" :class="statusText">{{ agent.agentStatus }}</span>

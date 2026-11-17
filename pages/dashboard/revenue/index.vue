@@ -5,12 +5,12 @@
          <h1 class="text-3xl font-bold text-gray-900 ">Financial performance</h1>
          <p class="text-gray-600 font-medium text-sm">Settle transactions and monitor global revenue streams</p>
        </div>
-        <div class="flex gap-3">
-          <UiBaseButton variant="outline" size="md" @click="handleDownloadLedger" :loading="downloading">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+          <UiBaseButton variant="outline" size="md" @click="handleDownloadLedger" :loading="downloading" class="w-full sm:w-auto">
             <ArrowDownTrayIcon class="h-4 w-4 mr-2" />
             Download ledger
           </UiBaseButton>
-          <UiBaseButton variant="primary" size="lg" @click="handleInitiateSettlement" :loading="settling">
+          <UiBaseButton variant="primary" size="lg" @click="handleInitiateSettlement" :loading="settling" class="w-full sm:w-auto">
             <CheckBadgeIcon class="h-4 w-4 mr-2" />
             Initiate global settlement
           </UiBaseButton>
@@ -87,8 +87,8 @@
            <UiBaseButton variant="ghost" size="sm" class="!px-4 !py-2 border border-gray-200 font-bold text-sm   hover:bg-gray-50">Filter</UiBaseButton>
         </div>
       </div>
-      <div class="overflow-x-auto min-h-[300px]">
-        <table v-if="!loading && transactions.length > 0" class="w-full text-left border-collapse">
+      <div class="overflow-x-auto custom-scrollbar min-h-[300px] w-full">
+        <table v-if="!loading && transactions.length > 0" class="min-w-[800px] w-full text-left border-collapse">
           <thead>
             <tr class="bg-gray-50/50">
               <th class="px-8 py-5 text-sm font-bold text-brand-gray/50  ">Transaction ID</th>

@@ -2,27 +2,27 @@
   <div class="space-y-8 pb-12">
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
-      <div class="flex items-center space-x-6">
-        <button @click="navigateTo('/dashboard/tenants')" class="h-10 w-10 flex items-center justify-center rounded-xl bg-gray-50 text-gray-500 hover:bg-white hover:shadow-none transition-all border border-gray-200 hover:border-gray-200">
+      <div class="flex items-center space-x-4 sm:space-x-6 min-w-0">
+        <button @click="navigateTo('/dashboard/tenants')" class="h-10 w-10 flex items-center justify-center rounded-xl bg-gray-50 text-gray-500 hover:bg-white hover:shadow-none transition-all border border-gray-200 hover:border-gray-200 flex-shrink-0">
           <ArrowLeftIcon class="h-5 w-5" />
         </button>
-        <div>
-           <div class="flex items-center space-x-3 mb-1">
-             <h1 class="text-3xl font-bold text-gray-900 ">{{ tenant?.name }}</h1>
-             <span class="px-4 py-1 rounded-full text-sm font-bold  uppercase" :class="statusClass(tenant?.status)">
+        <div class="min-w-0">
+           <div class="flex items-center space-x-3 mb-1 flex-wrap gap-y-2">
+             <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 truncate">{{ tenant?.name }}</h1>
+             <span class="px-4 py-1 rounded-full text-xs sm:text-sm font-bold uppercase" :class="statusClass(tenant?.status)">
                {{ tenant?.status?.replace('_', ' ') || 'Unknown' }}
              </span>
            </div>
-           <p class="text-gray-500 text-sm font-bold ">Agency ID: {{ tenant?._id }}</p>
+           <p class="text-gray-500 text-xs sm:text-sm font-bold truncate">Agency ID: {{ tenant?._id }}</p>
         </div>
       </div>
 
-      <div class="flex items-center space-x-4">
-        <UiBaseButton v-if="tenant?.status !== 'approved' && tenant?.status !== 'active'" variant="primary" size="lg" @click="handleApprove" :loading="updating">
+      <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+        <UiBaseButton v-if="tenant?.status !== 'approved' && tenant?.status !== 'active'" variant="primary" size="lg" @click="handleApprove" :loading="updating" class="flex-1 sm:flex-none">
           <CheckBadgeIcon class="h-5 w-5 mr-2" />
           Approve Agency
         </UiBaseButton>
-        <UiBaseButton v-if="tenant?.status !== 'rejected'" variant="ghost" size="lg" class="text-red-500 hover:bg-red-50 border-red-100" @click="handleReject" :loading="updating">
+        <UiBaseButton v-if="tenant?.status !== 'rejected'" variant="ghost" size="lg" class="text-red-500 hover:bg-red-50 border-red-100 flex-1 sm:flex-none" @click="handleReject" :loading="updating">
           <NoSymbolIcon class="h-5 w-5 mr-2" />
           Reject Application
         </UiBaseButton>
@@ -30,8 +30,8 @@
     </div>
 
     <!-- Navigation Tabs -->
-    <div class="border-b border-gray-200">
-      <nav class="-mb-px flex space-x-8">
+    <div class="border-b border-gray-200 overflow-x-auto custom-scrollbar">
+      <nav class="-mb-px flex space-x-6 sm:space-x-8 min-w-max">
         <button
           v-for="tab in tabs"
           :key="tab.id"

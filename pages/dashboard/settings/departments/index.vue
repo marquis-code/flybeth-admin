@@ -1,12 +1,12 @@
 <template>
-  <main class="flex-1 overflow-y-auto bg-gray-50 p-8">
+  <div class="p-4 sm:p-6 md:p-8">
     <div class="max-w-6xl mx-auto">
-      <div class="flex justify-between items-center mb-8">
+      <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Departments</h1>
-          <p class="text-sm text-gray-500 mt-1">Manage support departments and their assigned team members.</p>
+          <h1 class="text-xl sm:text-2xl font-bold text-gray-900">Departments</h1>
+          <p class="text-xs sm:text-sm text-gray-500 mt-1">Manage support departments and their assigned team members.</p>
         </div>
-        <button @click="openCreateModal" class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors flex items-center space-x-2">
+        <button @click="openCreateModal" class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center space-x-2 w-full sm:w-auto">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
           </svg>
@@ -16,8 +16,8 @@
 
       <!-- Departments Table -->
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
+        <div class="overflow-x-auto custom-scrollbar w-full">
+          <table class="min-w-[650px] w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
                 <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Department</th>
@@ -119,7 +119,7 @@
       @close="selectedDepartment = null"
       @updated="fetchDepartments"
     />
-  </main>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -1,18 +1,18 @@
 <template>
   <div class="space-y-10 container mx-auto pb-20">
     <!-- Header Area -->
-    <div class="flex justify-between items-end">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-6">
       <div>
-        <p class="text-sm  text-brand-green mb-4 font-bold">Marketing center</p>
-        <h1 class="text-2xl text-gray-900 er font-bold">Email campaigns</h1>
+        <p class="text-sm text-brand-green mb-2 font-bold">Marketing center</p>
+        <h1 class="text-2xl text-gray-900 font-bold">Email campaigns</h1>
       </div>
-      <div class="flex gap-4">
-        <UiBaseButton variant="primary" @click="triggerReminders" :loading="triggering" class="shadow-none min-w-[160px] h-12">
+      <div class="flex flex-wrap gap-3 w-full sm:w-auto">
+        <UiBaseButton variant="primary" @click="triggerReminders" :loading="triggering" class="shadow-none flex-1 sm:flex-none sm:min-w-[160px] h-12">
            <BellAlertIcon class="h-4 w-4 mr-2" />
            Send reminders
         </UiBaseButton>
-        <NuxtLink to="/dashboard/campaigns/create">
-          <UiBaseButton variant="primary" class="bg-gray-900 text-white shadow-none min-w-[180px] h-12">
+        <NuxtLink to="/dashboard/campaigns/create" class="flex-1 sm:flex-none">
+          <UiBaseButton variant="primary" class="bg-gray-900 text-white shadow-none w-full sm:min-w-[180px] h-12">
              <PlusIcon class="h-4 w-4 mr-2" />
              Create new campaign
           </UiBaseButton>
@@ -48,8 +48,8 @@
           <UiBaseButton variant="primary" size="lg" @click="navigateTo('/dashboard/campaigns/create')" class="shadow-none">Create your first campaign</UiBaseButton>
        </div>
 
-       <div v-else class="overflow-x-auto">
-          <table class="w-full border-collapse">
+       <div v-else class="overflow-x-auto custom-scrollbar w-full">
+          <table class="w-full min-w-[700px] border-collapse">
              <thead>
                 <tr class="bg-gray-50/50 border-b border-gray-200">
                    <th class="px-8 py-6 text-left text-sm font-bold text-gray-400 uppercase ">Campaign information</th>

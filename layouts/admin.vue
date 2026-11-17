@@ -77,17 +77,17 @@
     </aside>
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden lg:ml-[272px] w-full">
+    <div class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden lg:ml-[272px] w-full max-w-full">
       <!-- Top header -->
-      <header class="bg-white border-b border-gray-200 h-16 flex-shrink-0 flex items-center justify-between px-6 md:px-8 sticky top-0 z-30">
-        <div class="flex items-center space-x-3">
-           <button @click="isMobileMenuOpen = true" class="lg:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-50 rounded-lg">
+      <header class="bg-white border-b border-gray-200 h-16 flex-shrink-0 flex items-center justify-between px-4 sm:px-6 md:px-8 sticky top-0 z-30">
+        <div class="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1 mr-2">
+           <button @click="isMobileMenuOpen = true" class="lg:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-50 rounded-lg flex-shrink-0">
              <Bars3CenterLeftIcon class="h-5 w-5" />
            </button>
-           <h2 class="text-lg font-semibold text-gray-900">{{ currentPageTitle }}</h2>
+           <h2 class="text-base sm:text-lg font-semibold text-gray-900 truncate min-w-0">{{ currentPageTitle }}</h2>
         </div>
         
-        <div class="flex items-center space-x-3">
+        <div class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
           <div class="hidden lg:flex items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 transition-all group focus-within:border-blue-200 focus-within:bg-white min-w-[280px]">
             <MagnifyingGlassIcon class="h-4 w-4 text-gray-400 mr-2 group-focus-within:text-blue-500" />
             <input type="text" placeholder="Quick search..." class="bg-transparent border-none text-sm focus:outline-none w-full placeholder:text-gray-400 text-gray-700">
@@ -102,8 +102,10 @@
       </header>
 
       <!-- Page content -->
-      <main class="flex-1 overflow-y-auto p-6 md:p-8 scroll-smooth bg-gray-50/30">
-        <slot />
+      <main class="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 md:p-8 scroll-smooth bg-gray-50/30 w-full min-w-0">
+        <div class="w-full max-w-full min-w-0">
+          <slot />
+        </div>
       </main>
     </div>
 
