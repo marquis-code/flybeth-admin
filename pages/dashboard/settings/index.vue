@@ -21,51 +21,337 @@
       <div class="lg:col-span-2 space-y-12">
         <!-- Commission & Service Fees -->
         <UiBaseCard padding>
-          <div class="flex items-center space-x-3 mb-8">
-            <div class="h-10 w-10 bg-brand-blue/10 rounded-2xl flex items-center justify-center text-brand-blue">
-              <PercentIcon class="h-5 w-5" />
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div class="flex items-center space-x-3">
+              <div class="h-10 w-10 bg-brand-blue/10 rounded-2xl flex items-center justify-center text-brand-blue">
+                <PercentIcon class="h-5 w-5" />
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-900">Commission & Service Fees</h3>
+                <p class="text-xs text-gray-500 font-medium">Configure flexible pricing rules: percentage (%) or fixed amounts for local vs foreign flights.</p>
+              </div>
             </div>
-            <h3 class="text-xl font-bold text-gray-900">Commission & Service Fees</h3>
+
+            <!-- Segmented Route Switcher -->
+            <div class="inline-flex items-center bg-gray-100 p-1.5 rounded-2xl border border-gray-200">
+              <button 
+                type="button"
+                @click="activeFeeTab = 'domestic'"
+                :class="activeFeeTab === 'domestic' ? 'bg-white text-gray-900 font-bold shadow-sm' : 'text-gray-500 hover:text-gray-900 font-medium'"
+                class="px-4 py-2 text-xs rounded-xl transition-all flex items-center gap-1.5"
+              >
+                <PlaneIcon class="h-3.5 w-3.5" />
+                <span>Local Flights</span>
+              </button>
+              <button 
+                type="button"
+                @click="activeFeeTab = 'international'"
+                :class="activeFeeTab === 'international' ? 'bg-white text-gray-900 font-bold shadow-sm' : 'text-gray-500 hover:text-gray-900 font-medium'"
+                class="px-4 py-2 text-xs rounded-xl transition-all flex items-center gap-1.5"
+              >
+                <GlobeIcon class="h-3.5 w-3.5" />
+                <span>Foreign Flights</span>
+              </button>
+              <button 
+                type="button"
+                @click="activeFeeTab = 'global'"
+                :class="activeFeeTab === 'global' ? 'bg-white text-gray-900 font-bold shadow-sm' : 'text-gray-500 hover:text-gray-900 font-medium'"
+                class="px-4 py-2 text-xs rounded-xl transition-all flex items-center gap-1.5"
+              >
+                <BriefcaseIcon class="h-3.5 w-3.5" />
+                <span>Non-Flight Baseline</span>
+              </button>
+            </div>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="space-y-3">
-              <label class="text-sm font-bold text-gray-400 uppercase  block ml-1">Agency Fee (B2B)</label>
-              <div class="relative group">
-                <input 
-                  v-model.number="config.b2bCommission"
-                  type="number" 
-                  class="w-full bg-gray-50 border border-gray-200 rounded-[1.5rem] py-5 px-6 font-bold text-xl text-gray-900 outline-none focus:bg-white focus:ring-4 focus:ring-brand-blue/5 transition-premium shadow-none"
-                />
-                <div class="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</div>
-              </div>
-              <p class="text-sm text-gray-400 leading-relaxed px-1">Applied to bookings made by sub-agents.</p>
+          <!-- LOCAL / DOMESTIC FLIGHTS -->
+          <div v-if="activeFeeTab === 'domestic' && config.flightFees?.domestic" class="space-y-6">
+            <div class="p-3.5 bg-blue-50/60 border border-blue-100 rounded-2xl text-xs text-blue-900 flex items-center justify-between">
+              <span class="font-medium">Rules below apply to <strong>domestic Nigerian flights</strong> (e.g. Lagos, Abuja, Port Harcourt, Kano).</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-blue-700 bg-blue-100 px-2 py-0.5 rounded-md">Domestic Engine</span>
             </div>
 
-            <div class="space-y-3">
-              <label class="text-sm font-bold text-gray-400 uppercase  block ml-1">Platform Fee (B2C)</label>
-              <div class="relative group">
-                <input 
-                  v-model.number="config.b2cCommission"
-                  type="number" 
-                  class="w-full bg-gray-50 border border-gray-200 rounded-[1.5rem] py-5 px-6 font-bold text-xl text-gray-900 outline-none focus:bg-white focus:ring-4 focus:ring-brand-blue/5 transition-premium shadow-none"
-                />
-                <div class="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <!-- B2B Fee -->
+              <div class="space-y-3 bg-gray-50/60 p-5 rounded-2xl border border-gray-200">
+                <div class="flex items-center justify-between">
+                  <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Agency Fee (B2B)</label>
+                  <div class="inline-flex bg-gray-200/80 p-0.5 rounded-lg text-[10px] font-bold">
+                    <button 
+                      type="button"
+                      @click="config.flightFees.domestic.b2bType = 'percentage'"
+                      :class="config.flightFees.domestic.b2bType === 'percentage' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'"
+                      class="px-2 py-1 rounded-md transition-all"
+                    >
+                      %
+                    </button>
+                    <button 
+                      type="button"
+                      @click="config.flightFees.domestic.b2bType = 'fixed'"
+                      :class="config.flightFees.domestic.b2bType === 'fixed' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'"
+                      class="px-2 py-1 rounded-md transition-all"
+                    >
+                      Fixed
+                    </button>
+                  </div>
+                </div>
+                <div class="relative group">
+                  <input 
+                    v-model.number="config.flightFees.domestic.b2bValue"
+                    type="number" 
+                    step="any"
+                    class="w-full bg-white border border-gray-200 rounded-xl py-3.5 px-4 font-bold text-lg text-gray-900 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all shadow-none"
+                  />
+                  <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs uppercase">
+                    {{ config.flightFees.domestic.b2bType === 'percentage' ? '%' : 'Fixed' }}
+                  </div>
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed">Applied to local bookings made by travel sub-agents.</p>
               </div>
-              <p class="text-sm text-gray-400 leading-relaxed px-1">Applied to direct consumer bookings.</p>
+
+              <!-- B2C Fee -->
+              <div class="space-y-3 bg-gray-50/60 p-5 rounded-2xl border border-gray-200">
+                <div class="flex items-center justify-between">
+                  <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Platform Fee (B2C)</label>
+                  <div class="inline-flex bg-gray-200/80 p-0.5 rounded-lg text-[10px] font-bold">
+                    <button 
+                      type="button"
+                      @click="config.flightFees.domestic.b2cType = 'percentage'"
+                      :class="config.flightFees.domestic.b2cType === 'percentage' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'"
+                      class="px-2 py-1 rounded-md transition-all"
+                    >
+                      %
+                    </button>
+                    <button 
+                      type="button"
+                      @click="config.flightFees.domestic.b2cType = 'fixed'"
+                      :class="config.flightFees.domestic.b2cType === 'fixed' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'"
+                      class="px-2 py-1 rounded-md transition-all"
+                    >
+                      Fixed
+                    </button>
+                  </div>
+                </div>
+                <div class="relative group">
+                  <input 
+                    v-model.number="config.flightFees.domestic.b2cValue"
+                    type="number" 
+                    step="any"
+                    class="w-full bg-white border border-gray-200 rounded-xl py-3.5 px-4 font-bold text-lg text-gray-900 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all shadow-none"
+                  />
+                  <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs uppercase">
+                    {{ config.flightFees.domestic.b2cType === 'percentage' ? '%' : 'Fixed' }}
+                  </div>
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed">Applied to direct customer local bookings.</p>
+              </div>
+
+              <!-- General Extra Margin -->
+              <div class="space-y-3 bg-gray-50/60 p-5 rounded-2xl border border-gray-200">
+                <div class="flex items-center justify-between">
+                  <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Extra Margin</label>
+                  <div class="inline-flex bg-gray-200/80 p-0.5 rounded-lg text-[10px] font-bold">
+                    <button 
+                      type="button"
+                      @click="config.flightFees.domestic.marginType = 'percentage'"
+                      :class="config.flightFees.domestic.marginType === 'percentage' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'"
+                      class="px-2 py-1 rounded-md transition-all"
+                    >
+                      %
+                    </button>
+                    <button 
+                      type="button"
+                      @click="config.flightFees.domestic.marginType = 'fixed'"
+                      :class="config.flightFees.domestic.marginType === 'fixed' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'"
+                      class="px-2 py-1 rounded-md transition-all"
+                    >
+                      Fixed
+                    </button>
+                  </div>
+                </div>
+                <div class="relative group">
+                  <input 
+                    v-model.number="config.flightFees.domestic.marginValue"
+                    type="number" 
+                    step="any"
+                    class="w-full bg-white border border-gray-200 rounded-xl py-3.5 px-4 font-bold text-lg text-gray-900 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all shadow-none"
+                  />
+                  <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs uppercase">
+                    {{ config.flightFees.domestic.marginType === 'percentage' ? '%' : 'Fixed' }}
+                  </div>
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed">Platform markup over local airline net fares.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FOREIGN / INTERNATIONAL FLIGHTS -->
+          <div v-else-if="activeFeeTab === 'international' && config.flightFees?.international" class="space-y-6">
+            <div class="p-3.5 bg-emerald-50/60 border border-emerald-100 rounded-2xl text-xs text-emerald-900 flex items-center justify-between">
+              <span class="font-medium">Rules below apply to <strong>cross-border and foreign flights</strong> (e.g. London, New York, Dubai, Paris).</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-md">International Engine</span>
             </div>
 
-            <div class="space-y-3">
-              <label class="text-sm font-bold text-gray-400 uppercase  block ml-1">General Extra Margin</label>
-              <div class="relative group">
-                <input 
-                  v-model.number="config.ancillaryMargin"
-                  type="number" 
-                  class="w-full bg-gray-50 border border-gray-200 rounded-[1.5rem] py-5 px-6 font-bold text-xl text-gray-900 outline-none focus:bg-white focus:ring-4 focus:ring-brand-blue/5 transition-premium shadow-none"
-                />
-                <div class="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <!-- B2B Fee -->
+              <div class="space-y-3 bg-gray-50/60 p-5 rounded-2xl border border-gray-200">
+                <div class="flex items-center justify-between">
+                  <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Agency Fee (B2B)</label>
+                  <div class="inline-flex bg-gray-200/80 p-0.5 rounded-lg text-[10px] font-bold">
+                    <button 
+                      type="button"
+                      @click="config.flightFees.international.b2bType = 'percentage'"
+                      :class="config.flightFees.international.b2bType === 'percentage' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'"
+                      class="px-2 py-1 rounded-md transition-all"
+                    >
+                      %
+                    </button>
+                    <button 
+                      type="button"
+                      @click="config.flightFees.international.b2bType = 'fixed'"
+                      :class="config.flightFees.international.b2bType === 'fixed' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'"
+                      class="px-2 py-1 rounded-md transition-all"
+                    >
+                      Fixed
+                    </button>
+                  </div>
+                </div>
+                <div class="relative group">
+                  <input 
+                    v-model.number="config.flightFees.international.b2bValue"
+                    type="number" 
+                    step="any"
+                    class="w-full bg-white border border-gray-200 rounded-xl py-3.5 px-4 font-bold text-lg text-gray-900 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all shadow-none"
+                  />
+                  <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs uppercase">
+                    {{ config.flightFees.international.b2bType === 'percentage' ? '%' : 'Fixed' }}
+                  </div>
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed">Applied to foreign bookings made by travel sub-agents.</p>
               </div>
-              <p class="text-sm text-gray-400 leading-relaxed px-1">Service markup on top of provider costs.</p>
+
+              <!-- B2C Fee -->
+              <div class="space-y-3 bg-gray-50/60 p-5 rounded-2xl border border-gray-200">
+                <div class="flex items-center justify-between">
+                  <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Platform Fee (B2C)</label>
+                  <div class="inline-flex bg-gray-200/80 p-0.5 rounded-lg text-[10px] font-bold">
+                    <button 
+                      type="button"
+                      @click="config.flightFees.international.b2cType = 'percentage'"
+                      :class="config.flightFees.international.b2cType === 'percentage' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'"
+                      class="px-2 py-1 rounded-md transition-all"
+                    >
+                      %
+                    </button>
+                    <button 
+                      type="button"
+                      @click="config.flightFees.international.b2cType = 'fixed'"
+                      :class="config.flightFees.international.b2cType === 'fixed' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'"
+                      class="px-2 py-1 rounded-md transition-all"
+                    >
+                      Fixed
+                    </button>
+                  </div>
+                </div>
+                <div class="relative group">
+                  <input 
+                    v-model.number="config.flightFees.international.b2cValue"
+                    type="number" 
+                    step="any"
+                    class="w-full bg-white border border-gray-200 rounded-xl py-3.5 px-4 font-bold text-lg text-gray-900 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all shadow-none"
+                  />
+                  <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs uppercase">
+                    {{ config.flightFees.international.b2cType === 'percentage' ? '%' : 'Fixed' }}
+                  </div>
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed">Applied to direct customer foreign bookings.</p>
+              </div>
+
+              <!-- General Extra Margin -->
+              <div class="space-y-3 bg-gray-50/60 p-5 rounded-2xl border border-gray-200">
+                <div class="flex items-center justify-between">
+                  <label class="text-xs font-bold text-gray-700 uppercase tracking-wider">Extra Margin</label>
+                  <div class="inline-flex bg-gray-200/80 p-0.5 rounded-lg text-[10px] font-bold">
+                    <button 
+                      type="button"
+                      @click="config.flightFees.international.marginType = 'percentage'"
+                      :class="config.flightFees.international.marginType === 'percentage' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'"
+                      class="px-2 py-1 rounded-md transition-all"
+                    >
+                      %
+                    </button>
+                    <button 
+                      type="button"
+                      @click="config.flightFees.international.marginType = 'fixed'"
+                      :class="config.flightFees.international.marginType === 'fixed' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'"
+                      class="px-2 py-1 rounded-md transition-all"
+                    >
+                      Fixed
+                    </button>
+                  </div>
+                </div>
+                <div class="relative group">
+                  <input 
+                    v-model.number="config.flightFees.international.marginValue"
+                    type="number" 
+                    step="any"
+                    class="w-full bg-white border border-gray-200 rounded-xl py-3.5 px-4 font-bold text-lg text-gray-900 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all shadow-none"
+                  />
+                  <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs uppercase">
+                    {{ config.flightFees.international.marginType === 'percentage' ? '%' : 'Fixed' }}
+                  </div>
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed">Platform markup over international supplier fares.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- GLOBAL / NON-FLIGHT BASELINE -->
+          <div v-else class="space-y-6">
+            <div class="p-3.5 bg-gray-50 border border-gray-200 rounded-2xl text-xs text-gray-600 flex items-center justify-between">
+              <span class="font-medium">Baseline rates for non-flight services (Hotels, Transfers, Activities, Car Rentals).</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-gray-500 bg-gray-200 px-2 py-0.5 rounded-md">Baseline Services</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="space-y-3 bg-gray-50/60 p-5 rounded-2xl border border-gray-200">
+                <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block">Agency Fee (B2B)</label>
+                <div class="relative group">
+                  <input 
+                    v-model.number="config.b2bCommission"
+                    type="number" 
+                    class="w-full bg-white border border-gray-200 rounded-xl py-3.5 px-4 font-bold text-lg text-gray-900 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all shadow-none"
+                  />
+                  <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</div>
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed">Applied to bookings made by sub-agents.</p>
+              </div>
+
+              <div class="space-y-3 bg-gray-50/60 p-5 rounded-2xl border border-gray-200">
+                <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block">Platform Fee (B2C)</label>
+                <div class="relative group">
+                  <input 
+                    v-model.number="config.b2cCommission"
+                    type="number" 
+                    class="w-full bg-white border border-gray-200 rounded-xl py-3.5 px-4 font-bold text-lg text-gray-900 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all shadow-none"
+                  />
+                  <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</div>
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed">Applied to direct consumer bookings.</p>
+              </div>
+
+              <div class="space-y-3 bg-gray-50/60 p-5 rounded-2xl border border-gray-200">
+                <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block">General Extra Margin</label>
+                <div class="relative group">
+                  <input 
+                    v-model.number="config.ancillaryMargin"
+                    type="number" 
+                    class="w-full bg-white border border-gray-200 rounded-xl py-3.5 px-4 font-bold text-lg text-gray-900 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all shadow-none"
+                  />
+                  <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</div>
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed">Service markup on top of provider costs.</p>
+              </div>
             </div>
           </div>
         </UiBaseCard>
@@ -255,6 +541,7 @@ import {
   Save as SaveIcon,
   Percent as PercentIcon,
   Globe as GlobeIcon,
+  Plane as PlaneIcon,
   X as XIcon,
   Plus as PlusIcon,
   Cloud as CloudIcon,
@@ -274,6 +561,7 @@ const {
   toggleProvider 
 } = useAdminSettings()
 
+const activeFeeTab = ref<'domestic' | 'international' | 'global'>('domestic')
 const newState = ref('')
 
 const saveConfig = async () => {

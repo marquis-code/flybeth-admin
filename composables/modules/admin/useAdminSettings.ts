@@ -9,11 +9,29 @@ export const useAdminSettings = () => {
     const integrationsList = ref<any[]>([]);
     const config = ref<any>({
         platformName: '',
-        b2bCommission: 0,
-        b2cCommission: 0,
+        b2bCommission: 5,
+        b2cCommission: 10,
         whitelistedStates: [],
         isWhitelistingEnabled: false,
         ancillaryMargin: 15,
+        flightFees: {
+            domestic: {
+                b2cType: 'percentage',
+                b2cValue: 10,
+                b2bType: 'percentage',
+                b2bValue: 5,
+                marginType: 'percentage',
+                marginValue: 15,
+            },
+            international: {
+                b2cType: 'percentage',
+                b2cValue: 10,
+                b2bType: 'percentage',
+                b2bValue: 5,
+                marginType: 'percentage',
+                marginValue: 15,
+            },
+        },
         exchangeRates: [],
         ancillaryPrices: {
             bags: 0,
@@ -31,9 +49,29 @@ export const useAdminSettings = () => {
             const data = res.data?.data || res.data;
             
             // Merge with defaults to prevent UI breakage
+            const flightFees = {
+                domestic: {
+                    b2cType: data?.flightFees?.domestic?.b2cType || 'percentage',
+                    b2cValue: data?.flightFees?.domestic?.b2cValue ?? (data?.b2cCommission ?? 10),
+                    b2bType: data?.flightFees?.domestic?.b2bType || 'percentage',
+                    b2bValue: data?.flightFees?.domestic?.b2bValue ?? (data?.b2bCommission ?? 5),
+                    marginType: data?.flightFees?.domestic?.marginType || 'percentage',
+                    marginValue: data?.flightFees?.domestic?.marginValue ?? (data?.ancillaryMargin ?? 15),
+                },
+                international: {
+                    b2cType: data?.flightFees?.international?.b2cType || 'percentage',
+                    b2cValue: data?.flightFees?.international?.b2cValue ?? (data?.b2cCommission ?? 10),
+                    b2bType: data?.flightFees?.international?.b2bType || 'percentage',
+                    b2bValue: data?.flightFees?.international?.b2bValue ?? (data?.b2bCommission ?? 5),
+                    marginType: data?.flightFees?.international?.marginType || 'percentage',
+                    marginValue: data?.flightFees?.international?.marginValue ?? (data?.ancillaryMargin ?? 15),
+                },
+            };
+
             config.value = {
                 ...config.value,
                 ...data,
+                flightFees,
                 ancillaryPrices: {
                     ...(config.value.ancillaryPrices || {}),
                     ...(data?.ancillaryPrices || {})
