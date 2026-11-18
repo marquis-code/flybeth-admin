@@ -45,9 +45,21 @@ export const useAdminSettings = () => {
             insurance: 'fixed',
             vipSupport: 'fixed'
         },
+        companyAddress: {
+            street: '1500 S Dairy Ashford Road',
+            suite: 'Suite 207 # 703',
+            city: 'Houston',
+            state: 'TX',
+            postalCode: '77077',
+            country: 'United States',
+            fullAddress: '1500 S Dairy Ashford Road, Suite 207 # 703, Houston, TX 77077',
+            phone: '+1 (844) FLYBETH',
+            email: 'hello@flybeth.com'
+        },
         bankAccounts: [
             {
                 currency: 'NGN',
+                label: 'Local Settlement Account (NGN)',
                 accountName: 'Flybeth Limited',
                 accountNumber: '0124034266',
                 bankName: 'Wema Bank',
@@ -58,12 +70,13 @@ export const useAdminSettings = () => {
             },
             {
                 currency: 'USD',
-                accountName: 'Flybeth Ltd',
+                label: 'Business Account for International Payments',
+                accountName: 'Flybeth Global LLC',
                 accountNumber: '7288447936',
                 bankName: 'Wema Bank',
                 routingNumber: '111900659',
                 swiftCode: '',
-                instructions: 'Please include your Booking Reference in the transfer memo.',
+                instructions: 'Business account for International payments. Bank: Wema, Account: 7288447936, Routing: 111900659. Please include your Booking Reference in the transfer memo.',
                 isActive: true
             }
         ]
@@ -99,6 +112,10 @@ export const useAdminSettings = () => {
             config.value = {
                 ...config.value,
                 ...data,
+                companyAddress: {
+                    ...(config.value.companyAddress || {}),
+                    ...(data?.companyAddress || {})
+                },
                 flightFees,
                 ancillaryPrices: {
                     ...(config.value.ancillaryPrices || {}),

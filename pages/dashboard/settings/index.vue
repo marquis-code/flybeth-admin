@@ -503,6 +503,113 @@
           </div>
         </UiBaseCard>
 
+        <!-- Corporate Profile & Registered Business Address -->
+        <UiBaseCard padding>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-100">
+            <div class="flex items-center space-x-3">
+              <div class="h-10 w-10 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
+                <BuildingIcon class="h-5 w-5" />
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-900">Corporate & Business Profile</h3>
+                <p class="text-xs text-gray-500 font-medium">Registered corporate headquarters address & details used across checkout, invoices, and confirmation emails.</p>
+              </div>
+            </div>
+            <button 
+              type="button" 
+              @click="saveConfig" 
+              :disabled="saving"
+              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gray-900 hover:bg-gray-800 disabled:opacity-50 text-white text-xs font-bold transition-all shadow-sm"
+            >
+              <SaveIcon class="h-4 w-4" />
+              <span>Save Profile</span>
+            </button>
+          </div>
+
+          <div v-if="config.companyAddress" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1.5">Business / Platform Name</label>
+              <input 
+                v-model="config.platformName" 
+                type="text" 
+                placeholder="Flybeth Global"
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-bold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+              />
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1.5">Support Hotline Phone</label>
+              <input 
+                v-model="config.companyAddress.phone" 
+                type="text" 
+                placeholder="+1 (844) FLYBETH"
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-semibold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+              />
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1.5">Street Address</label>
+              <input 
+                v-model="config.companyAddress.street" 
+                type="text" 
+                placeholder="1500 S Dairy Ashford Road"
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-semibold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+              />
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1.5">Suite / Unit / Floor</label>
+              <input 
+                v-model="config.companyAddress.suite" 
+                type="text" 
+                placeholder="Suite 207 # 703"
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-semibold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+              />
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1.5">City</label>
+              <input 
+                v-model="config.companyAddress.city" 
+                type="text" 
+                placeholder="Houston"
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-semibold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+              />
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1.5">State / Region</label>
+              <input 
+                v-model="config.companyAddress.state" 
+                type="text" 
+                placeholder="TX"
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-semibold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+              />
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1.5">Postal / ZIP Code</label>
+                <input 
+                  v-model="config.companyAddress.postalCode" 
+                  type="text" 
+                  placeholder="77077"
+                  class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-semibold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+                />
+              </div>
+              <div>
+                <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1.5">Country</label>
+                <input 
+                  v-model="config.companyAddress.country" 
+                  type="text" 
+                  placeholder="United States"
+                  class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-semibold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+                />
+              </div>
+            </div>
+          </div>
+        </UiBaseCard>
+
         <!-- Bank Accounts & Settlement Instructions -->
         <UiBaseCard padding>
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
@@ -582,7 +689,15 @@
                 </div>
 
                 <div class="space-y-1 mb-3">
-                  <h4 class="text-base font-bold text-gray-900 leading-snug">{{ acc.bankName || 'Bank Name' }}</h4>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h4 class="text-base font-bold text-gray-900 leading-snug">{{ acc.bankName || 'Bank Name' }}</h4>
+                    <span 
+                      v-if="acc.label"
+                      class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200"
+                    >
+                      {{ acc.label }}
+                    </span>
+                  </div>
                   <p class="text-xs font-medium text-gray-500">{{ acc.accountName || 'Beneficiary Name' }}</p>
                 </div>
 
@@ -811,6 +926,17 @@
               />
             </div>
 
+            <!-- Account Purpose / Label -->
+            <div>
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Account Purpose / Label</label>
+              <input 
+                v-model="accountForm.label" 
+                type="text" 
+                placeholder="e.g. Business Account for International Payments" 
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-semibold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+              />
+            </div>
+
             <!-- Bank Name -->
             <div>
               <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Bank Name *</label>
@@ -934,6 +1060,7 @@ import {
   Briefcase as BriefcaseIcon,
   Users as UsersIcon,
   Landmark as LandmarkIcon,
+  Building2 as BuildingIcon,
   Edit3 as EditIcon,
   Trash2 as TrashIcon,
   Copy as CopyIcon
@@ -961,6 +1088,7 @@ const showAccountModal = ref(false)
 const editingAccountIndex = ref<number | null>(null)
 const accountForm = ref({
   currency: 'USD',
+  label: '',
   bankName: '',
   accountName: '',
   accountNumber: '',
@@ -974,12 +1102,13 @@ const openAddAccountModal = () => {
   editingAccountIndex.value = null
   accountForm.value = {
     currency: 'USD',
-    bankName: '',
-    accountName: '',
+    label: 'Business Account for International Payments',
+    bankName: 'Wema Bank',
+    accountName: 'Flybeth Global LLC',
     accountNumber: '',
     routingNumber: '',
     swiftCode: '',
-    instructions: '',
+    instructions: 'Business account for International payments. Please include your Booking Reference in the transfer memo.',
     isActive: true
   }
   showAccountModal.value = true
@@ -990,6 +1119,7 @@ const editAccount = (idx: number) => {
   const item = config.value.bankAccounts[idx]
   accountForm.value = {
     currency: item.currency || 'USD',
+    label: item.label || (item.currency === 'USD' ? 'Business Account for International Payments' : ''),
     bankName: item.bankName || '',
     accountName: item.accountName || '',
     accountNumber: item.accountNumber || '',
@@ -1067,7 +1197,13 @@ const copyAccountNumber = (accNum: string) => {
 }
 
 const saveConfig = async () => {
+  if (config.value?.companyAddress) {
+    const a = config.value.companyAddress
+    const parts = [a.street, a.suite, a.city, a.state ? `${a.state} ${a.postalCode || ''}` : a.postalCode, a.country].filter(Boolean)
+    config.value.companyAddress.fullAddress = parts.join(', ')
+  }
   await apiSaveConfig(config.value)
+  showToast({ title: 'Settings Saved', message: 'Corporate profile & platform parameters updated successfully.', toastType: 'success' })
 }
 
 const addState = () => {

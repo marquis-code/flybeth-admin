@@ -1,1 +1,0 @@
-import{G as t}from"./DyQCqmKw.js";const p={getDepartments:()=>t.get("/departments"),createDepartment:e=>t.post("/departments",e),updateDepartment:(e,r)=>t.put(`/departments/${e}`,r),deleteDepartment:e=>t.delete(`/departments/${e}`),addMember:(e,r)=>t.post(`/departments/${e}/members`,{userId:r}),removeMember:(e,r)=>t.delete(`/departments/${e}/members/${r}`)};export{p as d};
