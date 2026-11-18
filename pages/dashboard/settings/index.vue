@@ -667,152 +667,154 @@
     </div>
 
     <!-- Modal for Adding / Editing Bank Account -->
-    <div v-if="showAccountModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-      <div class="bg-white rounded-[2rem] border border-gray-200 shadow-2xl max-w-lg w-full p-6 sm:p-8 space-y-6">
-        <div class="flex items-center justify-between pb-4 border-b border-gray-100">
-          <div class="flex items-center gap-3">
-            <div class="h-10 w-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
-              <LandmarkIcon class="h-5 w-5" />
+    <Teleport to="body">
+      <div v-if="showAccountModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in duration-200">
+        <div class="bg-white rounded-[2rem] border border-gray-200 shadow-2xl max-w-lg w-full p-6 sm:p-8 space-y-6" @click.stop>
+          <div class="flex items-center justify-between pb-4 border-b border-gray-100">
+            <div class="flex items-center gap-3">
+              <div class="h-10 w-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
+                <LandmarkIcon class="h-5 w-5" />
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-gray-900">{{ editingAccountIndex !== null ? 'Edit Settlement Account' : 'Add Settlement Account' }}</h3>
+                <p class="text-xs text-gray-500">Configure bank transfer and Zelle destination details.</p>
+              </div>
             </div>
-            <div>
-              <h3 class="text-lg font-bold text-gray-900">{{ editingAccountIndex !== null ? 'Edit Settlement Account' : 'Add Settlement Account' }}</h3>
-              <p class="text-xs text-gray-500">Configure bank transfer and Zelle destination details.</p>
-            </div>
+            <button @click="showAccountModal = false" class="p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-50">
+              <XIcon class="h-5 w-5" />
+            </button>
           </div>
-          <button @click="showAccountModal = false" class="p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-50">
-            <XIcon class="h-5 w-5" />
-          </button>
-        </div>
 
-        <div class="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
-          <!-- Currency selection -->
-          <div>
-            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-2">Currency</label>
-            <div class="flex flex-wrap gap-2 mb-2">
+          <div class="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
+            <!-- Currency selection -->
+            <div>
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-2">Currency</label>
+              <div class="flex flex-wrap gap-2 mb-2">
+                <button 
+                  v-for="curr in ['USD', 'NGN', 'GBP', 'EUR', 'CAD']" 
+                  :key="curr"
+                  type="button"
+                  @click="accountForm.currency = curr"
+                  class="px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all"
+                  :class="accountForm.currency === curr ? 'bg-gray-900 text-white border-gray-900' : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'"
+                >
+                  {{ curr }}
+                </button>
+              </div>
+              <input 
+                v-model="accountForm.currency" 
+                type="text" 
+                placeholder="e.g. USD, NGN, GBP" 
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-bold text-gray-900 uppercase focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+              />
+            </div>
+
+            <!-- Bank Name -->
+            <div>
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Bank Name *</label>
+              <input 
+                v-model="accountForm.bankName" 
+                type="text" 
+                placeholder="e.g. Wema Bank, Chase, Access Bank" 
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-bold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+              />
+            </div>
+
+            <!-- Account Name -->
+            <div>
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Account Holder Name *</label>
+              <input 
+                v-model="accountForm.accountName" 
+                type="text" 
+                placeholder="e.g. Flybeth Limited" 
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-bold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+              />
+            </div>
+
+            <!-- Account Number -->
+            <div>
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Account Number / IBAN *</label>
+              <input 
+                v-model="accountForm.accountNumber" 
+                type="text" 
+                placeholder="e.g. 0620862082 or IBAN" 
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-mono font-bold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+              />
+            </div>
+
+            <!-- Routing and SWIFT in 2 cols -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Routing / Sort Code</label>
+                <input 
+                  v-model="accountForm.routingNumber" 
+                  type="text" 
+                  placeholder="e.g. 021000021" 
+                  class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-mono font-medium text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+                />
+              </div>
+              <div>
+                <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">SWIFT / BIC</label>
+                <input 
+                  v-model="accountForm.swiftCode" 
+                  type="text" 
+                  placeholder="e.g. CHASUS33" 
+                  class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-mono font-medium text-gray-900 uppercase focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+                />
+              </div>
+            </div>
+
+            <!-- Instructions / Zelle Memo -->
+            <div>
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Instructions / Zelle Memo</label>
+              <textarea 
+                v-model="accountForm.instructions" 
+                rows="2"
+                placeholder="e.g. Zelle: payments@flybeth.com. Please include booking reference in memo." 
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-medium text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+              ></textarea>
+            </div>
+
+            <!-- Active Toggle -->
+            <div class="flex items-center justify-between p-3.5 bg-gray-50 rounded-xl border border-gray-100">
+              <div>
+                <span class="text-xs font-bold text-gray-900 block">Enable for customer checkout</span>
+                <span class="text-[11px] text-gray-500">Disabled accounts will not be shown to customers.</span>
+              </div>
               <button 
-                v-for="curr in ['USD', 'NGN', 'GBP', 'EUR', 'CAD']" 
-                :key="curr"
                 type="button"
-                @click="accountForm.currency = curr"
-                class="px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all"
-                :class="accountForm.currency === curr ? 'bg-gray-900 text-white border-gray-900' : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'"
+                @click="accountForm.isActive = !accountForm.isActive"
+                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out"
+                :class="accountForm.isActive ? 'bg-emerald-500' : 'bg-gray-200'"
               >
-                {{ curr }}
+                <span 
+                  class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+                  :class="accountForm.isActive ? 'translate-x-5' : 'translate-x-0'"
+                />
               </button>
             </div>
-            <input 
-              v-model="accountForm.currency" 
-              type="text" 
-              placeholder="e.g. USD, NGN, GBP" 
-              class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-bold text-gray-900 uppercase focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
-            />
           </div>
 
-          <!-- Bank Name -->
-          <div>
-            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Bank Name *</label>
-            <input 
-              v-model="accountForm.bankName" 
-              type="text" 
-              placeholder="e.g. Wema Bank, Chase, Access Bank" 
-              class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-bold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
-            />
-          </div>
-
-          <!-- Account Name -->
-          <div>
-            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Account Holder Name *</label>
-            <input 
-              v-model="accountForm.accountName" 
-              type="text" 
-              placeholder="e.g. Flybeth Limited" 
-              class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-bold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
-            />
-          </div>
-
-          <!-- Account Number -->
-          <div>
-            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Account Number / IBAN *</label>
-            <input 
-              v-model="accountForm.accountNumber" 
-              type="text" 
-              placeholder="e.g. 0620862082 or IBAN" 
-              class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-mono font-bold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
-            />
-          </div>
-
-          <!-- Routing and SWIFT in 2 cols -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Routing / Sort Code</label>
-              <input 
-                v-model="accountForm.routingNumber" 
-                type="text" 
-                placeholder="e.g. 021000021" 
-                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-mono font-medium text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
-              />
-            </div>
-            <div>
-              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">SWIFT / BIC</label>
-              <input 
-                v-model="accountForm.swiftCode" 
-                type="text" 
-                placeholder="e.g. CHASUS33" 
-                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-mono font-medium text-gray-900 uppercase focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
-              />
-            </div>
-          </div>
-
-          <!-- Instructions / Zelle Memo -->
-          <div>
-            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Instructions / Zelle Memo</label>
-            <textarea 
-              v-model="accountForm.instructions" 
-              rows="2"
-              placeholder="e.g. Zelle: payments@flybeth.com. Please include booking reference in memo." 
-              class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-medium text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
-            ></textarea>
-          </div>
-
-          <!-- Active Toggle -->
-          <div class="flex items-center justify-between p-3.5 bg-gray-50 rounded-xl border border-gray-100">
-            <div>
-              <span class="text-xs font-bold text-gray-900 block">Enable for customer checkout</span>
-              <span class="text-[11px] text-gray-500">Disabled accounts will not be shown to customers.</span>
-            </div>
+          <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
             <button 
-              type="button"
-              @click="accountForm.isActive = !accountForm.isActive"
-              class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out"
-              :class="accountForm.isActive ? 'bg-emerald-500' : 'bg-gray-200'"
+              type="button" 
+              @click="showAccountModal = false" 
+              class="px-5 py-2.5 rounded-xl border border-gray-200 text-xs font-bold text-gray-700 hover:bg-gray-50"
             >
-              <span 
-                class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
-                :class="accountForm.isActive ? 'translate-x-5' : 'translate-x-0'"
-              />
+              Cancel
+            </button>
+            <button 
+              type="button" 
+              @click="saveAccount" 
+              :disabled="!accountForm.bankName || !accountForm.accountNumber || !accountForm.accountName"
+              class="px-6 py-2.5 rounded-xl bg-gray-900 hover:bg-gray-800 disabled:opacity-40 text-white text-xs font-bold transition-all shadow-sm"
+            >
+              {{ editingAccountIndex !== null ? 'Update Account' : 'Save Account' }}
             </button>
           </div>
         </div>
-
-        <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
-          <button 
-            type="button" 
-            @click="showAccountModal = false" 
-            class="px-5 py-2.5 rounded-xl border border-gray-200 text-xs font-bold text-gray-700 hover:bg-gray-50"
-          >
-            Cancel
-          </button>
-          <button 
-            type="button" 
-            @click="saveAccount" 
-            :disabled="!accountForm.bankName || !accountForm.accountNumber || !accountForm.accountName"
-            class="px-6 py-2.5 rounded-xl bg-gray-900 hover:bg-gray-800 disabled:opacity-40 text-white text-xs font-bold transition-all shadow-sm"
-          >
-            {{ editingAccountIndex !== null ? 'Update Account' : 'Save Account' }}
-          </button>
-        </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>
 

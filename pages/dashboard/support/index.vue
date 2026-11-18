@@ -133,8 +133,9 @@
     </div>
 
     <!-- ── Inquiry Detail Modal ── -->
-    <div v-if="selectedInquiry" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
-      <div class="bg-white rounded-[2.5rem] w-full max-w-2xl overflow-hidden shadow-none animate-in fade-in zoom-in duration-300">
+    <Teleport to="body">
+      <div v-if="selectedInquiry" class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-md">
+        <div class="bg-white rounded-[2.5rem] w-full max-w-2xl overflow-hidden shadow-none animate-in fade-in zoom-in duration-300" @click.stop>
         <div class="p-8 lg:p-10 border-b border-gray-200 flex items-center justify-between">
           <div class="flex items-center gap-4">
              <div class="h-12 w-12 rounded-2xl bg-primary/5 flex items-center justify-center text-primary">
@@ -214,6 +215,7 @@
         </div>
       </div>
     </div>
+  </Teleport>
 
   </div>
 </template>
