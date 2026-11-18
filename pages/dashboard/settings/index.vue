@@ -362,41 +362,143 @@
             <div class="h-10 w-10 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-500">
               <BriefcaseIcon class="h-5 w-5" />
             </div>
-            <h3 class="text-xl font-bold text-gray-900">Extra Services Pricing (USD)</h3>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Extra Services Pricing</h3>
+              <p class="text-xs text-gray-500 font-medium">Configure fixed dollar rates ($) or percentage (%) of base fare for trip add-ons.</p>
+            </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="space-y-3">
-              <label class="text-sm font-bold text-gray-400 uppercase block ml-1">Extra Baggage</label>
-              <div class="relative group">
-                <span class="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
-                <input v-model.number="config.ancillaryPrices.bags" type="number" step="1" min="0"
-                  class="w-full bg-gray-50 border border-gray-200 rounded-[1.5rem] py-5 pl-10 pr-6 font-bold text-xl text-gray-900 outline-none focus:bg-white focus:ring-4 focus:ring-brand-blue/5 transition-premium shadow-none" />
+            <!-- Extra Baggage -->
+            <div class="space-y-3 bg-gray-50/60 p-4 rounded-2xl border border-gray-200">
+              <div class="flex items-center justify-between gap-2">
+                <label class="text-xs font-bold text-gray-600 uppercase tracking-wider block">Extra Baggage</label>
+                <div class="inline-flex bg-gray-200/80 p-0.5 rounded-lg text-[10px] font-bold shrink-0">
+                  <button 
+                    type="button"
+                    @click="setAncillaryType('bags', 'fixed')"
+                    :class="(config.ancillaryPricingTypes?.bags || 'fixed') === 'fixed' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'"
+                    class="px-2 py-0.5 rounded-md transition-all">
+                    Fixed ($)
+                  </button>
+                  <button 
+                    type="button"
+                    @click="setAncillaryType('bags', 'percentage')"
+                    :class="config.ancillaryPricingTypes?.bags === 'percentage' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'"
+                    class="px-2 py-0.5 rounded-md transition-all">
+                    %
+                  </button>
+                </div>
               </div>
+              <div class="relative group">
+                <span v-if="(config.ancillaryPricingTypes?.bags || 'fixed') === 'fixed'" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
+                <input v-model.number="config.ancillaryPrices.bags" type="number" :step="config.ancillaryPricingTypes?.bags === 'percentage' ? '0.1' : '1'" min="0"
+                  :class="(config.ancillaryPricingTypes?.bags || 'fixed') === 'fixed' ? 'pl-8 pr-4' : 'pl-4 pr-8'"
+                  class="w-full bg-white border border-gray-200 rounded-xl py-3.5 font-bold text-lg text-gray-900 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all shadow-none" />
+                <span v-if="config.ancillaryPricingTypes?.bags === 'percentage'" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</span>
+              </div>
+              <p class="text-[11px] text-gray-400 leading-tight">
+                {{ config.ancillaryPricingTypes?.bags === 'percentage' ? 'Percentage of ticket base fare' : 'Fixed fee per additional checked bag' }}
+              </p>
             </div>
-            <div class="space-y-3">
-              <label class="text-sm font-bold text-gray-400 uppercase block ml-1">Seat Selection</label>
-              <div class="relative group">
-                <span class="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
-                <input v-model.number="config.ancillaryPrices.seats" type="number" step="1" min="0"
-                  class="w-full bg-gray-50 border border-gray-200 rounded-[1.5rem] py-5 pl-10 pr-6 font-bold text-xl text-gray-900 outline-none focus:bg-white focus:ring-4 focus:ring-brand-blue/5 transition-premium shadow-none" />
+
+            <!-- Seat Selection -->
+            <div class="space-y-3 bg-gray-50/60 p-4 rounded-2xl border border-gray-200">
+              <div class="flex items-center justify-between gap-2">
+                <label class="text-xs font-bold text-gray-600 uppercase tracking-wider block">Seat Selection</label>
+                <div class="inline-flex bg-gray-200/80 p-0.5 rounded-lg text-[10px] font-bold shrink-0">
+                  <button 
+                    type="button"
+                    @click="setAncillaryType('seats', 'fixed')"
+                    :class="(config.ancillaryPricingTypes?.seats || 'fixed') === 'fixed' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'"
+                    class="px-2 py-0.5 rounded-md transition-all">
+                    Fixed ($)
+                  </button>
+                  <button 
+                    type="button"
+                    @click="setAncillaryType('seats', 'percentage')"
+                    :class="config.ancillaryPricingTypes?.seats === 'percentage' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'"
+                    class="px-2 py-0.5 rounded-md transition-all">
+                    %
+                  </button>
+                </div>
               </div>
+              <div class="relative group">
+                <span v-if="(config.ancillaryPricingTypes?.seats || 'fixed') === 'fixed'" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
+                <input v-model.number="config.ancillaryPrices.seats" type="number" :step="config.ancillaryPricingTypes?.seats === 'percentage' ? '0.1' : '1'" min="0"
+                  :class="(config.ancillaryPricingTypes?.seats || 'fixed') === 'fixed' ? 'pl-8 pr-4' : 'pl-4 pr-8'"
+                  class="w-full bg-white border border-gray-200 rounded-xl py-3.5 font-bold text-lg text-gray-900 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all shadow-none" />
+                <span v-if="config.ancillaryPricingTypes?.seats === 'percentage'" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</span>
+              </div>
+              <p class="text-[11px] text-gray-400 leading-tight">
+                {{ config.ancillaryPricingTypes?.seats === 'percentage' ? 'Percentage of ticket base fare' : 'Fixed baseline seat selection fee' }}
+              </p>
             </div>
-            <div class="space-y-3">
-              <label class="text-sm font-bold text-gray-400 uppercase block ml-1">Travel Insurance</label>
-              <div class="relative group">
-                <span class="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
-                <input v-model.number="config.ancillaryPrices.insurance" type="number" step="1" min="0"
-                  class="w-full bg-gray-50 border border-gray-200 rounded-[1.5rem] py-5 pl-10 pr-6 font-bold text-xl text-gray-900 outline-none focus:bg-white focus:ring-4 focus:ring-brand-blue/5 transition-premium shadow-none" />
+
+            <!-- Travel Insurance -->
+            <div class="space-y-3 bg-gray-50/60 p-4 rounded-2xl border border-gray-200">
+              <div class="flex items-center justify-between gap-2">
+                <label class="text-xs font-bold text-gray-600 uppercase tracking-wider block">Travel Insurance</label>
+                <div class="inline-flex bg-gray-200/80 p-0.5 rounded-lg text-[10px] font-bold shrink-0">
+                  <button 
+                    type="button"
+                    @click="setAncillaryType('insurance', 'fixed')"
+                    :class="(config.ancillaryPricingTypes?.insurance || 'fixed') === 'fixed' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'"
+                    class="px-2 py-0.5 rounded-md transition-all">
+                    Fixed ($)
+                  </button>
+                  <button 
+                    type="button"
+                    @click="setAncillaryType('insurance', 'percentage')"
+                    :class="config.ancillaryPricingTypes?.insurance === 'percentage' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'"
+                    class="px-2 py-0.5 rounded-md transition-all">
+                    %
+                  </button>
+                </div>
               </div>
+              <div class="relative group">
+                <span v-if="(config.ancillaryPricingTypes?.insurance || 'fixed') === 'fixed'" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
+                <input v-model.number="config.ancillaryPrices.insurance" type="number" :step="config.ancillaryPricingTypes?.insurance === 'percentage' ? '0.1' : '1'" min="0"
+                  :class="(config.ancillaryPricingTypes?.insurance || 'fixed') === 'fixed' ? 'pl-8 pr-4' : 'pl-4 pr-8'"
+                  class="w-full bg-white border border-gray-200 rounded-xl py-3.5 font-bold text-lg text-gray-900 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all shadow-none" />
+                <span v-if="config.ancillaryPricingTypes?.insurance === 'percentage'" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</span>
+              </div>
+              <p class="text-[11px] text-gray-400 leading-tight">
+                {{ config.ancillaryPricingTypes?.insurance === 'percentage' ? 'Percentage of ticket base fare' : 'Fixed policy premium per passenger' }}
+              </p>
             </div>
-            <div class="space-y-3">
-              <label class="text-sm font-bold text-gray-400 uppercase block ml-1">VIP Support</label>
-              <div class="relative group">
-                <span class="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
-                <input v-model.number="config.ancillaryPrices.vipSupport" type="number" step="1" min="0"
-                  class="w-full bg-gray-50 border border-gray-200 rounded-[1.5rem] py-5 pl-10 pr-6 font-bold text-xl text-gray-900 outline-none focus:bg-white focus:ring-4 focus:ring-brand-blue/5 transition-premium shadow-none" />
+
+            <!-- VIP Support -->
+            <div class="space-y-3 bg-gray-50/60 p-4 rounded-2xl border border-gray-200">
+              <div class="flex items-center justify-between gap-2">
+                <label class="text-xs font-bold text-gray-600 uppercase tracking-wider block">VIP Support</label>
+                <div class="inline-flex bg-gray-200/80 p-0.5 rounded-lg text-[10px] font-bold shrink-0">
+                  <button 
+                    type="button"
+                    @click="setAncillaryType('vipSupport', 'fixed')"
+                    :class="(config.ancillaryPricingTypes?.vipSupport || 'fixed') === 'fixed' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'"
+                    class="px-2 py-0.5 rounded-md transition-all">
+                    Fixed ($)
+                  </button>
+                  <button 
+                    type="button"
+                    @click="setAncillaryType('vipSupport', 'percentage')"
+                    :class="config.ancillaryPricingTypes?.vipSupport === 'percentage' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'"
+                    class="px-2 py-0.5 rounded-md transition-all">
+                    %
+                  </button>
+                </div>
               </div>
+              <div class="relative group">
+                <span v-if="(config.ancillaryPricingTypes?.vipSupport || 'fixed') === 'fixed'" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
+                <input v-model.number="config.ancillaryPrices.vipSupport" type="number" :step="config.ancillaryPricingTypes?.vipSupport === 'percentage' ? '0.1' : '1'" min="0"
+                  :class="(config.ancillaryPricingTypes?.vipSupport || 'fixed') === 'fixed' ? 'pl-8 pr-4' : 'pl-4 pr-8'"
+                  class="w-full bg-white border border-gray-200 rounded-xl py-3.5 font-bold text-lg text-gray-900 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all shadow-none" />
+                <span v-if="config.ancillaryPricingTypes?.vipSupport === 'percentage'" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">%</span>
+              </div>
+              <p class="text-[11px] text-gray-400 leading-tight">
+                {{ config.ancillaryPricingTypes?.vipSupport === 'percentage' ? 'Percentage of ticket base fare' : 'Fixed concierge assistance fee' }}
+              </p>
             </div>
           </div>
         </UiBaseCard>
@@ -949,6 +1051,13 @@ const saveAccount = async () => {
     message: `Settlement account (${payload.bankName} - ${payload.currency}) updated and live!`, 
     toastType: 'success' 
   })
+}
+
+const setAncillaryType = (key: 'bags' | 'seats' | 'insurance' | 'vipSupport', type: 'fixed' | 'percentage') => {
+  if (!config.value.ancillaryPricingTypes) {
+    config.value.ancillaryPricingTypes = { bags: 'fixed', seats: 'fixed', insurance: 'fixed', vipSupport: 'fixed' }
+  }
+  config.value.ancillaryPricingTypes[key] = type
 }
 
 const copyAccountNumber = (accNum: string) => {

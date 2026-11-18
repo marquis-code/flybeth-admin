@@ -39,6 +39,12 @@ export const useAdminSettings = () => {
             insurance: 0,
             vipSupport: 15
         },
+        ancillaryPricingTypes: {
+            bags: 'fixed',
+            seats: 'fixed',
+            insurance: 'fixed',
+            vipSupport: 'fixed'
+        },
         bankAccounts: [
             {
                 currency: 'NGN',
@@ -97,6 +103,10 @@ export const useAdminSettings = () => {
                 ancillaryPrices: {
                     ...(config.value.ancillaryPrices || {}),
                     ...(data?.ancillaryPrices || {})
+                },
+                ancillaryPricingTypes: {
+                    ...(config.value.ancillaryPricingTypes || {}),
+                    ...(data?.ancillaryPricingTypes || {})
                 },
                 exchangeRates: data?.exchangeRates || config.value.exchangeRates || [],
                 bankAccounts: (data?.bankAccounts && data.bankAccounts.length > 0)
