@@ -943,7 +943,7 @@
               <input 
                 v-model="accountForm.bankName" 
                 type="text" 
-                placeholder="e.g. Wema Bank, Chase, Access Bank" 
+                placeholder="e.g. Wells Fargo, Wema Bank, Access Bank" 
                 class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-bold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
               />
             </div>
