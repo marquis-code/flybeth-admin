@@ -356,6 +356,108 @@
           </div>
         </UiBaseCard>
 
+        <!-- Agency Fee Taxonomy & Legal Refund Protection -->
+        <UiBaseCard padding>
+          <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center space-x-3">
+              <div class="h-10 w-10 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
+                <ShieldCheckIcon class="h-5 w-5" />
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-900">Agency Fee Taxonomy & Legal Refund Protection</h3>
+                <p class="text-xs text-gray-500 font-medium">Protect Flybeth LLC against customer lawsuits, DOT disputes, and bank chargebacks upon flight cancellations.</p>
+              </div>
+            </div>
+            <span class="px-3 py-1 bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-bold uppercase rounded-lg">
+              Legal Compliance
+            </span>
+          </div>
+
+          <div class="space-y-6">
+            <div class="p-4 bg-amber-50/70 border border-amber-200 rounded-2xl text-xs text-amber-900 space-y-1">
+              <p class="font-bold flex items-center gap-1.5">
+                <AlertCircleIcon class="w-4 h-4 text-amber-700" />
+                Why explicit fee naming is legally critical:
+              </p>
+              <p class="text-amber-800 leading-relaxed">
+                When a passenger requests a flight refund, airlines only refund the carrier base fare and refundable taxes. If Flybeth's commission is hidden or unlabeled, passengers can dispute the deduction as unauthorized withholding. Naming our agency fee explicitly on checkout and receipts legally establishes it as a non-refundable service fee for booking and fulfillment.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Agency Fee Label -->
+              <div class="space-y-3 bg-gray-50/60 p-5 rounded-2xl border border-gray-200">
+                <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block">Customer-Facing Fee Label</label>
+                <input 
+                  v-model="config.agencyFeeLabel"
+                  type="text" 
+                  placeholder="e.g. Agency Booking & Service Fee"
+                  class="w-full bg-white border border-gray-200 rounded-xl py-3 px-4 font-bold text-sm text-gray-900 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all shadow-none"
+                />
+                <div class="flex flex-wrap gap-2 pt-1">
+                  <span class="text-[10px] text-gray-400 font-bold self-center">Presets:</span>
+                  <button 
+                    type="button" 
+                    @click="config.agencyFeeLabel = 'Agency Booking & Service Fee'"
+                    class="text-[10px] bg-white border border-gray-200 hover:border-indigo-400 px-2 py-0.5 rounded-md font-semibold text-gray-600 transition-colors"
+                  >
+                    Agency Booking & Service Fee
+                  </button>
+                  <button 
+                    type="button" 
+                    @click="config.agencyFeeLabel = 'Flybeth Agency & Ticketing Fee'"
+                    class="text-[10px] bg-white border border-gray-200 hover:border-indigo-400 px-2 py-0.5 rounded-md font-semibold text-gray-600 transition-colors"
+                  >
+                    Flybeth Agency & Ticketing Fee
+                  </button>
+                  <button 
+                    type="button" 
+                    @click="config.agencyFeeLabel = 'Technology & Reservation Fulfillment Fee'"
+                    class="text-[10px] bg-white border border-gray-200 hover:border-indigo-400 px-2 py-0.5 rounded-md font-semibold text-gray-600 transition-colors"
+                  >
+                    Technology & Fulfillment Fee
+                  </button>
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed">This exact label appears on checkout summaries, payment cards, and official receipts.</p>
+              </div>
+
+              <!-- Refund Status Summary -->
+              <div class="space-y-3 bg-gray-50/60 p-5 rounded-2xl border border-gray-200 flex flex-col justify-between">
+                <div>
+                  <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-2">Fare Components & Refund Status</label>
+                  <ul class="text-xs space-y-2">
+                    <li class="flex items-center justify-between p-2 rounded-lg bg-white border border-gray-200">
+                      <span class="font-semibold text-gray-700">Airline Base Fare:</span>
+                      <span class="text-blue-600 font-bold">Subject to Airline Rules</span>
+                    </li>
+                    <li class="flex items-center justify-between p-2 rounded-lg bg-white border border-gray-200">
+                      <span class="font-semibold text-gray-700">Taxes & Mandatory Fees:</span>
+                      <span class="text-blue-600 font-bold">Refundable if Flight Unused</span>
+                    </li>
+                    <li class="flex items-center justify-between p-2 rounded-lg bg-emerald-50 border border-emerald-200">
+                      <span class="font-bold text-emerald-950">{{ config.agencyFeeLabel || 'Agency Fee' }}:</span>
+                      <span class="text-amber-700 font-black uppercase text-[11px]">100% Non-Refundable</span>
+                    </li>
+                  </ul>
+                </div>
+                <p class="text-[11px] text-gray-500">Itemized separately on all electronic tickets and invoices.</p>
+              </div>
+            </div>
+
+            <!-- Non-Refundable Legal Policy Textarea -->
+            <div class="space-y-3 bg-gray-50/60 p-5 rounded-2xl border border-gray-200">
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block">Official Non-Refundable Disclosure Statement</label>
+              <textarea 
+                v-model="config.nonRefundableDisclaimer"
+                rows="3"
+                class="w-full bg-white border border-gray-200 rounded-xl p-3.5 text-xs text-gray-800 outline-none focus:ring-2 focus:ring-brand-blue/20 transition-all font-medium leading-relaxed"
+                placeholder="Enter official non-refundable policy statement..."
+              ></textarea>
+              <p class="text-xs text-gray-500">This legal text is printed on official e-tickets, tax receipts, and booking confirmation pages.</p>
+            </div>
+          </div>
+        </UiBaseCard>
+
         <!-- Extra Services Pricing -->
         <UiBaseCard padding>
           <div class="flex items-center space-x-3 mb-8">
@@ -1063,7 +1165,9 @@ import {
   Building2 as BuildingIcon,
   Edit3 as EditIcon,
   Trash2 as TrashIcon,
-  Copy as CopyIcon
+  Copy as CopyIcon,
+  ShieldCheck as ShieldCheckIcon,
+  AlertCircle as AlertCircleIcon
 } from 'lucide-vue-next'
 import { useAdminSettings } from '@/composables/modules/admin/useAdminSettings'
 import { useCustomToast } from '@/composables/core/useCustomToast'
