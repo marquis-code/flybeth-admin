@@ -27,7 +27,7 @@
        </div>
 
        <div class="relative z-10 flex items-center space-x-8 text-white/40 text-sm   ">
-          <span>© 2026 Flybeth Global</span>
+          <span>© 2026 Flybeth LLC</span>
           <span class="h-1 w-1 rounded-full bg-white/20"></span>
           <span>Enterprise Portal</span>
        </div>

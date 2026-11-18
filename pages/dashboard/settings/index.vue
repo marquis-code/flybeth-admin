@@ -532,7 +532,7 @@
               <input 
                 v-model="config.platformName" 
                 type="text" 
-                placeholder="Flybeth Global"
+                placeholder="Flybeth LLC"
                 class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-bold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
               />
             </div>
@@ -1104,7 +1104,7 @@ const openAddAccountModal = () => {
     currency: 'USD',
     label: 'Business Account for International Payments',
     bankName: 'Wema Bank',
-    accountName: 'Flybeth Global LLC',
+    accountName: 'Flybeth LLC',
     accountNumber: '',
     routingNumber: '',
     swiftCode: '',

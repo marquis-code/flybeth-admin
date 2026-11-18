@@ -71,7 +71,7 @@ export const useAdminSettings = () => {
             {
                 currency: 'USD',
                 label: 'Business Account for International Payments',
-                accountName: 'Flybeth Global LLC',
+                accountName: 'Flybeth LLC',
                 accountNumber: '7288447936',
                 bankName: 'Wema Bank',
                 routingNumber: '111900659',
