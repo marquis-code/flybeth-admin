@@ -38,7 +38,29 @@ export const useAdminSettings = () => {
             seats: 0,
             insurance: 0,
             vipSupport: 15
-        }
+        },
+        bankAccounts: [
+            {
+                currency: 'NGN',
+                accountName: 'Flybeth Limited',
+                accountNumber: '0124034266',
+                bankName: 'Wema Bank',
+                routingNumber: '',
+                swiftCode: '',
+                instructions: 'Please include your Booking Reference in the transfer memo.',
+                isActive: true
+            },
+            {
+                currency: 'USD',
+                accountName: 'Flybeth Ltd',
+                accountNumber: '0620862082',
+                bankName: 'Wema Bank',
+                routingNumber: '',
+                swiftCode: '',
+                instructions: 'Zelle: payments@flybeth.com. Please include your Booking Reference in the transfer memo.',
+                isActive: true
+            }
+        ]
     });
 
     const fetchConfig = async () => {
@@ -76,7 +98,10 @@ export const useAdminSettings = () => {
                     ...(config.value.ancillaryPrices || {}),
                     ...(data?.ancillaryPrices || {})
                 },
-                exchangeRates: data?.exchangeRates || config.value.exchangeRates || []
+                exchangeRates: data?.exchangeRates || config.value.exchangeRates || [],
+                bankAccounts: (data?.bankAccounts && data.bankAccounts.length > 0)
+                    ? data.bankAccounts
+                    : (config.value.bankAccounts || [])
             };
             
             return res;

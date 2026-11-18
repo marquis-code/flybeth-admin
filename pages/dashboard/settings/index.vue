@@ -401,6 +401,140 @@
           </div>
         </UiBaseCard>
 
+        <!-- Bank Accounts & Settlement Instructions -->
+        <UiBaseCard padding>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+            <div class="flex items-center space-x-3">
+              <div class="h-10 w-10 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600">
+                <LandmarkIcon class="h-5 w-5" />
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-900">Bank & Settlement Accounts</h3>
+                <p class="text-xs text-gray-500 font-medium">Configure account numbers, banks, and Zelle instructions for customer transfers & invoices.</p>
+              </div>
+            </div>
+            <button 
+              type="button"
+              @click="openAddAccountModal"
+              class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gray-900 hover:bg-gray-800 text-white text-xs font-bold transition-all shadow-sm"
+            >
+              <PlusIcon class="h-4 w-4" />
+              <span>Add Account</span>
+            </button>
+          </div>
+
+          <!-- Accounts List -->
+          <div v-if="!config.bankAccounts || config.bankAccounts.length === 0" class="text-center py-10 bg-gray-50/60 rounded-2xl border border-dashed border-gray-200">
+            <LandmarkIcon class="h-8 w-8 text-gray-300 mx-auto mb-2" />
+            <p class="text-sm font-bold text-gray-700">No settlement accounts configured</p>
+            <p class="text-xs text-gray-400 mt-1 mb-4">Add a bank account to receive customer wire transfers and invoices.</p>
+            <button 
+              type="button" 
+              @click="openAddAccountModal" 
+              class="px-4 py-2 rounded-xl bg-white border border-gray-200 text-xs font-bold text-gray-700 hover:bg-gray-50"
+            >
+              + Add First Account
+            </button>
+          </div>
+
+          <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div 
+              v-for="(acc, idx) in config.bankAccounts" 
+              :key="idx" 
+              class="bg-white rounded-2xl border border-gray-200 p-5 space-y-4 hover:border-gray-300 transition-all shadow-sm flex flex-col justify-between"
+            >
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center gap-2">
+                    <span 
+                      class="px-2.5 py-1 rounded-lg text-[11px] font-black tracking-wider uppercase"
+                      :class="acc.currency === 'USD' ? 'bg-emerald-100 text-emerald-800' : acc.currency === 'NGN' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'"
+                    >
+                      {{ acc.currency || 'USD' }}
+                    </span>
+                    <span 
+                      class="px-2 py-0.5 rounded-md text-[10px] font-bold"
+                      :class="acc.isActive !== false ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-gray-100 text-gray-400 border border-gray-200'"
+                    >
+                      {{ acc.isActive !== false ? 'Active' : 'Disabled' }}
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <button 
+                      type="button" 
+                      @click="editAccount(idx)" 
+                      class="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-all"
+                      title="Edit Account"
+                    >
+                      <EditIcon class="h-4 w-4" />
+                    </button>
+                    <button 
+                      type="button" 
+                      @click="deleteAccount(idx)" 
+                      class="p-1.5 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-all"
+                      title="Delete Account"
+                    >
+                      <TrashIcon class="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+
+                <div class="space-y-1 mb-3">
+                  <h4 class="text-base font-bold text-gray-900 leading-snug">{{ acc.bankName || 'Bank Name' }}</h4>
+                  <p class="text-xs font-medium text-gray-500">{{ acc.accountName || 'Beneficiary Name' }}</p>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-3 border border-gray-100 flex items-center justify-between mb-3">
+                  <div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">Account Number</span>
+                    <span class="text-base font-mono font-black text-gray-900 tracking-wide">{{ acc.accountNumber || '—' }}</span>
+                  </div>
+                  <button 
+                    type="button" 
+                    @click="copyAccountNumber(acc.accountNumber)"
+                    class="p-2 rounded-lg bg-white border border-gray-200 text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-all"
+                    title="Copy Account Number"
+                  >
+                    <CopyIcon class="h-3.5 w-3.5" />
+                  </button>
+                </div>
+
+                <div v-if="acc.routingNumber || acc.swiftCode" class="grid grid-cols-2 gap-2 text-xs mb-3">
+                  <div v-if="acc.routingNumber" class="bg-gray-50/80 p-2 rounded-lg border border-gray-100">
+                    <span class="text-[10px] font-bold uppercase text-gray-400 block">Routing / Sort</span>
+                    <span class="font-mono font-bold text-gray-800">{{ acc.routingNumber }}</span>
+                  </div>
+                  <div v-if="acc.swiftCode" class="bg-gray-50/80 p-2 rounded-lg border border-gray-100">
+                    <span class="text-[10px] font-bold uppercase text-gray-400 block">SWIFT / BIC</span>
+                    <span class="font-mono font-bold text-gray-800">{{ acc.swiftCode }}</span>
+                  </div>
+                </div>
+
+                <div v-if="acc.instructions" class="text-xs text-gray-500 bg-blue-50/40 border border-blue-100/70 rounded-xl p-2.5 leading-relaxed">
+                  <span class="font-bold text-blue-900 block mb-0.5 text-[11px]">Instructions / Memo:</span>
+                  {{ acc.instructions }}
+                </div>
+              </div>
+
+              <!-- Quick Active Toggle -->
+              <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
+                <span class="text-xs font-semibold text-gray-500">Live for Customers</span>
+                <button 
+                  type="button"
+                  @click="toggleAccountActive(idx)"
+                  class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out"
+                  :class="acc.isActive !== false ? 'bg-emerald-500' : 'bg-gray-200'"
+                >
+                  <span 
+                    class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+                    :class="acc.isActive !== false ? 'translate-x-5' : 'translate-x-0'"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </UiBaseCard>
+
         <!-- Geo-Fencing -->
         <UiBaseCard padding>
           <div class="flex items-center justify-between mb-8">
@@ -531,6 +665,154 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal for Adding / Editing Bank Account -->
+    <div v-if="showAccountModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+      <div class="bg-white rounded-[2rem] border border-gray-200 shadow-2xl max-w-lg w-full p-6 sm:p-8 space-y-6">
+        <div class="flex items-center justify-between pb-4 border-b border-gray-100">
+          <div class="flex items-center gap-3">
+            <div class="h-10 w-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
+              <LandmarkIcon class="h-5 w-5" />
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-gray-900">{{ editingAccountIndex !== null ? 'Edit Settlement Account' : 'Add Settlement Account' }}</h3>
+              <p class="text-xs text-gray-500">Configure bank transfer and Zelle destination details.</p>
+            </div>
+          </div>
+          <button @click="showAccountModal = false" class="p-2 text-gray-400 hover:text-gray-600 rounded-xl hover:bg-gray-50">
+            <XIcon class="h-5 w-5" />
+          </button>
+        </div>
+
+        <div class="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
+          <!-- Currency selection -->
+          <div>
+            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-2">Currency</label>
+            <div class="flex flex-wrap gap-2 mb-2">
+              <button 
+                v-for="curr in ['USD', 'NGN', 'GBP', 'EUR', 'CAD']" 
+                :key="curr"
+                type="button"
+                @click="accountForm.currency = curr"
+                class="px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all"
+                :class="accountForm.currency === curr ? 'bg-gray-900 text-white border-gray-900' : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'"
+              >
+                {{ curr }}
+              </button>
+            </div>
+            <input 
+              v-model="accountForm.currency" 
+              type="text" 
+              placeholder="e.g. USD, NGN, GBP" 
+              class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-bold text-gray-900 uppercase focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+            />
+          </div>
+
+          <!-- Bank Name -->
+          <div>
+            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Bank Name *</label>
+            <input 
+              v-model="accountForm.bankName" 
+              type="text" 
+              placeholder="e.g. Wema Bank, Chase, Access Bank" 
+              class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-bold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+            />
+          </div>
+
+          <!-- Account Name -->
+          <div>
+            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Account Holder Name *</label>
+            <input 
+              v-model="accountForm.accountName" 
+              type="text" 
+              placeholder="e.g. Flybeth Limited" 
+              class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-bold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+            />
+          </div>
+
+          <!-- Account Number -->
+          <div>
+            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Account Number / IBAN *</label>
+            <input 
+              v-model="accountForm.accountNumber" 
+              type="text" 
+              placeholder="e.g. 0620862082 or IBAN" 
+              class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-mono font-bold text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+            />
+          </div>
+
+          <!-- Routing and SWIFT in 2 cols -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Routing / Sort Code</label>
+              <input 
+                v-model="accountForm.routingNumber" 
+                type="text" 
+                placeholder="e.g. 021000021" 
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-mono font-medium text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+              />
+            </div>
+            <div>
+              <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">SWIFT / BIC</label>
+              <input 
+                v-model="accountForm.swiftCode" 
+                type="text" 
+                placeholder="e.g. CHASUS33" 
+                class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-mono font-medium text-gray-900 uppercase focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+              />
+            </div>
+          </div>
+
+          <!-- Instructions / Zelle Memo -->
+          <div>
+            <label class="text-xs font-bold text-gray-700 uppercase tracking-wider block mb-1">Instructions / Zelle Memo</label>
+            <textarea 
+              v-model="accountForm.instructions" 
+              rows="2"
+              placeholder="e.g. Zelle: payments@flybeth.com. Please include booking reference in memo." 
+              class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 px-3.5 text-sm font-medium text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-blue/20 outline-none"
+            ></textarea>
+          </div>
+
+          <!-- Active Toggle -->
+          <div class="flex items-center justify-between p-3.5 bg-gray-50 rounded-xl border border-gray-100">
+            <div>
+              <span class="text-xs font-bold text-gray-900 block">Enable for customer checkout</span>
+              <span class="text-[11px] text-gray-500">Disabled accounts will not be shown to customers.</span>
+            </div>
+            <button 
+              type="button"
+              @click="accountForm.isActive = !accountForm.isActive"
+              class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out"
+              :class="accountForm.isActive ? 'bg-emerald-500' : 'bg-gray-200'"
+            >
+              <span 
+                class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+                :class="accountForm.isActive ? 'translate-x-5' : 'translate-x-0'"
+              />
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
+          <button 
+            type="button" 
+            @click="showAccountModal = false" 
+            class="px-5 py-2.5 rounded-xl border border-gray-200 text-xs font-bold text-gray-700 hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+          <button 
+            type="button" 
+            @click="saveAccount" 
+            :disabled="!accountForm.bankName || !accountForm.accountNumber || !accountForm.accountName"
+            class="px-6 py-2.5 rounded-xl bg-gray-900 hover:bg-gray-800 disabled:opacity-40 text-white text-xs font-bold transition-all shadow-sm"
+          >
+            {{ editingAccountIndex !== null ? 'Update Account' : 'Save Account' }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -546,9 +828,16 @@ import {
   Plus as PlusIcon,
   Cloud as CloudIcon,
   Briefcase as BriefcaseIcon,
-  Users as UsersIcon
+  Users as UsersIcon,
+  Landmark as LandmarkIcon,
+  Edit3 as EditIcon,
+  Trash2 as TrashIcon,
+  Copy as CopyIcon
 } from 'lucide-vue-next'
 import { useAdminSettings } from '@/composables/modules/admin/useAdminSettings'
+import { useCustomToast } from '@/composables/core/useCustomToast'
+
+const { showToast } = useCustomToast()
 
 const { 
   loading, 
@@ -563,6 +852,108 @@ const {
 
 const activeFeeTab = ref<'domestic' | 'international' | 'global'>('domestic')
 const newState = ref('')
+
+const showAccountModal = ref(false)
+const editingAccountIndex = ref<number | null>(null)
+const accountForm = ref({
+  currency: 'USD',
+  bankName: '',
+  accountName: '',
+  accountNumber: '',
+  routingNumber: '',
+  swiftCode: '',
+  instructions: '',
+  isActive: true
+})
+
+const openAddAccountModal = () => {
+  editingAccountIndex.value = null
+  accountForm.value = {
+    currency: 'USD',
+    bankName: '',
+    accountName: '',
+    accountNumber: '',
+    routingNumber: '',
+    swiftCode: '',
+    instructions: '',
+    isActive: true
+  }
+  showAccountModal.value = true
+}
+
+const editAccount = (idx: number) => {
+  editingAccountIndex.value = idx
+  const item = config.value.bankAccounts[idx]
+  accountForm.value = {
+    currency: item.currency || 'USD',
+    bankName: item.bankName || '',
+    accountName: item.accountName || '',
+    accountNumber: item.accountNumber || '',
+    routingNumber: item.routingNumber || '',
+    swiftCode: item.swiftCode || '',
+    instructions: item.instructions || '',
+    isActive: item.isActive !== false
+  }
+  showAccountModal.value = true
+}
+
+const deleteAccount = async (idx: number) => {
+  if (confirm('Are you sure you want to remove this settlement account?')) {
+    config.value.bankAccounts.splice(idx, 1)
+    await apiSaveConfig(config.value)
+    showToast({ title: 'Account Removed', message: 'Bank account deleted successfully.', toastType: 'success' })
+  }
+}
+
+const toggleAccountActive = async (idx: number) => {
+  const acc = config.value.bankAccounts[idx]
+  acc.isActive = acc.isActive === false ? true : false
+  await apiSaveConfig(config.value)
+  showToast({ 
+    title: 'Status Updated', 
+    message: `${acc.bankName} (${acc.currency}) is now ${acc.isActive ? 'Active' : 'Disabled'} for customers.`, 
+    toastType: 'success' 
+  })
+}
+
+const saveAccount = async () => {
+  if (!accountForm.value.bankName || !accountForm.value.accountNumber || !accountForm.value.accountName) {
+    showToast({ title: 'Validation Error', message: 'Bank name, account name, and account number are required.', toastType: 'error' })
+    return
+  }
+
+  if (!config.value.bankAccounts) {
+    config.value.bankAccounts = []
+  }
+
+  const payload = {
+    ...accountForm.value,
+    currency: (accountForm.value.currency || 'USD').toUpperCase().trim(),
+    accountNumber: accountForm.value.accountNumber.trim(),
+    bankName: accountForm.value.bankName.trim(),
+    accountName: accountForm.value.accountName.trim()
+  }
+
+  if (editingAccountIndex.value !== null) {
+    config.value.bankAccounts[editingAccountIndex.value] = payload
+  } else {
+    config.value.bankAccounts.push(payload)
+  }
+
+  showAccountModal.value = false
+  await apiSaveConfig(config.value)
+  showToast({ 
+    title: 'Account Saved', 
+    message: `Settlement account (${payload.bankName} - ${payload.currency}) updated and live!`, 
+    toastType: 'success' 
+  })
+}
+
+const copyAccountNumber = (accNum: string) => {
+  if (!accNum) return
+  navigator.clipboard?.writeText(accNum)
+  showToast({ title: 'Copied', message: `Account number ${accNum} copied to clipboard!`, toastType: 'success' })
+}
 
 const saveConfig = async () => {
   await apiSaveConfig(config.value)
