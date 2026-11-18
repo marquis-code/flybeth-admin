@@ -1102,9 +1102,9 @@ const openAddAccountModal = () => {
   editingAccountIndex.value = null
   accountForm.value = {
     currency: 'USD',
-    label: 'Business Account for International Payments',
-    bankName: 'Wema Bank',
-    accountName: 'Flybeth LLC',
+    label: 'Wells Fargo Corporate Account',
+    bankName: 'Wells Fargo',
+    accountName: 'FLYBETH LLC',
     accountNumber: '',
     routingNumber: '',
     swiftCode: '',

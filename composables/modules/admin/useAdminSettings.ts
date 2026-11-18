@@ -58,25 +58,49 @@ export const useAdminSettings = () => {
         },
         bankAccounts: [
             {
+                currency: 'USD',
+                label: 'Wells Fargo Corporate (Direct Deposit / ACH & Wire)',
+                accountName: 'FLYBETH LLC',
+                accountNumber: '7288447936',
+                bankName: 'Wells Fargo',
+                routingNumber: '111900659',
+                domesticWireRouting: '121000248',
+                swiftCode: 'WFBIUS6S',
+                instructions: 'Direct Deposit / Electronic Payments (ACH): 111900659 | Domestic Wire Transfer: 121000248 | International Wire Transfer (SWIFT): WFBIUS6S. Please include your Booking Reference in the transfer memo.',
+                isActive: true
+            },
+            {
                 currency: 'NGN',
-                label: 'Local Settlement Account (NGN)',
+                label: 'Wema Bank Naira Account (Local Settlement)',
                 accountName: 'Flybeth Limited',
                 accountNumber: '0124034266',
                 bankName: 'Wema Bank',
                 routingNumber: '',
                 swiftCode: '',
-                instructions: 'Please include your Booking Reference in the transfer memo.',
+                instructions: 'Wema Bank NGN Account. Please include your Booking Reference in the transfer memo.',
                 isActive: true
             },
             {
                 currency: 'USD',
-                label: 'Business Account for International Payments',
-                accountName: 'Flybeth LLC',
-                accountNumber: '7288447936',
+                label: 'Wema Bank USD Domiciliary Account',
+                accountName: 'Flybeth Limited',
+                accountNumber: '0620862082',
                 bankName: 'Wema Bank',
-                routingNumber: '111900659',
+                routingNumber: '',
                 swiftCode: '',
-                instructions: 'Business account for International payments. Bank: Wema, Account: 7288447936, Routing: 111900659. Please include your Booking Reference in the transfer memo.',
+                instructions: 'Wema Bank USD Domiciliary Account. Please include your Booking Reference in the transfer memo.',
+                isActive: true
+            },
+            {
+                currency: 'USD',
+                label: 'Zelle Instant Settlement (Scan & Pay)',
+                accountName: 'FLYBETH LLC',
+                accountNumber: 'flybeth',
+                bankName: 'Zelle',
+                routingNumber: '',
+                swiftCode: '',
+                instructions: 'Scan the Zelle QR code in your banking app or send to FLYBETH LLC via Zelle. Please include your Booking Reference in the memo.',
+                qrCodeUrl: '/zelle-qr.png',
                 isActive: true
             }
         ]
